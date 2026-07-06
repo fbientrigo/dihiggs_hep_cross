@@ -1,0 +1,11 @@
+[project]
+name = "dihiggs-jets-llp-recast"
+version = "0.1.0"
+description = "Minimal ATLAS DV+jets HEPData recast scaffold for LLP scalar studies"
+requires-python = ">=3.10"
+dependencies = ["PyYAML>=6.0", "pandas>=2.0", "matplotlib>=3.8"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q"
