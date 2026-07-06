@@ -1,0 +1,1160 @@
+dependent_variables:
+- header: {name: Cross section upper limit at 95% CL, units: fb}
+  qualifiers:
+  - {name: Limit, value: Observed}
+  - {name: SQRT(S), units: GeV, value: 13000}
+  - {name: LUMINOSITY, units: 'fb$^{-1}$', value: 139.0}
+  values:
+  - {value: 12.1721}
+  - {value: 4.6731}
+  - {value: 4.40866}
+  - {value: 4.54377}
+  - {value: 3.18749}
+  - {value: 1.85502}
+  - {value: 1.50264}
+  - {value: 2.57853}
+  - {value: 1.03296}
+  - {value: 1.74768}
+  - {value: 1.2211}
+  - {value: 0.881211}
+  - {value: 1.0785}
+  - {value: 0.666028}
+  - {value: 0.634935}
+  - {value: 0.919469}
+  - {value: 0.823179}
+  - {value: 0.94583}
+  - {value: 1.05695}
+  - {value: 0.448508}
+  - {value: 0.572984}
+  - {value: 0.495037}
+  - {value: 0.576455}
+  - {value: 0.469031}
+  - {value: 0.328065}
+  - {value: 0.371595}
+  - {value: 0.875968}
+  - {value: 0.312103}
+  - {value: 0.250739}
+  - {value: 0.227279}
+  - {value: 0.267259}
+  - {value: 0.345488}
+  - {value: 0.238371}
+  - {value: 0.245499}
+  - {value: 0.225604}
+  - {value: 0.221218}
+  - {value: 0.256358}
+  - {value: 0.186336}
+  - {value: 0.31963}
+  - {value: 0.229732}
+  - {value: 0.21748}
+  - {value: 0.177634}
+  - {value: 0.160178}
+  - {value: 0.103709}
+  - {value: 0.169481}
+  - {value: 0.160329}
+  - {value: 0.165718}
+  - {value: 0.184992}
+  - {value: 0.0927818}
+  - {value: 0.170142}
+  - {value: 0.143646}
+  - {value: 0.0655275}
+  - {value: 0.0673877}
+  - {value: 0.132493}
+  - {value: 0.0960079}
+  - {value: 0.0640967}
+  - {value: 0.0531631}
+  - {value: 0.0585795}
+  - {value: 0.0845491}
+  - {value: 0.0972009}
+  - {value: 0.131154}
+  - {value: 0.0648784}
+  - {value: 0.0584196}
+  - {value: 0.110049}
+  - {value: 0.0914144}
+  - {value: 0.089247}
+  - {value: 0.0740512}
+  - {value: 0.0608517}
+  - {value: 0.0456001}
+  - {value: 0.0558228}
+  - {value: 0.126352}
+  - {value: 0.16843}
+  - {value: 0.16113}
+  - {value: 0.125392}
+  - {value: 0.084641}
+  - {value: 0.063883}
+  - {value: 0.0730525}
+  - {value: 0.0925766}
+  - {value: 0.0766143}
+  - {value: 0.0391202}
+  - {value: 0.037138}
+  - {value: 0.0381393}
+  - {value: 0.0423427}
+  - {value: 0.0311747}
+  - {value: 0.0342049}
+  - {value: 0.0454457}
+  - {value: 0.0446629}
+  - {value: 0.047216}
+  - {value: 0.0407041}
+  - {value: 0.0460906}
+  - {value: 0.0514877}
+  - {value: 0.0432132}
+  - {value: 0.0364307}
+  - {value: 0.0389222}
+  - {value: 0.043068}
+  - {value: 0.0422186}
+  - {value: 0.053468}
+  - {value: 0.0624112}
+  - {value: 0.0521904}
+  - {value: 0.0341611}
+  - {value: 0.0330012}
+  - {value: 0.0460058}
+  - {value: 0.0656538}
+  - {value: 0.0709527}
+  - {value: 0.0743291}
+  - {value: 0.0894111}
+  - {value: 0.0739341}
+  - {value: 0.0671439}
+  - {value: 0.078945}
+  - {value: 0.0693895}
+  - {value: 0.0541742}
+  - {value: 0.0443205}
+  - {value: 0.0313397}
+  - {value: 0.0308505}
+  - {value: 0.030464}
+  - {value: 0.0302199}
+  - {value: 0.0301063}
+  - {value: 0.0300815}
+  - {value: 0.0300812}
+  - {value: 0.0300812}
+  - {value: 0.0300812}
+  - {value: 0.0300812}
+  - {value: 0.0300812}
+  - {value: 0.0300812}
+  - {value: 0.0300812}
+  - {value: 0.0300812}
+  - {value: 0.0300812}
+  - {value: 0.0300803}
+  - {value: 0.0300721}
+  - {value: 0.0300543}
+  - {value: 0.0300401}
+  - {value: 0.0300364}
+  - {value: 0.0300363}
+  - {value: 0.0300363}
+  - {value: 0.0300363}
+  - {value: 0.0300363}
+  - {value: 0.0300363}
+  - {value: 0.0300363}
+  - {value: 0.0300358}
+  - {value: 0.0300326}
+  - {value: 0.0300031}
+  - {value: 0.0299097}
+  - {value: 0.0297602}
+- header: {name: Cross section upper limit at 95% CL, units: fb}
+  qualifiers:
+  - {name: Limit, value: Expected}
+  - {name: SQRT(S), units: GeV, value: 13000}
+  - {name: LUMINOSITY, units: 'fb$^{-1}$', value: 139.0}
+  values:
+  - errors:
+    - asymerror: {minus: -2.14209, plus: 3.04628}
+      label: 1 sigma
+    - asymerror: {minus: -3.53136, plus: 6.83971}
+      label: 2 sigma
+    value: 7.8989
+  - errors:
+    - asymerror: {minus: -1.47454, plus: 2.09809}
+      label: 1 sigma
+    - asymerror: {minus: -2.43689, plus: 4.75602}
+      label: 2 sigma
+    value: 5.31948
+  - errors:
+    - asymerror: {minus: -1.17178, plus: 1.70974}
+      label: 1 sigma
+    - asymerror: {minus: -1.93281, plus: 3.92956}
+      label: 2 sigma
+    value: 4.13415
+  - errors:
+    - asymerror: {minus: -0.987033, plus: 1.43928}
+      label: 1 sigma
+    - asymerror: {minus: -1.61574, plus: 3.24747}
+      label: 2 sigma
+    value: 3.37903
+  - errors:
+    - asymerror: {minus: -0.827185, plus: 1.18698}
+      label: 1 sigma
+    - asymerror: {minus: -1.3569, plus: 2.69248}
+      label: 2 sigma
+    value: 2.83406
+  - errors:
+    - asymerror: {minus: -0.690987, plus: 0.997774}
+      label: 1 sigma
+    - asymerror: {minus: -1.13769, plus: 2.29565}
+      label: 2 sigma
+    value: 2.40047
+  - errors:
+    - asymerror: {minus: -0.589867, plus: 0.865122}
+      label: 1 sigma
+    - asymerror: {minus: -0.970168, plus: 1.99666}
+      label: 2 sigma
+    value: 2.05536
+  - errors:
+    - asymerror: {minus: -0.514925, plus: 0.761791}
+      label: 1 sigma
+    - asymerror: {minus: -0.8447, plus: 1.75335}
+      label: 2 sigma
+    value: 1.78396
+  - errors:
+    - asymerror: {minus: -0.457339, plus: 0.673807}
+      label: 1 sigma
+    - asymerror: {minus: -0.748125, plus: 1.55184}
+      label: 2 sigma
+    value: 1.57014
+  - errors:
+    - asymerror: {minus: -0.407342, plus: 0.598165}
+      label: 1 sigma
+    - asymerror: {minus: -0.666312, plus: 1.38671}
+      label: 2 sigma
+    value: 1.39522
+  - errors:
+    - asymerror: {minus: -0.36351, plus: 0.537967}
+      label: 1 sigma
+    - asymerror: {minus: -0.595459, plus: 1.25139}
+      label: 2 sigma
+    value: 1.2476
+  - errors:
+    - asymerror: {minus: -0.3263, plus: 0.487697}
+      label: 1 sigma
+    - asymerror: {minus: -0.534126, plus: 1.13606}
+      label: 2 sigma
+    value: 1.12156
+  - errors:
+    - asymerror: {minus: -0.297234, plus: 0.443856}
+      label: 1 sigma
+    - asymerror: {minus: -0.484656, plus: 1.03648}
+      label: 2 sigma
+    value: 1.01569
+  - errors:
+    - asymerror: {minus: -0.271001, plus: 0.406369}
+      label: 1 sigma
+    - asymerror: {minus: -0.441744, plus: 0.950989}
+      label: 2 sigma
+    value: 0.923637
+  - errors:
+    - asymerror: {minus: -0.248448, plus: 0.372651}
+      label: 1 sigma
+    - asymerror: {minus: -0.404869, plus: 0.874671}
+      label: 2 sigma
+    value: 0.844071
+  - errors:
+    - asymerror: {minus: -0.228317, plus: 0.343438}
+      label: 1 sigma
+    - asymerror: {minus: -0.371909, plus: 0.808622}
+      label: 2 sigma
+    value: 0.774232
+  - errors:
+    - asymerror: {minus: -0.210483, plus: 0.318378}
+      label: 1 sigma
+    - asymerror: {minus: -0.342599, plus: 0.749872}
+      label: 2 sigma
+    value: 0.712481
+  - errors:
+    - asymerror: {minus: -0.180282, plus: 0.276952}
+      label: 1 sigma
+    - asymerror: {minus: -0.301404, plus: 0.648272}
+      label: 2 sigma
+    value: 0.640152
+  - errors:
+    - asymerror: {minus: -0.169253, plus: 0.260828}
+      label: 1 sigma
+    - asymerror: {minus: -0.282621, plus: 0.609961}
+      label: 2 sigma
+    value: 0.603964
+  - errors:
+    - asymerror: {minus: -0.158586, plus: 0.245201}
+      label: 1 sigma
+    - asymerror: {minus: -0.264404, plus: 0.572872}
+      label: 2 sigma
+    value: 0.568753
+  - errors:
+    - asymerror: {minus: -0.148347, plus: 0.230165}
+      label: 1 sigma
+    - asymerror: {minus: -0.246867, plus: 0.537228}
+      label: 2 sigma
+    value: 0.534718
+  - errors:
+    - asymerror: {minus: -0.138602, plus: 0.215811}
+      label: 1 sigma
+    - asymerror: {minus: -0.230123, plus: 0.503258}
+      label: 2 sigma
+    value: 0.502058
+  - errors:
+    - asymerror: {minus: -0.129415, plus: 0.202232}
+      label: 1 sigma
+    - asymerror: {minus: -0.214287, plus: 0.471186}
+      label: 2 sigma
+    value: 0.47097
+  - errors:
+    - asymerror: {minus: -0.120852, plus: 0.189519}
+      label: 1 sigma
+    - asymerror: {minus: -0.199469, plus: 0.441231}
+      label: 2 sigma
+    value: 0.441649
+  - errors:
+    - asymerror: {minus: -0.112926, plus: 0.177697}
+      label: 1 sigma
+    - asymerror: {minus: -0.185707, plus: 0.413455}
+      label: 2 sigma
+    value: 0.414169
+  - errors:
+    - asymerror: {minus: -0.10561, plus: 0.166733}
+      label: 1 sigma
+    - asymerror: {minus: -0.172975, plus: 0.387774}
+      label: 2 sigma
+    value: 0.388492
+  - errors:
+    - asymerror: {minus: -0.0988702, plus: 0.156595}
+      label: 1 sigma
+    - asymerror: {minus: -0.161244, plus: 0.364101}
+      label: 2 sigma
+    value: 0.364578
+  - errors:
+    - asymerror: {minus: -0.0926773, plus: 0.147246}
+      label: 1 sigma
+    - asymerror: {minus: -0.150485, plus: 0.342346}
+      label: 2 sigma
+    value: 0.342388
+  - errors:
+    - asymerror: {minus: -0.0869997, plus: 0.138654}
+      label: 1 sigma
+    - asymerror: {minus: -0.14067, plus: 0.322421}
+      label: 2 sigma
+    value: 0.32188
+  - errors:
+    - asymerror: {minus: -0.0818062, plus: 0.130783}
+      label: 1 sigma
+    - asymerror: {minus: -0.131768, plus: 0.304237}
+      label: 2 sigma
+    value: 0.303013
+  - errors:
+    - asymerror: {minus: -0.0770658, plus: 0.123599}
+      label: 1 sigma
+    - asymerror: {minus: -0.123752, plus: 0.287707}
+      label: 2 sigma
+    value: 0.285748
+  - errors:
+    - asymerror: {minus: -0.0727473, plus: 0.117063}
+      label: 1 sigma
+    - asymerror: {minus: -0.116581, plus: 0.27273}
+      label: 2 sigma
+    value: 0.270027
+  - errors:
+    - asymerror: {minus: -0.068819, plus: 0.111123}
+      label: 1 sigma
+    - asymerror: {minus: -0.11018, plus: 0.259175}
+      label: 2 sigma
+    value: 0.255735
+  - errors:
+    - asymerror: {minus: -0.0652493, plus: 0.105723}
+      label: 1 sigma
+    - asymerror: {minus: -0.104468, plus: 0.2469}
+      label: 2 sigma
+    value: 0.242745
+  - errors:
+    - asymerror: {minus: -0.0620065, plus: 0.100807}
+      label: 1 sigma
+    - asymerror: {minus: -0.0993616, plus: 0.235764}
+      label: 2 sigma
+    value: 0.230932
+  - errors:
+    - asymerror: {minus: -0.0590589, plus: 0.0963184}
+      label: 1 sigma
+    - asymerror: {minus: -0.0947787, plus: 0.225627}
+      label: 2 sigma
+    value: 0.220167
+  - errors:
+    - asymerror: {minus: -0.0563749, plus: 0.092202}
+      label: 1 sigma
+    - asymerror: {minus: -0.0906371, plus: 0.216348}
+      label: 2 sigma
+    value: 0.210324
+  - errors:
+    - asymerror: {minus: -0.0539227, plus: 0.0884018}
+      label: 1 sigma
+    - asymerror: {minus: -0.0868543, plus: 0.207786}
+      label: 2 sigma
+    value: 0.201277
+  - errors:
+    - asymerror: {minus: -0.0516713, plus: 0.0848632}
+      label: 1 sigma
+    - asymerror: {minus: -0.0833501, plus: 0.199805}
+      label: 2 sigma
+    value: 0.192902
+  - errors:
+    - asymerror: {minus: -0.0495975, plus: 0.0815516}
+      label: 1 sigma
+    - asymerror: {minus: -0.0800763, plus: 0.192319}
+      label: 2 sigma
+    value: 0.185115
+  - errors:
+    - asymerror: {minus: -0.0476848, plus: 0.0784483}
+      label: 1 sigma
+    - asymerror: {minus: -0.0770104, plus: 0.185288}
+      label: 2 sigma
+    value: 0.177867
+  - errors:
+    - asymerror: {minus: -0.0459168, plus: 0.0755353}
+      label: 1 sigma
+    - asymerror: {minus: -0.0741305, plus: 0.178671}
+      label: 2 sigma
+    value: 0.171107
+  - errors:
+    - asymerror: {minus: -0.0442769, plus: 0.0727944}
+      label: 1 sigma
+    - asymerror: {minus: -0.0714146, plus: 0.172428}
+      label: 2 sigma
+    value: 0.164785
+  - errors:
+    - asymerror: {minus: -0.0427489, plus: 0.0702072}
+      label: 1 sigma
+    - asymerror: {minus: -0.068841, plus: 0.166518}
+      label: 2 sigma
+    value: 0.158854
+  - errors:
+    - asymerror: {minus: -0.0413162, plus: 0.0677558}
+      label: 1 sigma
+    - asymerror: {minus: -0.0663877, plus: 0.160901}
+      label: 2 sigma
+    value: 0.153262
+  - errors:
+    - asymerror: {minus: -0.0399625, plus: 0.0654217}
+      label: 1 sigma
+    - asymerror: {minus: -0.0640327, plus: 0.155536}
+      label: 2 sigma
+    value: 0.14796
+  - errors:
+    - asymerror: {minus: -0.038674, plus: 0.0631904}
+      label: 1 sigma
+    - asymerror: {minus: -0.0617599, plus: 0.150391}
+      label: 2 sigma
+    value: 0.142907
+  - errors:
+    - asymerror: {minus: -0.0374447, plus: 0.0610562}
+      label: 1 sigma
+    - asymerror: {minus: -0.0595682, plus: 0.145456}
+      label: 2 sigma
+    value: 0.13809
+  - errors:
+    - asymerror: {minus: -0.0362701, plus: 0.0590157}
+      label: 1 sigma
+    - asymerror: {minus: -0.0574594, plus: 0.140724}
+      label: 2 sigma
+    value: 0.133495
+  - errors:
+    - asymerror: {minus: -0.0351454, plus: 0.0570649}
+      label: 1 sigma
+    - asymerror: {minus: -0.0554354, plus: 0.13619}
+      label: 2 sigma
+    value: 0.129113
+  - errors:
+    - asymerror: {minus: -0.0340661, plus: 0.0552003}
+      label: 1 sigma
+    - asymerror: {minus: -0.0534981, plus: 0.131846}
+      label: 2 sigma
+    value: 0.124933
+  - errors:
+    - asymerror: {minus: -0.0330275, plus: 0.053418}
+      label: 1 sigma
+    - asymerror: {minus: -0.0516491, plus: 0.127687}
+      label: 2 sigma
+    value: 0.120943
+  - errors:
+    - asymerror: {minus: -0.032025, plus: 0.0517145}
+      label: 1 sigma
+    - asymerror: {minus: -0.0498904, plus: 0.123707}
+      label: 2 sigma
+    value: 0.117134
+  - errors:
+    - asymerror: {minus: -0.031054, plus: 0.050086}
+      label: 1 sigma
+    - asymerror: {minus: -0.0482235, plus: 0.119898}
+      label: 2 sigma
+    value: 0.113494
+  - errors:
+    - asymerror: {minus: -0.0301126, plus: 0.0485297}
+      label: 1 sigma
+    - asymerror: {minus: -0.0466464, plus: 0.116256}
+      label: 2 sigma
+    value: 0.110015
+  - errors:
+    - asymerror: {minus: -0.0292003, plus: 0.0470435}
+      label: 1 sigma
+    - asymerror: {minus: -0.0451546, plus: 0.112775}
+      label: 2 sigma
+    value: 0.10669
+  - errors:
+    - asymerror: {minus: -0.0283166, plus: 0.0456252}
+      label: 1 sigma
+    - asymerror: {minus: -0.0437438, plus: 0.109448}
+      label: 2 sigma
+    value: 0.103512
+  - errors:
+    - asymerror: {minus: -0.0274611, plus: 0.0442726}
+      label: 1 sigma
+    - asymerror: {minus: -0.0424095, plus: 0.106272}
+      label: 2 sigma
+    value: 0.100475
+  - errors:
+    - asymerror: {minus: -0.0266334, plus: 0.0429835}
+      label: 1 sigma
+    - asymerror: {minus: -0.0411473, plus: 0.10324}
+      label: 2 sigma
+    value: 0.0975724
+  - errors:
+    - asymerror: {minus: -0.025833, plus: 0.0417556}
+      label: 1 sigma
+    - asymerror: {minus: -0.0399526, plus: 0.100346}
+      label: 2 sigma
+    value: 0.0947969
+  - errors:
+    - asymerror: {minus: -0.0250596, plus: 0.0405869}
+      label: 1 sigma
+    - asymerror: {minus: -0.0388212, plus: 0.0975854}
+      label: 2 sigma
+    value: 0.0921419
+  - errors:
+    - asymerror: {minus: -0.0243125, plus: 0.0394749}
+      label: 1 sigma
+    - asymerror: {minus: -0.0377478, plus: 0.0949521}
+      label: 2 sigma
+    value: 0.0896012
+  - errors:
+    - asymerror: {minus: -0.023591, plus: 0.0384166}
+      label: 1 sigma
+    - asymerror: {minus: -0.036726, plus: 0.0924395}
+      label: 2 sigma
+    value: 0.0871695
+  - errors:
+    - asymerror: {minus: -0.0228943, plus: 0.0374086}
+      label: 1 sigma
+    - asymerror: {minus: -0.0357491, plus: 0.0900412}
+      label: 2 sigma
+    value: 0.0848417
+  - errors:
+    - asymerror: {minus: -0.0222216, plus: 0.036448}
+      label: 1 sigma
+    - asymerror: {minus: -0.0348104, plus: 0.0877505}
+      label: 2 sigma
+    value: 0.0826128
+  - errors:
+    - asymerror: {minus: -0.0215721, plus: 0.0355316}
+      label: 1 sigma
+    - asymerror: {minus: -0.0339032, plus: 0.0855609}
+      label: 2 sigma
+    value: 0.0804777
+  - errors:
+    - asymerror: {minus: -0.020945, plus: 0.0346562}
+      label: 1 sigma
+    - asymerror: {minus: -0.0330207, plus: 0.0834657}
+      label: 2 sigma
+    value: 0.0784312
+  - errors:
+    - asymerror: {minus: -0.0203395, plus: 0.0338187}
+      label: 1 sigma
+    - asymerror: {minus: -0.0321562, plus: 0.0814583}
+      label: 2 sigma
+    value: 0.0764683
+  - errors:
+    - asymerror: {minus: -0.0197549, plus: 0.0330159}
+      label: 1 sigma
+    - asymerror: {minus: -0.0313035, plus: 0.0795324}
+      label: 2 sigma
+    value: 0.0745841
+  - errors:
+    - asymerror: {minus: -0.0191909, plus: 0.0322455}
+      label: 1 sigma
+    - asymerror: {minus: -0.0304606, plus: 0.0776831}
+      label: 2 sigma
+    value: 0.0727748
+  - errors:
+    - asymerror: {minus: -0.0186478, plus: 0.0315055}
+      label: 1 sigma
+    - asymerror: {minus: -0.0296282, plus: 0.0759067}
+      label: 2 sigma
+    value: 0.0710376
+  - errors:
+    - asymerror: {minus: -0.0181258, plus: 0.0307938}
+      label: 1 sigma
+    - asymerror: {minus: -0.0288071, plus: 0.0741994}
+      label: 2 sigma
+    value: 0.0693696
+  - errors:
+    - asymerror: {minus: -0.0176249, plus: 0.0301085}
+      label: 1 sigma
+    - asymerror: {minus: -0.0279978, plus: 0.0725573}
+      label: 2 sigma
+    value: 0.0677678
+  - errors:
+    - asymerror: {minus: -0.0171454, plus: 0.0294475}
+      label: 1 sigma
+    - asymerror: {minus: -0.027201, plus: 0.0709766}
+      label: 2 sigma
+    value: 0.0662295
+  - errors:
+    - asymerror: {minus: -0.0166874, plus: 0.0288089}
+      label: 1 sigma
+    - asymerror: {minus: -0.0264176, plus: 0.0694536}
+      label: 2 sigma
+    value: 0.0647516
+  - errors:
+    - asymerror: {minus: -0.0162511, plus: 0.0281905}
+      label: 1 sigma
+    - asymerror: {minus: -0.0256481, plus: 0.0679845}
+      label: 2 sigma
+    value: 0.0633313
+  - errors:
+    - asymerror: {minus: -0.0158361, plus: 0.0275909}
+      label: 1 sigma
+    - asymerror: {minus: -0.024893, plus: 0.066566}
+      label: 2 sigma
+    value: 0.0619657
+  - errors:
+    - asymerror: {minus: -0.0154411, plus: 0.0270092}
+      label: 1 sigma
+    - asymerror: {minus: -0.0241528, plus: 0.0651961}
+      label: 2 sigma
+    value: 0.0606522
+  - errors:
+    - asymerror: {minus: -0.0150646, plus: 0.0264447}
+      label: 1 sigma
+    - asymerror: {minus: -0.0234275, plus: 0.0638727}
+      label: 2 sigma
+    value: 0.059388
+  - errors:
+    - asymerror: {minus: -0.0147051, plus: 0.0258966}
+      label: 1 sigma
+    - asymerror: {minus: -0.0227175, plus: 0.0625941}
+      label: 2 sigma
+    value: 0.0581705
+  - errors:
+    - asymerror: {minus: -0.0143612, plus: 0.0253641}
+      label: 1 sigma
+    - asymerror: {minus: -0.022023, plus: 0.0613582}
+      label: 2 sigma
+    value: 0.0569968
+  - errors:
+    - asymerror: {minus: -0.0140313, plus: 0.0248467}
+      label: 1 sigma
+    - asymerror: {minus: -0.0213442, plus: 0.0601631}
+      label: 2 sigma
+    value: 0.0558644
+  - errors:
+    - asymerror: {minus: -0.0137139, plus: 0.0243434}
+      label: 1 sigma
+    - asymerror: {minus: -0.0206813, plus: 0.0590068}
+      label: 2 sigma
+    value: 0.0547705
+  - errors:
+    - asymerror: {minus: -0.0134077, plus: 0.0238537}
+      label: 1 sigma
+    - asymerror: {minus: -0.0200346, plus: 0.0578875}
+      label: 2 sigma
+    value: 0.0537126
+  - errors:
+    - asymerror: {minus: -0.0131119, plus: 0.0233769}
+      label: 1 sigma
+    - asymerror: {minus: -0.0194036, plus: 0.0568028}
+      label: 2 sigma
+    value: 0.0526896
+  - errors:
+    - asymerror: {minus: -0.0128258, plus: 0.0229124}
+      label: 1 sigma
+    - asymerror: {minus: -0.0187879, plus: 0.0557502}
+      label: 2 sigma
+    value: 0.0517013
+  - errors:
+    - asymerror: {minus: -0.012549, plus: 0.0224597}
+      label: 1 sigma
+    - asymerror: {minus: -0.0181868, plus: 0.0547274}
+      label: 2 sigma
+    value: 0.0507475
+  - errors:
+    - asymerror: {minus: -0.0122809, plus: 0.0220181}
+      label: 1 sigma
+    - asymerror: {minus: -0.0175998, plus: 0.053732}
+      label: 2 sigma
+    value: 0.0498278
+  - errors:
+    - asymerror: {minus: -0.012021, plus: 0.0215872}
+      label: 1 sigma
+    - asymerror: {minus: -0.0170263, plus: 0.0527615}
+      label: 2 sigma
+    value: 0.048942
+  - errors:
+    - asymerror: {minus: -0.0117687, plus: 0.0211663}
+      label: 1 sigma
+    - asymerror: {minus: -0.0164657, plus: 0.0518135}
+      label: 2 sigma
+    value: 0.0480898
+  - errors:
+    - asymerror: {minus: -0.0115236, plus: 0.0207548}
+      label: 1 sigma
+    - asymerror: {minus: -0.0159175, plus: 0.0508856}
+      label: 2 sigma
+    value: 0.0472709
+  - errors:
+    - asymerror: {minus: -0.0112843, plus: 0.0203525}
+      label: 1 sigma
+    - asymerror: {minus: -0.0153805, plus: 0.0499764}
+      label: 2 sigma
+    value: 0.0464846
+  - errors:
+    - asymerror: {minus: -0.0110482, plus: 0.0199594}
+      label: 1 sigma
+    - asymerror: {minus: -0.0148532, plus: 0.0490863}
+      label: 2 sigma
+    value: 0.0457292
+  - errors:
+    - asymerror: {minus: -0.0108126, plus: 0.0195757}
+      label: 1 sigma
+    - asymerror: {minus: -0.0143337, plus: 0.048216}
+      label: 2 sigma
+    value: 0.0450029
+  - errors:
+    - asymerror: {minus: -0.0105746, plus: 0.0192016}
+      label: 1 sigma
+    - asymerror: {minus: -0.0138201, plus: 0.047366}
+      label: 2 sigma
+    value: 0.0443041
+  - errors:
+    - asymerror: {minus: -0.0103315, plus: 0.018837}
+      label: 1 sigma
+    - asymerror: {minus: -0.0133107, plus: 0.046537}
+      label: 2 sigma
+    value: 0.043631
+  - errors:
+    - asymerror: {minus: -0.0100806, plus: 0.0184823}
+      label: 1 sigma
+    - asymerror: {minus: -0.0128037, plus: 0.0457295}
+      label: 2 sigma
+    value: 0.0429817
+  - errors:
+    - asymerror: {minus: -0.00981903, plus: 0.0181375}
+      label: 1 sigma
+    - asymerror: {minus: -0.0122974, plus: 0.0449442}
+      label: 2 sigma
+    value: 0.0423547
+  - errors:
+    - asymerror: {minus: -0.00954432, plus: 0.0178029}
+      label: 1 sigma
+    - asymerror: {minus: -0.0117899, plus: 0.0441817}
+      label: 2 sigma
+    value: 0.0417481
+  - errors:
+    - asymerror: {minus: -0.00925513, plus: 0.0174786}
+      label: 1 sigma
+    - asymerror: {minus: -0.0112807, plus: 0.0434425}
+      label: 2 sigma
+    value: 0.0411599
+  - errors:
+    - asymerror: {minus: -0.00895069, plus: 0.017165}
+      label: 1 sigma
+    - asymerror: {minus: -0.0107696, plus: 0.0427275}
+      label: 2 sigma
+    value: 0.0405877
+  - errors:
+    - asymerror: {minus: -0.00863023, plus: 0.0168625}
+      label: 1 sigma
+    - asymerror: {minus: -0.0102564, plus: 0.0420372}
+      label: 2 sigma
+    value: 0.0400294
+  - errors:
+    - asymerror: {minus: -0.00829299, plus: 0.0165714}
+      label: 1 sigma
+    - asymerror: {minus: -0.00974081, plus: 0.0413722}
+      label: 2 sigma
+    value: 0.0394828
+  - errors:
+    - asymerror: {minus: -0.0079382, plus: 0.016292}
+      label: 1 sigma
+    - asymerror: {minus: -0.00922266, plus: 0.0407334}
+      label: 2 sigma
+    value: 0.0389457
+  - errors:
+    - asymerror: {minus: -0.00756509, plus: 0.0160247}
+      label: 1 sigma
+    - asymerror: {minus: -0.00870173, plus: 0.0401212}
+      label: 2 sigma
+    value: 0.0384158
+  - errors:
+    - asymerror: {minus: -0.00717294, plus: 0.0157699}
+      label: 1 sigma
+    - asymerror: {minus: -0.00817785, plus: 0.0395365}
+      label: 2 sigma
+    value: 0.037891
+  - errors:
+    - asymerror: {minus: -0.00676326, plus: 0.0155271}
+      label: 1 sigma
+    - asymerror: {minus: -0.0076525, plus: 0.0389779}
+      label: 2 sigma
+    value: 0.0373709
+  - errors:
+    - asymerror: {minus: -0.00634091, plus: 0.015295}
+      label: 1 sigma
+    - asymerror: {minus: -0.00712961, plus: 0.0384419}
+      label: 2 sigma
+    value: 0.0368577
+  - errors:
+    - asymerror: {minus: -0.00591097, plus: 0.015072}
+      label: 1 sigma
+    - asymerror: {minus: -0.00661335, plus: 0.0379243}
+      label: 2 sigma
+    value: 0.0363538
+  - errors:
+    - asymerror: {minus: -0.00547855, plus: 0.0148568}
+      label: 1 sigma
+    - asymerror: {minus: -0.00610784, plus: 0.0374213}
+      label: 2 sigma
+    value: 0.0358618
+  - errors:
+    - asymerror: {minus: -0.00504874, plus: 0.0146478}
+      label: 1 sigma
+    - asymerror: {minus: -0.00561722, plus: 0.0369288}
+      label: 2 sigma
+    value: 0.035384
+  - errors:
+    - asymerror: {minus: -0.00462664, plus: 0.0144435}
+      label: 1 sigma
+    - asymerror: {minus: -0.00514564, plus: 0.0364431}
+      label: 2 sigma
+    value: 0.0349231
+  - errors:
+    - asymerror: {minus: -0.00421736, plus: 0.0142426}
+      label: 1 sigma
+    - asymerror: {minus: -0.00469723, plus: 0.0359599}
+      label: 2 sigma
+    value: 0.0344813
+  - errors:
+    - asymerror: {minus: -0.00382553, plus: 0.0140437}
+      label: 1 sigma
+    - asymerror: {minus: -0.0042756, plus: 0.035476}
+      label: 2 sigma
+    value: 0.0340609
+  - errors:
+    - asymerror: {minus: -0.00345308, plus: 0.0138463}
+      label: 1 sigma
+    - asymerror: {minus: -0.00388131, plus: 0.0349901}
+      label: 2 sigma
+    value: 0.0336632
+  - errors:
+    - asymerror: {minus: -0.00310102, plus: 0.0136506}
+      label: 1 sigma
+    - asymerror: {minus: -0.00351382, plus: 0.034502}
+      label: 2 sigma
+    value: 0.0332888
+  - errors:
+    - asymerror: {minus: -0.00277034, plus: 0.0134564}
+      label: 1 sigma
+    - asymerror: {minus: -0.00317259, plus: 0.0340117}
+      label: 2 sigma
+    value: 0.0329384
+  - errors:
+    - asymerror: {minus: -0.00246203, plus: 0.0132637}
+      label: 1 sigma
+    - asymerror: {minus: -0.0028571, plus: 0.0335187}
+      label: 2 sigma
+    value: 0.0326128
+  - errors:
+    - asymerror: {minus: -0.00217708, plus: 0.0130724}
+      label: 1 sigma
+    - asymerror: {minus: -0.00256681, plus: 0.033023}
+      label: 2 sigma
+    value: 0.0323127
+  - errors:
+    - asymerror: {minus: -0.00191649, plus: 0.0128826}
+      label: 1 sigma
+    - asymerror: {minus: -0.00230119, plus: 0.0325243}
+      label: 2 sigma
+    value: 0.0320388
+  - errors:
+    - asymerror: {minus: -0.00168122, plus: 0.0126942}
+      label: 1 sigma
+    - asymerror: {minus: -0.0020597, plus: 0.0320225}
+      label: 2 sigma
+    value: 0.0317919
+  - errors:
+    - asymerror: {minus: -0.00147117, plus: 0.0125059}
+      label: 1 sigma
+    - asymerror: {minus: -0.00184156, plus: 0.031518}
+      label: 2 sigma
+    value: 0.0315717
+  - errors:
+    - asymerror: {minus: -0.00128489, plus: 0.012315}
+      label: 1 sigma
+    - asymerror: {minus: -0.00164572, plus: 0.0310124}
+      label: 2 sigma
+    value: 0.031377
+  - errors:
+    - asymerror: {minus: -0.00112083, plus: 0.0121189}
+      label: 1 sigma
+    - asymerror: {minus: -0.00147108, plus: 0.0305073}
+      label: 2 sigma
+    value: 0.0312063
+  - errors:
+    - asymerror: {minus: -0.000977454, plus: 0.0119148}
+      label: 1 sigma
+    - asymerror: {minus: -0.00131657, plus: 0.0300043}
+      label: 2 sigma
+    value: 0.0310584
+  - errors:
+    - asymerror: {minus: -0.000853228, plus: 0.0116998}
+      label: 1 sigma
+    - asymerror: {minus: -0.00118111, plus: 0.0295048}
+      label: 2 sigma
+    value: 0.0309318
+  - errors:
+    - asymerror: {minus: -0.000746611, plus: 0.0114713}
+      label: 1 sigma
+    - asymerror: {minus: -0.00106359, plus: 0.0290105}
+      label: 2 sigma
+    value: 0.0308251
+  - errors:
+    - asymerror: {minus: -0.000656064, plus: 0.0112265}
+      label: 1 sigma
+    - asymerror: {minus: -0.000962959, plus: 0.0285229}
+      label: 2 sigma
+    value: 0.0307371
+  - errors:
+    - asymerror: {minus: -0.000580047, plus: 0.010963}
+      label: 1 sigma
+    - asymerror: {minus: -0.000878029, plus: 0.0280431}
+      label: 2 sigma
+    value: 0.0306662
+  - errors:
+    - asymerror: {minus: -0.000517011, plus: 0.0106808}
+      label: 1 sigma
+    - asymerror: {minus: -0.000807227, plus: 0.0275698}
+      label: 2 sigma
+    value: 0.0306105
+  - errors:
+    - asymerror: {minus: -0.000465408, plus: 0.0103803}
+      label: 1 sigma
+    - asymerror: {minus: -0.000748854, plus: 0.0271012}
+      label: 2 sigma
+    value: 0.0305679
+  - errors:
+    - asymerror: {minus: -0.000423685, plus: 0.0100619}
+      label: 1 sigma
+    - asymerror: {minus: -0.000701211, plus: 0.0266353}
+      label: 2 sigma
+    value: 0.0305365
+  - errors:
+    - asymerror: {minus: -0.000390293, plus: 0.00972617}
+      label: 1 sigma
+    - asymerror: {minus: -0.000662599, plus: 0.0261701}
+      label: 2 sigma
+    value: 0.0305143
+  - errors:
+    - asymerror: {minus: -0.000363682, plus: 0.00937355}
+      label: 1 sigma
+    - asymerror: {minus: -0.000631319, plus: 0.0257038}
+      label: 2 sigma
+    value: 0.030499
+  - errors:
+    - asymerror: {minus: -0.0003423, plus: 0.00900452}
+      label: 1 sigma
+    - asymerror: {minus: -0.000605671, plus: 0.0252344}
+      label: 2 sigma
+    value: 0.0304888
+  - errors:
+    - asymerror: {minus: -0.00032462, plus: 0.00861957}
+      label: 1 sigma
+    - asymerror: {minus: -0.000583978, plus: 0.02476}
+      label: 2 sigma
+    value: 0.0304816
+  - errors:
+    - asymerror: {minus: -0.000309683, plus: 0.00821972}
+      label: 1 sigma
+    - asymerror: {minus: -0.000565124, plus: 0.0242799}
+      label: 2 sigma
+    value: 0.0304762
+  - errors:
+    - asymerror: {minus: -0.000297147, plus: 0.00780655}
+      label: 1 sigma
+    - asymerror: {minus: -0.000548601, plus: 0.0237943}
+      label: 2 sigma
+    value: 0.0304724
+  - errors:
+    - asymerror: {minus: -0.000286701, plus: 0.00738167}
+      label: 1 sigma
+    - asymerror: {minus: -0.000533931, plus: 0.0233037}
+      label: 2 sigma
+    value: 0.0304698
+  - errors:
+    - asymerror: {minus: -0.000278035, plus: 0.00694668}
+      label: 1 sigma
+    - asymerror: {minus: -0.000520636, plus: 0.0228086}
+      label: 2 sigma
+    value: 0.0304682
+  - errors:
+    - asymerror: {minus: -0.000270836, plus: 0.0065032}
+      label: 1 sigma
+    - asymerror: {minus: -0.000508238, plus: 0.0223094}
+      label: 2 sigma
+    value: 0.0304674
+  - errors:
+    - asymerror: {minus: -0.000264794, plus: 0.00605283}
+      label: 1 sigma
+    - asymerror: {minus: -0.000496259, plus: 0.0218064}
+      label: 2 sigma
+    value: 0.0304671
+  - errors:
+    - asymerror: {minus: -0.000259597, plus: 0.00559718}
+      label: 1 sigma
+    - asymerror: {minus: -0.000484221, plus: 0.0213002}
+      label: 2 sigma
+    value: 0.0304671
+independent_variables:
+- header: {name: Mass, units: GeV}
+  values:
+  - {value: 160}
+  - {value: 180}
+  - {value: 200}
+  - {value: 220}
+  - {value: 240}
+  - {value: 260}
+  - {value: 280}
+  - {value: 300}
+  - {value: 320}
+  - {value: 340}
+  - {value: 360}
+  - {value: 380}
+  - {value: 400}
+  - {value: 420}
+  - {value: 440}
+  - {value: 460}
+  - {value: 480}
+  - {value: 500}
+  - {value: 520}
+  - {value: 540}
+  - {value: 560}
+  - {value: 580}
+  - {value: 600}
+  - {value: 620}
+  - {value: 640}
+  - {value: 660}
+  - {value: 680}
+  - {value: 700}
+  - {value: 720}
+  - {value: 740}
+  - {value: 760}
+  - {value: 780}
+  - {value: 800}
+  - {value: 820}
+  - {value: 840}
+  - {value: 860}
+  - {value: 880}
+  - {value: 900}
+  - {value: 920}
+  - {value: 940}
+  - {value: 960}
+  - {value: 980}
+  - {value: 1000}
+  - {value: 1020}
+  - {value: 1040}
+  - {value: 1060}
+  - {value: 1080}
+  - {value: 1100}
+  - {value: 1120}
+  - {value: 1140}
+  - {value: 1160}
+  - {value: 1180}
+  - {value: 1200}
+  - {value: 1220}
+  - {value: 1240}
+  - {value: 1260}
+  - {value: 1280}
+  - {value: 1300}
+  - {value: 1320}
+  - {value: 1340}
+  - {value: 1360}
+  - {value: 1380}
+  - {value: 1400}
+  - {value: 1420}
+  - {value: 1440}
+  - {value: 1460}
+  - {value: 1480}
+  - {value: 1500}
+  - {value: 1520}
+  - {value: 1540}
+  - {value: 1560}
+  - {value: 1580}
+  - {value: 1600}
+  - {value: 1620}
+  - {value: 1640}
+  - {value: 1660}
+  - {value: 1680}
+  - {value: 1700}
+  - {value: 1720}
+  - {value: 1740}
+  - {value: 1760}
+  - {value: 1780}
+  - {value: 1800}
+  - {value: 1820}
+  - {value: 1840}
+  - {value: 1860}
+  - {value: 1880}
+  - {value: 1900}
+  - {value: 1920}
+  - {value: 1940}
+  - {value: 1960}
+  - {value: 1980}
+  - {value: 2000}
+  - {value: 2020}
+  - {value: 2040}
+  - {value: 2060}
+  - {value: 2080}
+  - {value: 2100}
+  - {value: 2120}
+  - {value: 2140}
+  - {value: 2160}
+  - {value: 2180}
+  - {value: 2200}
+  - {value: 2220}
+  - {value: 2240}
+  - {value: 2260}
+  - {value: 2280}
+  - {value: 2300}
+  - {value: 2320}
+  - {value: 2340}
+  - {value: 2360}
+  - {value: 2380}
+  - {value: 2400}
+  - {value: 2420}
+  - {value: 2440}
+  - {value: 2460}
+  - {value: 2480}
+  - {value: 2500}
+  - {value: 2520}
+  - {value: 2540}
+  - {value: 2560}
+  - {value: 2580}
+  - {value: 2600}
+  - {value: 2620}
+  - {value: 2640}
+  - {value: 2660}
+  - {value: 2680}
+  - {value: 2700}
+  - {value: 2720}
+  - {value: 2740}
+  - {value: 2760}
+  - {value: 2780}
+  - {value: 2800}
+  - {value: 2820}
+  - {value: 2840}
+  - {value: 2860}
+  - {value: 2880}
+  - {value: 2900}
+  - {value: 2920}
+  - {value: 2940}
+  - {value: 2960}
+  - {value: 2980}
+  - {value: 3000}

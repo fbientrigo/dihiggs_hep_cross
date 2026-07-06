@@ -1,0 +1,187 @@
+dependent_variables:
+- header: {name: Predicted, units: fb}
+  qualifiers:
+  - {name: Lifetime, value: ''}
+  - {name: Limit, value: ''}
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  values:
+  - errors:
+    - {label: theory, symerror: 0.515}
+    value: 2.93
+  - errors:
+    - {label: theory, symerror: 0.196}
+    value: 1.01
+  - errors:
+    - {label: theory, symerror: 0.0777}
+    value: 0.356
+  - errors:
+    - {label: theory, symerror: 0.0322}
+    value: 0.128
+  - errors:
+    - {label: theory, symerror: 0.014}
+    value: 0.0462
+- header: {name: Observed_tau_0p01ns, units: fb}
+  qualifiers:
+  - {name: Lifetime, value: 0.01ns}
+  - {name: Limit, value: Observed}
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  values:
+  - {value: 0.19301}
+  - {value: 0.18621}
+  - {value: 0.15411}
+  - {value: 0.14132}
+  - {value: 0.12453}
+- header: {name: Expected_tau_0p01ns, units: fb}
+  qualifiers:
+  - {name: Lifetime, value: 0.01ns}
+  - {name: Limit, value: Expected}
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  values:
+  - errors:
+    - asymerror: {minus: 0.058184, plus: -0.0024365}
+      label: stat+syst
+    value: 0.15305
+  - errors:
+    - asymerror: {minus: 0.051508, plus: -0.0025601}
+      label: stat+syst
+    value: 0.1713
+  - errors:
+    - asymerror: {minus: 0.042789, plus: -0.0024856}
+      label: stat+syst
+    value: 0.13043
+  - errors:
+    - asymerror: {minus: 0.040801, plus: -0.0022488}
+      label: stat+syst
+    value: 0.11462
+  - errors:
+    - asymerror: {minus: 0.035305, plus: -0.0015178}
+      label: stat+syst
+    value: 0.10289
+- header: {name: Observed_tau_0p1ns, units: fb}
+  qualifiers:
+  - {name: Lifetime, value: 0.1ns}
+  - {name: Limit, value: Observed}
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  values:
+  - {value: 0.034713}
+  - {value: 0.035509}
+  - {value: 0.033822}
+  - {value: 0.035935}
+  - {value: 0.034151}
+- header: {name: Expected_tau_0p1ns, units: fb}
+  qualifiers:
+  - {name: Lifetime, value: 0.1ns}
+  - {name: Limit, value: Expected}
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  values:
+  - errors:
+    - asymerror: {minus: 0.0099337, plus: -0.00059913}
+      label: stat+syst
+    value: 0.0288
+  - errors:
+    - asymerror: {minus: 0.010158, plus: -0.00038249}
+      label: stat+syst
+    value: 0.0281
+  - errors:
+    - asymerror: {minus: 0.010705, plus: -0.00088601}
+      label: stat+syst
+    value: 0.027838
+  - errors:
+    - asymerror: {minus: 0.010805, plus: -0.00040175}
+      label: stat+syst
+    value: 0.030255
+  - errors:
+    - asymerror: {minus: 0.0098913, plus: -0.00068916}
+      label: stat+syst
+    value: 0.028508
+- header: {name: Observed_tau_1p0ns, units: fb}
+  qualifiers:
+  - {name: Lifetime, value: 1.0ns}
+  - {name: Limit, value: Observed}
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  values:
+  - {value: 0.057036}
+  - {value: 0.060797}
+  - {value: 0.063535}
+  - {value: 0.060954}
+  - {value: 0.062585}
+- header: {name: Expected_tau_1p0ns, units: fb}
+  qualifiers:
+  - {name: Lifetime, value: 1.0ns}
+  - {name: Limit, value: Expected}
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  values:
+  - errors:
+    - asymerror: {minus: 0.016947, plus: -0.0015554}
+      label: stat+syst
+    value: 0.045395
+  - errors:
+    - asymerror: {minus: 0.01761, plus: -0.0020597}
+      label: stat+syst
+    value: 0.045409
+  - errors:
+    - asymerror: {minus: 0.016858, plus: -0.0046258}
+      label: stat+syst
+    value: 0.050701
+  - errors:
+    - asymerror: {minus: 0.016836, plus: -0.003546}
+      label: stat+syst
+    value: 0.049103
+  - errors:
+    - asymerror: {minus: 0.018019, plus: -0.0032535}
+      label: stat+syst
+    value: 0.049454
+- header: {name: Observed_tau_10p0ns, units: fb}
+  qualifiers:
+  - {name: Lifetime, value: 10.0ns}
+  - {name: Limit, value: Observed}
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  values:
+  - {value: 0.28678}
+  - {value: 0.32319}
+  - {value: 0.30967}
+  - {value: 0.31931}
+  - {value: 0.35869}
+- header: {name: Expected_tau_10p0ns, units: fb}
+  qualifiers:
+  - {name: Lifetime, value: 10.0ns}
+  - {name: Limit, value: Expected}
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  values:
+  - errors:
+    - asymerror: {minus: 0.097008, plus: -0.01281}
+      label: stat+syst
+    value: 0.23725
+  - errors:
+    - asymerror: {minus: 0.09622, plus: -0.014402}
+      label: stat+syst
+    value: 0.24129
+  - errors:
+    - asymerror: {minus: 0.096224, plus: -0.00698}
+      label: stat+syst
+    value: 0.24363
+  - errors:
+    - asymerror: {minus: 0.093037, plus: -0.0090874}
+      label: stat+syst
+    value: 0.26437
+  - errors:
+    - asymerror: {minus: 0.10278, plus: -0.011263}
+      label: stat+syst
+    value: 0.28477
+independent_variables:
+- header: {name: Gluino Mass, units: GeV}
+  values:
+  - {value: 1800.0}
+  - {value: 2000.0}
+  - {value: 2200.0}
+  - {value: 2400.0}
+  - {value: 2600.0}

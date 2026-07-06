@@ -1,0 +1,55 @@
+dependent_variables:
+- header: {name: Efficiency}
+  qualifiers:
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  values:
+  - {value: 0.0}
+  - {value: 0.0}
+  - {value: 0.0}
+  - errors:
+    - {label: stat, symerror: 0.011128}
+    value: 0.10582
+  - errors:
+    - {label: stat, symerror: 0.0057035}
+    value: 0.11052
+  - errors:
+    - {label: stat, symerror: 0.0052351}
+    value: 0.14174
+  - errors:
+    - {label: stat, symerror: 0.0061345}
+    value: 0.20843
+  - errors:
+    - {label: stat, symerror: 0.0067876}
+    value: 0.26343
+  - errors:
+    - {label: stat, symerror: 0.0074532}
+    value: 0.31029
+  - errors:
+    - {label: stat, symerror: 0.0075221}
+    value: 0.32515
+  - errors:
+    - {label: stat, symerror: 0.0076739}
+    value: 0.34243
+  - errors:
+    - {label: stat, symerror: 0.0073501}
+    value: 0.33272
+  - errors:
+    - {label: stat, symerror: 0.0026648}
+    value: 0.27639
+independent_variables:
+- header: {name: Sumpt, units: GeV}
+  values:
+  - {high: 0.2, low: 0.0}
+  - {high: 0.4, low: 0.2}
+  - {high: 0.6, low: 0.4}
+  - {high: 0.8, low: 0.6}
+  - {high: 1.0, low: 0.8}
+  - {high: 1.2, low: 1.0}
+  - {high: 1.4, low: 1.2}
+  - {high: 1.6, low: 1.4}
+  - {high: 1.8, low: 1.6}
+  - {high: 2.0, low: 1.8}
+  - {high: 2.2, low: 2.0}
+  - {high: 2.4, low: 2.2}
+  - {high: 2.6, low: 2.4}

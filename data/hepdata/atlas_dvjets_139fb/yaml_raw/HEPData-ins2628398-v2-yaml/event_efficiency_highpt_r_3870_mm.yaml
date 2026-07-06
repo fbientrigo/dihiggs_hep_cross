@@ -1,0 +1,83 @@
+dependent_variables:
+- header: {name: Efficiency}
+  qualifiers:
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  values:
+  - {value: 0.0}
+  - {value: 0.0}
+  - {value: 0.0}
+  - errors:
+    - {label: stat, symerror: 0.19453}
+    value: 0.9375
+  - errors:
+    - {label: stat, symerror: 0.085711}
+    value: 0.86878
+  - errors:
+    - {label: stat, symerror: 0.04212}
+    value: 0.86608
+  - errors:
+    - {label: stat, symerror: 0.024861}
+    value: 0.89899
+  - errors:
+    - {label: stat, symerror: 0.01621}
+    value: 0.90846
+  - errors:
+    - {label: stat, symerror: 0.011468}
+    value: 0.92904
+  - errors:
+    - {label: stat, symerror: 0.008967}
+    value: 0.94101
+  - errors:
+    - {label: stat, symerror: 0.0075121}
+    value: 0.95568
+  - errors:
+    - {label: stat, symerror: 0.0066026}
+    value: 0.95513
+  - errors:
+    - {label: stat, symerror: 0.0061719}
+    value: 0.96809
+  - errors:
+    - {label: stat, symerror: 0.005855}
+    value: 0.97059
+  - errors:
+    - {label: stat, symerror: 0.0057179}
+    value: 0.97361
+  - errors:
+    - {label: stat, symerror: 0.0057101}
+    value: 0.97938
+  - errors:
+    - {label: stat, symerror: 0.0058147}
+    value: 0.98014
+  - errors:
+    - {label: stat, symerror: 0.0060568}
+    value: 0.98293
+  - errors:
+    - {label: stat, symerror: 0.0065332}
+    value: 0.98997
+  - errors:
+    - {label: stat, symerror: 0.0039254}
+    value: 0.98891
+independent_variables:
+- header: {name: Sumpt, units: GeV}
+  values:
+  - {high: 1.2, low: 1.0}
+  - {high: 1.4, low: 1.2}
+  - {high: 1.6, low: 1.4}
+  - {high: 1.8, low: 1.6}
+  - {high: 2.0, low: 1.8}
+  - {high: 2.2, low: 2.0}
+  - {high: 2.4, low: 2.2}
+  - {high: 2.6, low: 2.4}
+  - {high: 2.8, low: 2.6}
+  - {high: 3.0, low: 2.8}
+  - {high: 3.2, low: 3.0}
+  - {high: 3.4, low: 3.2}
+  - {high: 3.6, low: 3.4}
+  - {high: 3.8, low: 3.6}
+  - {high: 4.0, low: 3.8}
+  - {high: 4.2, low: 4.0}
+  - {high: 4.4, low: 4.2}
+  - {high: 4.6, low: 4.4}
+  - {high: 4.8, low: 4.6}
+  - {high: 5.0, low: 4.8}

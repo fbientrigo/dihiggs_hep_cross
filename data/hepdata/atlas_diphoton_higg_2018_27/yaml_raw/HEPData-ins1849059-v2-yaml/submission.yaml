@@ -1,0 +1,349 @@
+additional_resources:
+- {description: web page with auxiliary material, location: 'http://atlas.web.cern.ch/Atlas/GROUPS/PHYSICS/PAPERS/HIGG-2018-27/'}
+comment: "CERN-LHC. Search for resonances decay into photon pairs in 139 fb^{-1} of
+  proton-proton collisions collected at a centre-of-mass energy of 13 TeV with the
+  ATLAS detector between 2015--2018. \n\nThe fiducial region for the combined spin-0/spin-2
+  resonance search is defined as:\n- 2 photons\n- E_T > 0.3 m_gamgam for the photon
+  with leading E_T, and E_T > 0.25 m_gamgam for the photon with sub-leading E_T\n-
+  |eta_gam| < 2.37\n- An isolation requirement using all particles with lifetime greater
+  than 10 ps at the generator level in a cone of Delta_R = 0.4 around the photon direction:
+  E^iso_T< 0.05 E_T + 6 GeV.\n\nFor the spin-2 resonance search, the acceptance and
+  efficiencies are assumed to be those obtained from MC simulation of KK graviton
+  decays.\n"
+hepdata_doi: 10.17182/hepdata.100161.v2
+---
+additional_resources:
+- {description: Image file, location: fig_05a.png}
+- {description: Thumbnail image file, location: thumb_fig_05a.png}
+data_file: Limit1D_NW_Scalar.yaml
+description: "The expected and observed upper limits at 95\\% CL on the fiducial cross-section
+  times branching ratio to two photons of a narrow-width (\u0393_X = 4 MeV) spin-0
+  resonance as a function of its mass m_X. For masses greater than 1000 GeV, pseudo-experiments
+  are used to verify the expected and observed limits, and used in place of the asymptotic
+  limit when differences are observed."
+keywords:
+- name: reactions
+  values: [P P --> X --> gamma gamma]
+- name: observables
+  values: [Cross-section]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Limit, Diphoton resonance]
+location: Figure 5a
+name: Table 1
+table_doi: 10.17182/hepdata.100161.v2/t1
+---
+additional_resources:
+- {description: Image file, location: fig_05b.png}
+- {description: Thumbnail image file, location: thumb_fig_05b.png}
+data_file: Limit1D_kMpl0.1_Spin2.yaml
+description: The expected and observed upper limits at 95\% CL on the production cross-section
+  times branching ratio to two photons of the lightest KK graviton as a function of
+  its mass for k/Mpl=0.10. For masses greater than 1000 GeV, pseudo-experiments are
+  used to verify the expected and observed limits, and used in place of the asymptotic
+  limit when differences are observed.
+keywords:
+- name: reactions
+  values: [P P --> G* --> gamma gamma]
+- name: observables
+  values: [Cross-section]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Limit, Diphoton resonance]
+location: Figure 5b
+name: Table 2
+table_doi: 10.17182/hepdata.100161.v2/t2
+---
+additional_resources:
+- {description: Image file, location: figaux_03a.png}
+- {description: Thumbnail image file, location: thumb_figaux_03a.png}
+- {description: Image file, location: figaux_04a.png}
+- {description: Thumbnail image file, location: thumb_figaux_04a.png}
+data_file: Limit2D_Scalar.yaml
+description: Expected and observed limits computed using asymptotic formulas as a
+  function of the signal mass m_{X} and the relative width $\Gamma_{X}/m_{X}$ for
+  the spin-0 resonance search.
+keywords:
+- name: reactions
+  values: [P P --> X --> gamma gamma]
+- name: observables
+  values: [Cross-section]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Scalar, limits, widths, Diphoton resonance]
+location: Figures 03a and 04a (auxiliary material)
+name: Table 3
+table_doi: 10.17182/hepdata.100161.v2/t3
+---
+additional_resources:
+- {description: Image file, location: figaux_03b.png}
+- {description: Thumbnail image file, location: thumb_figaux_03b.png}
+- {description: Image file, location: figaux_04b.png}
+- {description: Thumbnail image file, location: thumb_figaux_04b.png}
+data_file: Limit2D_Graviton.yaml
+description: Expected and observed limits computed using asymptotic formulas as a
+  function of the signal mass m_{G*} and k/Mpl for the spin-2 resonance search.
+keywords:
+- name: reactions
+  values: [P P --> G* --> gamma gamma]
+- name: observables
+  values: [Cross-section]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Graviton, limits, widths, Diphoton resonance]
+location: Figures 03b and 04b (auxiliary material)
+name: Table 4
+table_doi: 10.17182/hepdata.100161.v2/t4
+---
+additional_resources:
+- {description: Image file, location: figaux_05a.png}
+- {description: Thumbnail image file, location: thumb_figaux_05a.png}
+data_file: Limit1D_LW002_Scalar.yaml
+description: The expected and observed upper limits at 95\% CL on the fiducial cross-section
+  times branching ratio to two photons of a spin-0 resonance as a function of its
+  mass m_X. The decay width of the resonance is equal to 2% of m_X. For masses greater
+  than 1000 GeV, pseudo-experiments are used to verify the expected and observed limits,
+  and used in place of the asymptotic limit when differences are observed.
+keywords:
+- name: reactions
+  values: [P P --> X --> gamma gamma]
+- name: observables
+  values: [Cross-section]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Limit, Diphoton resonance]
+location: Figure 05a (auxiliary material)
+name: Table 5
+table_doi: 10.17182/hepdata.100161.v2/t5
+---
+additional_resources:
+- {description: Image file, location: figaux_05b.png}
+- {description: Thumbnail image file, location: thumb_figaux_05b.png}
+data_file: Limit1D_LW006_Scalar.yaml
+description: The expected and observed upper limits at 95\% CL on the fiducial cross-section
+  times branching ratio to two photons of a spin-0 resonance as a function of its
+  mass m_X. The decay width of the resonance is equal to 6% of m_X. For masses greater
+  than 1000 GeV, pseudo-experiments are used to verify the expected and observed limits,
+  and used in place of the asymptotic limit when differences are observed.
+keywords:
+- name: reactions
+  values: [P P --> X --> gamma gamma]
+- name: observables
+  values: [Cross-section]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Limit, Diphoton resonance]
+location: Figure 05b (auxiliary material)
+name: Table 6
+table_doi: 10.17182/hepdata.100161.v2/t6
+---
+additional_resources:
+- {description: Image file, location: figaux_05c.png}
+- {description: Thumbnail image file, location: thumb_figaux_05c.png}
+data_file: Limit1D_LW01_Scalar.yaml
+description: The expected and observed upper limits at 95\% CL on the fiducial cross-section
+  times branching ratio to two photons of a spin-0 resonance as a function of its
+  mass m_X. The decay width of the resonance is equal to 10% of m_X. For masses greater
+  than 1000 GeV, pseudo-experiments are used to verify the expected and observed limits,
+  and used in place of the asymptotic limit when differences are observed.
+keywords:
+- name: reactions
+  values: [P P --> X --> gamma gamma]
+- name: observables
+  values: [Cross-section]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Limit, Diphoton resonance]
+location: Figure 05c (auxiliary material)
+name: Table 7
+table_doi: 10.17182/hepdata.100161.v2/t7
+---
+additional_resources:
+- {description: Image file, location: figaux_06a.png}
+- {description: Thumbnail image file, location: thumb_figaux_06a.png}
+data_file: Limit1D_kMpl0.01_Spin2.yaml
+description: The expected and observed upper limits at 95\% CL on the production cross-section
+  times branching ratio to two photons of the lightest KK graviton as a function of
+  its mass for k/Mpl=0.01. For masses greater than 1000 GeV, pseudo-experiments are
+  used to verify the expected and observed limits, and used in place of the asymptotic
+  limit when differences are observed.
+keywords:
+- name: reactions
+  values: [P P --> G* --> gamma gamma]
+- name: observables
+  values: [Cross-section]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Limit, Diphoton resonance]
+location: Figure 06a (auxiliary material)
+name: Table 8
+table_doi: 10.17182/hepdata.100161.v2/t8
+---
+additional_resources:
+- {description: Image file, location: figaux_06b.png}
+- {description: Thumbnail image file, location: thumb_figaux_06b.png}
+data_file: Limit1D_kMpl0.05_Spin2.yaml
+description: The expected and observed upper limits at 95\% CL on the production cross-section
+  times branching ratio to two photons of the lightest KK graviton as a function of
+  its mass for k/Mpl=0.05. For masses greater than 1000 GeV, pseudo-experiments are
+  used to verify the expected and observed limits, and used in place of the asymptotic
+  limit when differences are observed.
+keywords:
+- name: reactions
+  values: [P P --> G* --> gamma gamma]
+- name: observables
+  values: [Cross-section]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Limit, Diphoton resonance]
+location: Figure 06b (auxiliary material)
+name: Table 9
+table_doi: 10.17182/hepdata.100161.v2/t9
+---
+additional_resources:
+- {description: Image file, location: figaux_11a.png}
+- {description: Thumbnail image file, location: thumb_figaux_11a.png}
+data_file: diphoton_invMassSpectrum_ResolutionBinning.yaml
+description: Diphoton invariant mass in the signal region using a binning based on
+  the invariant mass resolution.
+keywords:
+- name: reactions
+  values: [P P --> gamma gamma]
+- name: observables
+  values: [INV MASS]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Scalar, Graviton, invariant mass, Diphoton resonance]
+location: Figure 11a (auxiliary material)
+name: Table 10
+table_doi: 10.17182/hepdata.100161.v2/t10
+---
+additional_resources:
+- {description: Image file, location: figaux_11b.png}
+- {description: Thumbnail image file, location: thumb_figaux_11b.png}
+data_file: diphoton_invMassSpectrum_1GeVBinning.yaml
+description: Diphoton invariant mass in the signal region binned in 1 GeV bins..
+keywords:
+- name: reactions
+  values: [P P --> gamma gamma]
+- name: observables
+  values: [INV MASS]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Scalar, Graviton, invariant mass, Diphoton resonance]
+location: Figure 11b (auxiliary material)
+name: Table 11
+table_doi: 10.17182/hepdata.100161.v2/t11
+---
+additional_resources:
+- {description: Image file, location: tabaux_01.png}
+- {description: Thumbnail image file, location: thumb_tabaux_01.png}
+data_file: diphoton_selection_cutflow.yaml
+description: Effect of event selections on a NWA spin-0 and a spin-2 ($k/Mpl=0.01$)
+  MC samples generated for m_X = 1 TeV and on the data. For the MC samples, the event
+  yield is shown after applying event weights; for the data, the absolute yields are
+  shown.  The initial yields for data include a trigger preselection that is the OR
+  of a list of single photon and diphoton triggers. The "2 $loose$ photons" step includes
+  the kinematic acceptance cuts. The cross-section times branching ratio for the spin-0
+  sample is normalized to the MadGraph NLO prediction of 112~fb and the cross-section
+  times branching ratio for the graviton corresponds to the Pythia8 prediction of
+  12~fb.
+keywords:
+- name: reactions
+  values: [P P --> gamma gamma]
+- name: observables
+  values: [Event Count]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Selections, Cutflow, Diphoton resonance]
+location: Table 01 (auxiliary material)
+name: Table 12
+table_doi: 10.17182/hepdata.100161.v2/t12
+---
+additional_resources:
+- {description: Image file, location: tabaux_02.png}
+- {description: Thumbnail image file, location: thumb_tabaux_02.png}
+data_file: Selection_Eff_Spin0.yaml
+description: Parameterization for the CX and AX factors as function of mX for a scalar
+  particle, as obtained from the narrow-width MC signal samples.
+keywords:
+- name: reactions
+  values: [P P --> X --> gamma gamma]
+- name: observables
+  values: [INV MASS]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Scalar, acceptance, efficiency, Diphoton resonance]
+location: Table 02 (auxiliary material)
+name: Table 13
+table_doi: 10.17182/hepdata.100161.v2/t13
+---
+additional_resources:
+- {description: Image file, location: tabaux_03.png}
+- {description: Thumbnail image file, location: thumb_tabaux_03.png}
+data_file: Selection_Eff_Spin2.yaml
+description: Parameterization for the $C_{X}\cdot A_{X}$ factor as function of $m_{G^*}$
+  for the RS graviton, as obtained from k/MPl = 0.05 MC signal samples.
+keywords:
+- name: reactions
+  values: [P P --> G* --> gamma gamma]
+- name: observables
+  values: [INV MASS]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Graviton, acceptance, efficiency, Diphoton resonance]
+location: Table 03 (auxiliary material)
+name: Table 14
+table_doi: 10.17182/hepdata.100161.v2/t14
+---
+additional_resources:
+- {description: Image file, location: tabaux_04.png}
+- {description: Thumbnail image file, location: thumb_tabaux_04.png}
+data_file: DSCB_Parameters_Spin0.yaml
+description: Parameterization of the Double Sided Crystal Ball function parameters
+  describing the scalar mass resolution model as a function of m_{X} [GeV].
+keywords:
+- name: reactions
+  values: [P P --> X --> gamma gamma]
+- name: observables
+  values: [INV MASS]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Scalar, resolution model, Diphoton resonance]
+location: Table 04 (auxiliary material)
+name: Table 15
+table_doi: 10.17182/hepdata.100161.v2/t15
+---
+additional_resources:
+- {description: Image file, location: tabaux_05.png}
+- {description: Thumbnail image file, location: thumb_tabaux_05.png}
+data_file: DSCB_Parameters_Spin2.yaml
+description: Parameterization of the Double Sided Crystal Ball function parameters
+  describing the graviton mass resolution model as a function of m_{X} [GeV].
+keywords:
+- name: reactions
+  values: [P P --> G* --> gamma gamma]
+- name: observables
+  values: [INV MASS]
+- name: cmenergies
+  values: [13000.0]
+- name: phrases
+  values: [Graviton, resolution model, Diphoton resonance]
+location: Table 05 (auxiliary material)
+name: Table 16
+table_doi: 10.17182/hepdata.100161.v2/t16

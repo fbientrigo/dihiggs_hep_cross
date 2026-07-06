@@ -1,0 +1,273 @@
+dependent_variables:
+- header: {name: Efficiency}
+  qualifiers:
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  values:
+  - {value: 0.0}
+  - errors:
+    - {label: stat, symerror: 0.028161}
+    value: 0.027778
+  - errors:
+    - {label: stat, symerror: 0.0046519}
+    value: 0.0065574
+  - errors:
+    - {label: stat, symerror: 0.0022227}
+    value: 0.0054299
+  - {value: 0.0}
+  - {value: 0.0}
+  - {value: 0.0}
+  - {value: 0.0}
+  - {value: 0.0}
+  - {value: 0.0}
+  - errors:
+    - {label: stat, symerror: 0.0078312}
+    value: 0.017361
+  - errors:
+    - {label: stat, symerror: 0.0028072}
+    value: 0.012477
+  - errors:
+    - {label: stat, symerror: 0.0017451}
+    value: 0.0030181
+  - errors:
+    - {label: stat, symerror: 0.0046189}
+    value: 0.0046083
+  - {value: 0.0}
+  - {value: 0.0}
+  - {value: 0.0}
+  - errors:
+    - {label: stat, symerror: 0.061332}
+    value: 0.083333
+  - errors:
+    - {label: stat, symerror: 0.0057634}
+    value: 0.011461
+  - errors:
+    - {label: stat, symerror: 0.0021355}
+    value: 0.016271
+  - errors:
+    - {label: stat, symerror: 0.001906}
+    value: 0.015251
+  - errors:
+    - {label: stat, symerror: 0.0020076}
+    value: 0.0091583
+  - {value: 0.0}
+  - {value: 0.0}
+  - {value: 0.0}
+  - {value: 0.0}
+  - errors:
+    - {label: stat, symerror: 0.007547}
+    value: 0.0075188
+  - errors:
+    - {label: stat, symerror: 0.0028611}
+    value: 0.020424
+  - errors:
+    - {label: stat, symerror: 0.0021687}
+    value: 0.020142
+  - errors:
+    - {label: stat, symerror: 0.0021418}
+    value: 0.016858
+  - {value: 0.0}
+  - {value: 0.0}
+  - {value: 0.0}
+  - {value: 0.0}
+  - errors:
+    - {label: stat, symerror: 0.032774}
+    value: 0.032258
+  - errors:
+    - {label: stat, symerror: 0.0042158}
+    value: 0.010274
+  - errors:
+    - {label: stat, symerror: 0.0040183}
+    value: 0.028571
+  - errors:
+    - {label: stat, symerror: 0.0030003}
+    value: 0.036686
+  - errors:
+    - {label: stat, symerror: 0.0047726}
+    value: 0.038895
+  - {value: 0.0}
+  - {value: 0.0}
+  - {value: 0.0}
+  - {value: 0.0}
+  - errors:
+    - {label: stat, symerror: 0.0055499}
+    value: 0.016514
+  - errors:
+    - {label: stat, symerror: 0.0030812}
+    value: 0.024166
+  - errors:
+    - {label: stat, symerror: 0.0018205}
+    value: 0.034015
+  - errors:
+    - {label: stat, symerror: 0.0021934}
+    value: 0.039893
+  - errors:
+    - {label: stat, symerror: 0.015294}
+    value: 0.062937
+  - {value: 0.0}
+  - {value: 0.0}
+  - {value: 0.0}
+  - errors:
+    - {label: stat, symerror: 0.010713}
+    value: 0.015038
+  - errors:
+    - {label: stat, symerror: 0.004079}
+    value: 0.017159
+  - errors:
+    - {label: stat, symerror: 0.0018823}
+    value: 0.031346
+  - errors:
+    - {label: stat, symerror: 0.0014414}
+    value: 0.043334
+  - errors:
+    - {label: stat, symerror: 0.0035223}
+    value: 0.052299
+  - {value: 0.0}
+  - {value: 0.0}
+  - {value: 0.0}
+  - {value: 0.0}
+  - errors:
+    - {label: stat, symerror: 0.0057254}
+    value: 0.0080645
+  - errors:
+    - {label: stat, symerror: 0.0019888}
+    value: 0.0194
+  - errors:
+    - {label: stat, symerror: 0.00095811}
+    value: 0.035159
+  - errors:
+    - {label: stat, symerror: 0.0010896}
+    value: 0.053098
+independent_variables:
+- header: {name: m_DV, units: GeV}
+  values:
+  - {high: 15.0, low: 10.0}
+  - {high: 15.0, low: 10.0}
+  - {high: 15.0, low: 10.0}
+  - {high: 15.0, low: 10.0}
+  - {high: 15.0, low: 10.0}
+  - {high: 15.0, low: 10.0}
+  - {high: 15.0, low: 10.0}
+  - {high: 15.0, low: 10.0}
+  - {high: 20.0, low: 15.0}
+  - {high: 20.0, low: 15.0}
+  - {high: 20.0, low: 15.0}
+  - {high: 20.0, low: 15.0}
+  - {high: 20.0, low: 15.0}
+  - {high: 20.0, low: 15.0}
+  - {high: 20.0, low: 15.0}
+  - {high: 20.0, low: 15.0}
+  - {high: 30.0, low: 20.0}
+  - {high: 30.0, low: 20.0}
+  - {high: 30.0, low: 20.0}
+  - {high: 30.0, low: 20.0}
+  - {high: 30.0, low: 20.0}
+  - {high: 30.0, low: 20.0}
+  - {high: 30.0, low: 20.0}
+  - {high: 30.0, low: 20.0}
+  - {high: 50.0, low: 30.0}
+  - {high: 50.0, low: 30.0}
+  - {high: 50.0, low: 30.0}
+  - {high: 50.0, low: 30.0}
+  - {high: 50.0, low: 30.0}
+  - {high: 50.0, low: 30.0}
+  - {high: 50.0, low: 30.0}
+  - {high: 50.0, low: 30.0}
+  - {high: 100.0, low: 50.0}
+  - {high: 100.0, low: 50.0}
+  - {high: 100.0, low: 50.0}
+  - {high: 100.0, low: 50.0}
+  - {high: 100.0, low: 50.0}
+  - {high: 100.0, low: 50.0}
+  - {high: 100.0, low: 50.0}
+  - {high: 100.0, low: 50.0}
+  - {high: 200.0, low: 100.0}
+  - {high: 200.0, low: 100.0}
+  - {high: 200.0, low: 100.0}
+  - {high: 200.0, low: 100.0}
+  - {high: 200.0, low: 100.0}
+  - {high: 200.0, low: 100.0}
+  - {high: 200.0, low: 100.0}
+  - {high: 200.0, low: 100.0}
+  - {high: 500.0, low: 200.0}
+  - {high: 500.0, low: 200.0}
+  - {high: 500.0, low: 200.0}
+  - {high: 500.0, low: 200.0}
+  - {high: 500.0, low: 200.0}
+  - {high: 500.0, low: 200.0}
+  - {high: 500.0, low: 200.0}
+  - {high: 500.0, low: 200.0}
+  - {high: 5000.0, low: 500.0}
+  - {high: 5000.0, low: 500.0}
+  - {high: 5000.0, low: 500.0}
+  - {high: 5000.0, low: 500.0}
+  - {high: 5000.0, low: 500.0}
+  - {high: 5000.0, low: 500.0}
+  - {high: 5000.0, low: 500.0}
+  - {high: 5000.0, low: 500.0}
+- header: {name: n_tracks}
+  values:
+  - {high: 6.0, low: 5.0}
+  - {high: 7.0, low: 6.0}
+  - {high: 10.0, low: 7.0}
+  - {high: 15.0, low: 10.0}
+  - {high: 20.0, low: 15.0}
+  - {high: 30.0, low: 20.0}
+  - {high: 50.0, low: 30.0}
+  - {high: 200.0, low: 50.0}
+  - {high: 6.0, low: 5.0}
+  - {high: 7.0, low: 6.0}
+  - {high: 10.0, low: 7.0}
+  - {high: 15.0, low: 10.0}
+  - {high: 20.0, low: 15.0}
+  - {high: 30.0, low: 20.0}
+  - {high: 50.0, low: 30.0}
+  - {high: 200.0, low: 50.0}
+  - {high: 6.0, low: 5.0}
+  - {high: 7.0, low: 6.0}
+  - {high: 10.0, low: 7.0}
+  - {high: 15.0, low: 10.0}
+  - {high: 20.0, low: 15.0}
+  - {high: 30.0, low: 20.0}
+  - {high: 50.0, low: 30.0}
+  - {high: 200.0, low: 50.0}
+  - {high: 6.0, low: 5.0}
+  - {high: 7.0, low: 6.0}
+  - {high: 10.0, low: 7.0}
+  - {high: 15.0, low: 10.0}
+  - {high: 20.0, low: 15.0}
+  - {high: 30.0, low: 20.0}
+  - {high: 50.0, low: 30.0}
+  - {high: 200.0, low: 50.0}
+  - {high: 6.0, low: 5.0}
+  - {high: 7.0, low: 6.0}
+  - {high: 10.0, low: 7.0}
+  - {high: 15.0, low: 10.0}
+  - {high: 20.0, low: 15.0}
+  - {high: 30.0, low: 20.0}
+  - {high: 50.0, low: 30.0}
+  - {high: 200.0, low: 50.0}
+  - {high: 6.0, low: 5.0}
+  - {high: 7.0, low: 6.0}
+  - {high: 10.0, low: 7.0}
+  - {high: 15.0, low: 10.0}
+  - {high: 20.0, low: 15.0}
+  - {high: 30.0, low: 20.0}
+  - {high: 50.0, low: 30.0}
+  - {high: 200.0, low: 50.0}
+  - {high: 6.0, low: 5.0}
+  - {high: 7.0, low: 6.0}
+  - {high: 10.0, low: 7.0}
+  - {high: 15.0, low: 10.0}
+  - {high: 20.0, low: 15.0}
+  - {high: 30.0, low: 20.0}
+  - {high: 50.0, low: 30.0}
+  - {high: 200.0, low: 50.0}
+  - {high: 6.0, low: 5.0}
+  - {high: 7.0, low: 6.0}
+  - {high: 10.0, low: 7.0}
+  - {high: 15.0, low: 10.0}
+  - {high: 20.0, low: 15.0}
+  - {high: 30.0, low: 20.0}
+  - {high: 50.0, low: 30.0}
+  - {high: 200.0, low: 50.0}

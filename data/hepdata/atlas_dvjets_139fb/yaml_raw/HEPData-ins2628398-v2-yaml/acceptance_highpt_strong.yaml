@@ -1,0 +1,66 @@
+dependent_variables:
+- header: {name: Acceptance}
+  qualifiers:
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  - {name: '$m(\tilde{g})$', units: GeV, value: 2000.0}
+  - {name: '$m(\tilde{\chi}^0_1)$', units: GeV, value: 850}
+  - {name: $\tau$, units: ns, value: 0.01}
+  values:
+  - {value: 0.999}
+  - {value: 0.999}
+  - {value: 0.296}
+  - {value: 0.296}
+  - {value: 0.296}
+  - {value: 0.296}
+- header: {name: Acceptance}
+  qualifiers:
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  - {name: '$m(\tilde{g})$', units: GeV, value: 2000.0}
+  - {name: '$m(\tilde{\chi}^0_1)$', units: GeV, value: 50}
+  - {name: $\tau$, units: ns, value: 0.1}
+  values:
+  - {value: 0.966}
+  - {value: 0.787}
+  - {value: 0.77}
+  - {value: 0.756}
+  - {value: 0.755}
+  - {value: 0.747}
+- header: {name: Acceptance}
+  qualifiers:
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  - {name: '$m(\tilde{g})$', units: GeV, value: 2400.0}
+  - {name: '$m(\tilde{\chi}^0_1)$', units: GeV, value: 200}
+  - {name: $\tau$, units: ns, value: 1.0}
+  values:
+  - {value: 0.972}
+  - {value: 0.447}
+  - {value: 0.438}
+  - {value: 0.437}
+  - {value: 0.437}
+  - {value: 0.437}
+- header: {name: Acceptance}
+  qualifiers:
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  - {name: '$m(\tilde{g})$', units: GeV, value: 2000.0}
+  - {name: '$m(\tilde{\chi}^0_1)$', units: GeV, value: 1250}
+  - {name: $\tau$, units: ns, value: 10.0}
+  values:
+  - {value: 0.961}
+  - {value: 0.317}
+  - {value: 0.309}
+  - {value: 0.309}
+  - {value: 0.309}
+  - {value: 0.309}
+independent_variables:
+- header: {name: Selections}
+  values:
+  - {value: Jet selection}
+  - {value: '$\ge 1$ DV, $R_{xy}$ < 300 mm and $|z|$ < 300 mm'}
+  - {value: '$\ge 1$ DV, $L_{xy}\ge 4$ mm'}
+  - {value: '$\ge 1$ DV, $\ge 1$ charged-particle with $|d_0| > 2$ mm'}
+  - {value: '$\ge 1$ DV, $n_{\textit{selected decay products}} \geq 5$'}
+  - {value: '$\ge 1$ DV, $m_{DV}\ge 10$ GeV'}

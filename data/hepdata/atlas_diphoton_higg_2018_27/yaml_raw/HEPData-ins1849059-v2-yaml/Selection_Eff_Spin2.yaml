@@ -1,0 +1,8 @@
+dependent_variables:
+- header: {name: Functional Form}
+  values:
+  - {value: '$0.541 - 0.268 \exp( -0.878 m_{G^{*}})$'}
+independent_variables:
+- header: {name: Spin-2 selection efficiency}
+  values:
+  - {value: '$C_X\cdot A_X(m_{G^{*}} [\textrm{TeV}])$'}

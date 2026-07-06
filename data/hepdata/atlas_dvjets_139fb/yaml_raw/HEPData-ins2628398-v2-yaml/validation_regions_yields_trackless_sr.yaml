@@ -1,0 +1,56 @@
+dependent_variables:
+- header: {name: Number of Events Expected}
+  qualifiers:
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  values:
+  - errors:
+    - {label: syst, symerror: 0.47059}
+    value: 1.0
+  - errors:
+    - {label: syst, symerror: 0.35}
+    value: 1.0
+  - errors:
+    - {label: syst, symerror: 0.28302}
+    value: 1.0
+  - errors:
+    - {label: syst, symerror: 0.42636}
+    value: 1.0
+  - errors:
+    - {label: syst, symerror: 0.11209}
+    value: 1.0
+  - errors:
+    - {label: syst, symerror: 0.41273}
+    value: 1.0
+- header: {name: Number of Events Observed}
+  qualifiers:
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  values:
+  - errors:
+    - {label: stat, symerror: 1.0189}
+    value: 1.7647
+  - errors:
+    - {label: stat, symerror: 0.43301}
+    value: 0.75
+  - errors:
+    - {label: stat, symerror: 0.53367}
+    value: 1.5094
+  - errors:
+    - {label: stat, symerror: 0.31008}
+    value: 1.2403
+  - errors:
+    - {label: stat, symerror: 0.22654}
+    value: 0.93407
+  - errors:
+    - {label: stat, symerror: 0.40656}
+    value: 0.90909
+independent_variables:
+- header: {name: Selections}
+  values:
+  - {value: '$N_{trk}=4$, $m_{DV}=10-20$ GeV, Outside Material'}
+  - {value: '$N_{trk}=4$, $m_{DV}\ge 20$ GeV, Outside Material'}
+  - {value: '$N_{trk}\ge 5$, $m_{DV}=5-10$ GeV, Outside Material'}
+  - {value: '$N_{trk}=4$, $m_{DV}=10-25$ GeV, Inside Material'}
+  - {value: '$N_{trk}\ge 5$, $m_{DV}=10-15$ GeV, Inside Material'}
+  - {value: '$N_{trk}\ge 5$, $m_{DV}=15-25$ GeV, Inside Material'}

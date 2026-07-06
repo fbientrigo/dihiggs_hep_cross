@@ -1,0 +1,230 @@
+dependent_variables:
+- header: {name: Observed Data Events}
+  qualifiers:
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  values:
+  - {value: 2498.0}
+  - {value: 3552.0}
+  - {value: 4818.0}
+  - {value: 6975.0}
+  - {value: 10131.0}
+  - {value: 12513.0}
+  - {value: 13208.0}
+  - {value: 12806.0}
+  - {value: 10021.0}
+  - {value: 12645.0}
+  - {value: 9607.0}
+  - {value: 7716.0}
+  - {value: 6026.0}
+  - {value: 4616.0}
+  - {value: 3306.0}
+  - {value: 2453.0}
+  - {value: 1704.0}
+  - {value: 1241.0}
+  - {value: 827.0}
+  - {value: 419.0}
+  - {value: 369.0}
+  - {value: 266.0}
+  - {value: 148.0}
+  - {value: 82.0}
+  - {value: 23.0}
+  - {value: 14.0}
+  - {value: 23.0}
+  - {value: 36.0}
+  - {value: 65.0}
+  - {value: 61.0}
+  - {value: 57.0}
+  - {value: 46.0}
+  - {value: 27.0}
+  - {value: 31.0}
+  - {value: 26.0}
+  - {value: 13.0}
+  - {value: 10.0}
+  - {value: 14.0}
+  - {value: 328.0}
+  - {value: 301.0}
+  - {value: 264.0}
+  - {value: 149.0}
+  - {value: 71.0}
+  - {value: 8.0}
+  - {value: 2.0}
+  - {value: 1.0}
+  - {value: 1.0}
+  - {value: 1.0}
+  - {value: 1.0}
+  - {value: 2.0}
+  - {value: 1.0}
+  - {value: 113.0}
+  - {value: 138.0}
+  - {value: 167.0}
+  - {value: 123.0}
+  - {value: 60.0}
+  - {value: 9.0}
+  - {value: 1.0}
+  - {value: 20.0}
+  - {value: 40.0}
+  - {value: 57.0}
+  - {value: 56.0}
+  - {value: 33.0}
+  - {value: 7.0}
+  - {value: 2.0}
+  - {value: 9.0}
+  - {value: 7.0}
+  - {value: 20.0}
+  - {value: 9.0}
+  - {value: 6.0}
+  - {value: 2.0}
+  - {value: 4.0}
+  - {value: 3.0}
+independent_variables:
+- header: {name: '$n_{tracks, DV}$'}
+  values:
+  - {high: 3.0, low: 2.0}
+  - {high: 3.0, low: 2.0}
+  - {high: 3.0, low: 2.0}
+  - {high: 3.0, low: 2.0}
+  - {high: 3.0, low: 2.0}
+  - {high: 3.0, low: 2.0}
+  - {high: 3.0, low: 2.0}
+  - {high: 3.0, low: 2.0}
+  - {high: 3.0, low: 2.0}
+  - {high: 3.0, low: 2.0}
+  - {high: 3.0, low: 2.0}
+  - {high: 3.0, low: 2.0}
+  - {high: 3.0, low: 2.0}
+  - {high: 3.0, low: 2.0}
+  - {high: 3.0, low: 2.0}
+  - {high: 3.0, low: 2.0}
+  - {high: 3.0, low: 2.0}
+  - {high: 3.0, low: 2.0}
+  - {high: 3.0, low: 2.0}
+  - {high: 4.0, low: 3.0}
+  - {high: 4.0, low: 3.0}
+  - {high: 4.0, low: 3.0}
+  - {high: 4.0, low: 3.0}
+  - {high: 4.0, low: 3.0}
+  - {high: 4.0, low: 3.0}
+  - {high: 4.0, low: 3.0}
+  - {high: 4.0, low: 3.0}
+  - {high: 4.0, low: 3.0}
+  - {high: 4.0, low: 3.0}
+  - {high: 4.0, low: 3.0}
+  - {high: 4.0, low: 3.0}
+  - {high: 4.0, low: 3.0}
+  - {high: 4.0, low: 3.0}
+  - {high: 4.0, low: 3.0}
+  - {high: 4.0, low: 3.0}
+  - {high: 4.0, low: 3.0}
+  - {high: 4.0, low: 3.0}
+  - {high: 4.0, low: 3.0}
+  - {high: 5.0, low: 4.0}
+  - {high: 5.0, low: 4.0}
+  - {high: 5.0, low: 4.0}
+  - {high: 5.0, low: 4.0}
+  - {high: 5.0, low: 4.0}
+  - {high: 5.0, low: 4.0}
+  - {high: 5.0, low: 4.0}
+  - {high: 5.0, low: 4.0}
+  - {high: 5.0, low: 4.0}
+  - {high: 5.0, low: 4.0}
+  - {high: 5.0, low: 4.0}
+  - {high: 5.0, low: 4.0}
+  - {high: 5.0, low: 4.0}
+  - {high: 6.0, low: 5.0}
+  - {high: 6.0, low: 5.0}
+  - {high: 6.0, low: 5.0}
+  - {high: 6.0, low: 5.0}
+  - {high: 6.0, low: 5.0}
+  - {high: 6.0, low: 5.0}
+  - {high: 6.0, low: 5.0}
+  - {high: 7.0, low: 6.0}
+  - {high: 7.0, low: 6.0}
+  - {high: 7.0, low: 6.0}
+  - {high: 7.0, low: 6.0}
+  - {high: 7.0, low: 6.0}
+  - {high: 7.0, low: 6.0}
+  - {high: 8.0, low: 7.0}
+  - {high: 8.0, low: 7.0}
+  - {high: 8.0, low: 7.0}
+  - {high: 8.0, low: 7.0}
+  - {high: 8.0, low: 7.0}
+  - {high: 8.0, low: 7.0}
+  - {high: 9.0, low: 8.0}
+  - {high: 9.0, low: 8.0}
+  - {high: 9.0, low: 8.0}
+- header: {name: '$m_{DV}$', units: GeV}
+  values:
+  - {high: 2.3415, low: 2.039}
+  - {high: 2.7243, low: 2.3415}
+  - {high: 3.2088, low: 2.7243}
+  - {high: 3.822, low: 3.2088}
+  - {high: 4.598, low: 3.822}
+  - {high: 5.5801, low: 4.598}
+  - {high: 6.8231, low: 5.5801}
+  - {high: 8.3961, low: 6.8231}
+  - {high: 10.0, low: 8.3961}
+  - {high: 12.906, low: 10.0}
+  - {high: 16.095, low: 12.906}
+  - {high: 20.13, low: 16.095}
+  - {high: 25.237, low: 20.13}
+  - {high: 31.701, low: 25.237}
+  - {high: 39.881, low: 31.701}
+  - {high: 50.233, low: 39.881}
+  - {high: 63.334, low: 50.233}
+  - {high: 79.915, low: 63.334}
+  - {high: 100.0, low: 79.916}
+  - {high: 2.3415, low: 2.039}
+  - {high: 2.7243, low: 2.3415}
+  - {high: 3.2088, low: 2.7243}
+  - {high: 3.822, low: 3.2088}
+  - {high: 4.598, low: 3.822}
+  - {high: 5.5801, low: 4.598}
+  - {high: 6.8231, low: 5.5801}
+  - {high: 8.3961, low: 6.8231}
+  - {high: 10.0, low: 8.3961}
+  - {high: 12.906, low: 10.0}
+  - {high: 16.095, low: 12.906}
+  - {high: 20.13, low: 16.095}
+  - {high: 25.237, low: 20.13}
+  - {high: 31.701, low: 25.237}
+  - {high: 39.881, low: 31.701}
+  - {high: 50.233, low: 39.881}
+  - {high: 63.334, low: 50.233}
+  - {high: 79.915, low: 63.334}
+  - {high: 100.0, low: 79.916}
+  - {high: 2.3415, low: 2.039}
+  - {high: 2.7243, low: 2.3415}
+  - {high: 3.2088, low: 2.7243}
+  - {high: 3.822, low: 3.2088}
+  - {high: 4.598, low: 3.822}
+  - {high: 5.5801, low: 4.598}
+  - {high: 6.8231, low: 5.5801}
+  - {high: 8.3961, low: 6.8231}
+  - {high: 12.906, low: 10.0}
+  - {high: 16.095, low: 12.906}
+  - {high: 20.13, low: 16.095}
+  - {high: 31.701, low: 25.237}
+  - {high: 63.334, low: 50.233}
+  - {high: 2.3415, low: 2.039}
+  - {high: 2.7243, low: 2.3415}
+  - {high: 3.2088, low: 2.7243}
+  - {high: 3.822, low: 3.2088}
+  - {high: 4.598, low: 3.822}
+  - {high: 5.5801, low: 4.598}
+  - {high: 6.8231, low: 5.5801}
+  - {high: 2.3415, low: 2.039}
+  - {high: 2.7243, low: 2.3415}
+  - {high: 3.2088, low: 2.7243}
+  - {high: 3.822, low: 3.2088}
+  - {high: 4.598, low: 3.822}
+  - {high: 5.5801, low: 4.598}
+  - {high: 2.3415, low: 2.039}
+  - {high: 2.7243, low: 2.3415}
+  - {high: 3.2088, low: 2.7243}
+  - {high: 3.822, low: 3.2088}
+  - {high: 4.598, low: 3.822}
+  - {high: 5.5801, low: 4.598}
+  - {high: 2.7243, low: 2.3415}
+  - {high: 3.822, low: 3.2088}
+  - {high: 4.598, low: 3.822}

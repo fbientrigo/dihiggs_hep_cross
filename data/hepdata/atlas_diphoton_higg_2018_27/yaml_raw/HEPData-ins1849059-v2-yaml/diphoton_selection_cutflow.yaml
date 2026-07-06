@@ -1,0 +1,55 @@
+dependent_variables:
+- header: {name: Scalar NWA m_X = 1 TeV Event Yield}
+  qualifiers:
+  - {name: RE, value: P P --> X/G* --> gamma gamma}
+  - {name: SQRT(S), units: GeV, value: 13000}
+  values:
+  - {value: 15701.4}
+  - {value: --}
+  - {value: --}
+  - {value: 11661.9}
+  - {value: 11017.1}
+  - {value: 10293.0}
+  - {value: 10102.6}
+  - {value: 10101.7}
+  - {value: 8836.4}
+- header: {name: Graviton k/Mpl = 0.01 m_G* = 1 TeV Event Yield}
+  qualifiers:
+  - {name: RE, value: P P --> X/G* --> gamma gamma}
+  - {name: SQRT(S), units: GeV, value: 13000}
+  values:
+  - {value: 1683.0}
+  - {value: --}
+  - {value: --}
+  - {value: 1140.7}
+  - {value: 1084.9}
+  - {value: 1006.0}
+  - {value: 903.4}
+  - {value: 903.3}
+  - {value: 705.6}
+- header: {name: Data Event Yield}
+  qualifiers:
+  - {name: RE, value: P P --> X/G* --> gamma gamma}
+  - {name: SQRT(S), units: GeV, value: 13000}
+  values:
+  - {value: 365011700}
+  - {value: 357465116}
+  - {value: 304294740}
+  - {value: 86527138}
+  - {value: 58313326}
+  - {value: 15004652}
+  - {value: 5935407}
+  - {value: 747366}
+  - {value: 433919}
+independent_variables:
+- header: {name: Selection Cut}
+  values:
+  - {value: All events (trigger preselection)}
+  - {value: All ATLAS subsystems operational}
+  - {value: Trigger}
+  - {value: 2 loose photons}
+  - {value: Trigger match}
+  - {value: tight photon identification}
+  - {value: Isolation}
+  - {value: $m(gamma gamma) > $ 150 GeV}
+  - {value: 'Relative E_{T} cuts'}

@@ -1,0 +1,19 @@
+dependent_variables:
+- header: {name: Functional Form}
+  values:
+  - {value: '$0.310 - 0.732\cdot 10^{-3}\,m_{\rm{X}}$'}
+  - {value: '$1.179 + 0.569\cdot 10^{-2}\,m_{\rm{X}}$'}
+  - {value: '$1.367 - 0.604\cdot 10^{-4}\,m_{\rm{X}}$'}
+  - {value: '$1.717 - 0.018\cdot 10^{-4}\,m_{\rm{X}}$'}
+  - {value: 19.7 (const.)}
+  - {value: 16.9 (const.)}
+independent_variables:
+- header: {name: 'Double-sided Crystal Ball parameters as a function of $m_{\rm{X}}$
+      for spin-0 signals'}
+  values:
+  - {value: '$\Delta m_{\rm{X}}$'}
+  - {value: '$\sigma_\textrm{CB}$'}
+  - {value: '$\alpha_\textrm{low}$'}
+  - {value: '$\alpha_\textrm{high}$'}
+  - {value: '$n_\textrm{low}$'}
+  - {value: '$n_\textrm{high}$'}

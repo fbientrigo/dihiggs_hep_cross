@@ -1,0 +1,16 @@
+dependent_variables:
+- header: {name: Functional Forms}
+  values:
+  - {value: '$-5.957 - 0.335\exp(-3.07m_{\rm{X}})  + 6.74\exp(-0.00344m_{\rm{X}})$'}
+  - {value: '$-5.968 - 0.230\exp(-2.999m_{\rm{X}}) + 6.730\exp(0.0011m_{\rm{X}})$'}
+  - {value: '$-6.046 - 0.204\exp(-1.883m_{\rm{X}}) + 6.647\exp(0.0047m_{\rm{X}})$'}
+  - {value: '$-5.951 - 0.368\exp(-3.220m_{\rm{X}}) + 6.746\exp(0.000003m_{\rm{X}})$'}
+  - {value: '$-6.021 - 0.323\exp(-3.812m_{\rm{X}}) + 6.675\exp(0.0021m_{\rm{X}})$'}
+independent_variables:
+- header: {name: Spin-0 Cx and Ax factors}
+  values:
+  - {value: '$C_X^\textrm{ggF}(m_{\rm{X}}[\textrm{TeV}])$'}
+  - {value: '$A_X^\textrm{ggF}(m_{\rm{X}}[\textrm{TeV}])$'}
+  - {value: '$A_X^\textrm{ttH}(m_{\rm{X}}[\textrm{TeV}])$'}
+  - {value: '$A_X^\textrm{VBF}(m_{\rm{X}}[\textrm{TeV}])$'}
+  - {value: '$A_X^\textrm{VX}(m_{\rm{X}}[\textrm{TeV}])$'}

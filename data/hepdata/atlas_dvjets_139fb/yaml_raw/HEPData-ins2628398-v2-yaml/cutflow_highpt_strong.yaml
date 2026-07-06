@@ -1,0 +1,86 @@
+dependent_variables:
+- header: {name: Full Sim $A\times\epsilon$}
+  qualifiers:
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  - {name: '$m(\tilde{g})$', units: GeV, value: 2000.0}
+  - {name: '$m(\tilde{\chi}^0_1)$', units: GeV, value: 850}
+  - {name: $\tau$, units: ns, value: 0.01}
+  values:
+  - {value: 1.0}
+  - {value: 1.0}
+  - {value: 0.9986}
+  - {value: 0.929}
+  - {value: 0.877}
+  - {value: 0.873}
+  - {value: 0.578}
+  - {value: 0.278}
+  - {value: 0.278}
+  - {value: 0.278}
+- header: {name: Full Sim $A\times\epsilon$}
+  qualifiers:
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  - {name: '$m(\tilde{g})$', units: GeV, value: 2000.0}
+  - {name: '$m(\tilde{\chi}^0_1)$', units: GeV, value: 50}
+  - {name: $\tau$, units: ns, value: 0.1}
+  values:
+  - {value: 1.0}
+  - {value: 0.998}
+  - {value: 0.961}
+  - {value: 0.854}
+  - {value: 0.852}
+  - {value: 0.839}
+  - {value: 0.516}
+  - {value: 0.186}
+  - {value: 0.144}
+  - {value: 0.144}
+- header: {name: Full Sim $A\times\epsilon$}
+  qualifiers:
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  - {name: '$m(\tilde{g})$', units: GeV, value: 2400.0}
+  - {name: '$m(\tilde{\chi}^0_1)$', units: GeV, value: 200}
+  - {name: $\tau$, units: ns, value: 1.0}
+  values:
+  - {value: 0.999}
+  - {value: 0.997}
+  - {value: 0.964}
+  - {value: 0.796}
+  - {value: 0.793}
+  - {value: 0.78}
+  - {value: 0.437}
+  - {value: 0.12}
+  - {value: 0.115}
+  - {value: 0.115}
+- header: {name: Full Sim $A\times\epsilon$}
+  qualifiers:
+  - {name: Luminosity, units: 'fb$^{-1}$', value: 139}
+  - {name: Energy, units: TeV, value: 13}
+  - {name: '$m(\tilde{g})$', units: GeV, value: 2000.0}
+  - {name: '$m(\tilde{\chi}^0_1)$', units: GeV, value: 1250}
+  - {name: $\tau$, units: ns, value: 10.0}
+  values:
+  - {value: 0.995}
+  - {value: 0.962}
+  - {value: 0.913}
+  - {value: 0.7}
+  - {value: 0.696}
+  - {value: 0.685}
+  - {value: 0.387}
+  - {value: 0.094}
+  - {value: 0.092}
+  - {value: 0.092}
+independent_variables:
+- header: {name: Selections}
+  values:
+  - {value: Multijet trigger}
+  - {value: Filter}
+  - {value: Jet Selection}
+  - {value: '$\ge 1$ DV, $R_{xy}$ < 300 mm and $|z|$ < 300 mm'}
+  - {value: '$\ge 1$ DV, $\text{min}(|\vec{R}_\text{DV} - \vec{R}_\text{CV}|)>4$ mm'}
+  - {value: '$\ge 1$ DV, $\chi^2/n_\textrm{DoF}<5$'}
+  - {value: '$\ge 1$ DV, pass material map veto'}
+  - {value: '$\ge 1$ DV, $n^\text{DV}_\text{Tracks} \geq 5$'}
+  - {value: '$\ge 1$ DV, $m_{DV}\ge 10$ GeV'}
+  - {value: '$\ge 1$ DV, $n_{\text{Selected tracks}}^{\text{DV}}\geq 2$'}
