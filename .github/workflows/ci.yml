@@ -1,0 +1,37 @@
+name: CI
+
+# Runs the python test suite and the recast-input data-contract checks. No
+# MadGraph / 2HDMC / HDECAY build is required for these.
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  python-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest "PyYAML>=6.0" "pandas>=2.0" "numpy" "matplotlib>=3.8"
+
+      - name: Run tests
+        env:
+          PYTHONPATH: src
+        run: pytest -q
+
+      - name: Contract YAML mirror is in sync with code
+        env:
+          PYTHONPATH: src
+        run: |
+          python -m llp_recast.data_contract --emit
+          git diff --exit-code -- contracts/model_point_to_llp_recast_v1.yaml

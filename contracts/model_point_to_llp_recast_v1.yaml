@@ -1,0 +1,40 @@
+name: model_point_to_llp_recast_v1
+produced_by: a BSM scalar-pair scan (e.g. dihiggs / dihiggs_boundary)
+consumed_by: src/llp_recast, scripts/03_paper_s_benchmark_proxy.py
+required_columns:
+- model
+- point_id
+- m_scalar_GeV
+- total_width_GeV
+- ctau_mm
+- sigma_production_fb
+- BR_bb
+- BR_WW
+- BR_ZZ
+- BR_gg
+- BR_tautau
+- BR_hadronic_proxy
+- beta_gamma_source
+- recast_channel_hint
+aliases:
+  ctau_mm:
+  - ctau_mm_H2
+  total_width_GeV:
+  - total_width_H2
+  m_scalar_GeV:
+  - mS_GeV
+invariants:
+- name: ctau_mm == hbar_c / total_width_GeV
+  output: ctau_mm
+  numerator: 1.973269804e-13
+  denominator: total_width_GeV
+  rel_tol: 0.0001
+- name: sum(BR_bb..BR_tautau) <= 1
+  kind: sum_le_one
+  columns:
+  - BR_bb
+  - BR_WW
+  - BR_ZZ
+  - BR_gg
+  - BR_tautau
+  abs_tol: 1.0e-06
