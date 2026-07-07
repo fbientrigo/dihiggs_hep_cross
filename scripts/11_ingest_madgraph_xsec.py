@@ -10,15 +10,19 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
-from typing import Iterable
 
-import numpy as np
 import pandas as pd
 
 from llp_recast.madgraph import (
     MADGRAPH_RUN_COLUMNS as NORMALIZED_INPUT_COLUMNS,
     MADGRAPH_TEMPLATE_COLUMNS as TEMPLATE_COLUMNS,
     infer_production_mode as _infer_production_mode,
+)
+from llp_recast.tables import (
+    empty_frame as _empty,
+    finite_positive as _finite_positive,
+    numeric_column as _numeric,
+    read_csv_or_empty,
 )
 
 DEFAULT_MADGRAPH_TABLE = Path("data/manual/madgraph_xsec_runs.csv")
@@ -39,28 +43,6 @@ SIGMA_COLUMNS = [
 # TEMPLATE_COLUMNS / NORMALIZED_INPUT_COLUMNS are imported from llp_recast.madgraph
 # (the single source of truth for the MadGraph run-table schema) and re-exported
 # here under their historical names.
-
-
-def _empty(columns: Iterable[str]) -> pd.DataFrame:
-    return pd.DataFrame(columns=list(columns))
-
-
-def _numeric(df: pd.DataFrame, column: str) -> pd.Series:
-    if column not in df.columns:
-        return pd.Series(pd.NA, index=df.index, dtype="Float64")
-    return pd.to_numeric(df[column], errors="coerce")
-
-
-def _finite_positive(series: pd.Series) -> pd.Series:
-    numeric = pd.to_numeric(series, errors="coerce")
-    values = numeric.to_numpy(dtype=float, na_value=np.nan)
-    return pd.Series(np.isfinite(values) & (values > 0), index=series.index)
-
-
-def read_csv_or_empty(path: Path) -> pd.DataFrame:
-    if not path.exists():
-        return pd.DataFrame()
-    return pd.read_csv(path)
 
 
 def known_point_ids(priority: pd.DataFrame) -> set[str]:

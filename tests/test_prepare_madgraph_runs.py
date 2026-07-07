@@ -69,7 +69,7 @@ def test_render_decks_writes_substituted_files(tmp_path):
     skeleton = mg.build_run_skeleton(priority, deck_root=deck_root)
     templates = mod.load_templates(TEMPLATE_DIR)
 
-    dirs = mod.render_decks(priority, skeleton, templates, deck_root=deck_root, model_name=mg.MODEL_PLACEHOLDER)
+    dirs = mod.render_decks(skeleton, templates, deck_root=deck_root, model_name=mg.MODEL_PLACEHOLDER)
 
     assert len(dirs) == 2
     proc = (deck_root / "mg_scan_tb_10000_row42" / "proc_card.dat").read_text()

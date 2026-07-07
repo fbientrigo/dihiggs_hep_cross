@@ -33,6 +33,7 @@ from llp_recast.madgraph import (
     deck_context,
     render_template,
 )
+from llp_recast.tables import read_csv_or_empty
 
 DEFAULT_PRIORITY = Path("outputs/diphoton_2hdmc_bridge/priority_points_for_sigma.csv")
 DEFAULT_DECK_ROOT = Path("outputs/madgraph_runs")
@@ -47,12 +48,6 @@ DECK_FILES = {
 }
 
 NON_EXCLUSION_FLAG = "NOT_EXCLUSION_ACCEPTANCE_AND_SIGNAL_MODEL_REQUIRED"
-
-
-def read_csv_or_empty(path: Path) -> pd.DataFrame:
-    if not path.exists():
-        return pd.DataFrame()
-    return pd.read_csv(path)
 
 
 def load_templates(template_dir: Path) -> dict[str, str]:
@@ -71,7 +66,6 @@ def load_templates(template_dir: Path) -> dict[str, str]:
 
 
 def render_decks(
-    priority: pd.DataFrame,
     skeleton: pd.DataFrame,
     templates: dict[str, str],
     *,
@@ -96,7 +90,7 @@ def render_decks(
     return written
 
 
-def write_readme(deck_root: Path, *, priority: pd.DataFrame, skeleton: pd.DataFrame, skeleton_path: Path, model_name: str) -> Path:
+def write_readme(deck_root: Path, *, priority: pd.DataFrame, skeleton: pd.DataFrame, model_name: str) -> Path:
     path = deck_root / "README.md"
     text = f"""# MadGraph run preparation
 
@@ -168,8 +162,8 @@ def main() -> int:
     args.skeleton_out.parent.mkdir(parents=True, exist_ok=True)
     skeleton.to_csv(args.skeleton_out, index=False)
 
-    decks = render_decks(priority, skeleton, templates, deck_root=args.deck_root, model_name=args.model_name)
-    write_readme(args.deck_root, priority=priority, skeleton=skeleton, skeleton_path=args.skeleton_out, model_name=args.model_name)
+    decks = render_decks(skeleton, templates, deck_root=args.deck_root, model_name=args.model_name)
+    write_readme(args.deck_root, priority=priority, skeleton=skeleton, model_name=args.model_name)
 
     print(f"[OK] wrote run-table skeleton under {args.skeleton_out}")
     print(f"[OK] priority points loaded: {len(priority)}")

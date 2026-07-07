@@ -18,9 +18,11 @@ from __future__ import annotations
 import re
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Iterable, Mapping
+from typing import Mapping
 
 import pandas as pd
+
+from llp_recast.tables import empty_frame
 
 # --- Normalized run-table schema -------------------------------------------
 
@@ -101,14 +103,6 @@ def render_template(text: str, mapping: Mapping[str, object]) -> str:
     return rendered
 
 
-def _empty(columns: Iterable[str]) -> pd.DataFrame:
-    return pd.DataFrame(columns=list(columns))
-
-
-def generated_at() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-
-
 def build_run_skeleton(
     priority: pd.DataFrame,
     *,
@@ -125,7 +119,7 @@ def build_run_skeleton(
     deck that ``scripts/12_prepare_madgraph_runs.py`` renders for the point.
     """
     if priority.empty or "point_id" not in priority.columns:
-        return _empty(MADGRAPH_TEMPLATE_COLUMNS)
+        return empty_frame(MADGRAPH_TEMPLATE_COLUMNS)
 
     context = [c for c in PRIORITY_CONTEXT_COLUMNS if c in priority.columns]
     skeleton = priority[context].head(max_rows).copy()
@@ -170,5 +164,5 @@ def deck_context(row: pd.Series, *, model_name: str = MODEL_PLACEHOLDER) -> dict
         "MH_GEV": row.get("m_H_GeV", ""),
         "WIDTH_GEV": row.get("Gamma_H_GeV", ""),
         "BR_GAGA": row.get("br_gaga", ""),
-        "GENERATED_AT": generated_at(),
+        "GENERATED_AT": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
