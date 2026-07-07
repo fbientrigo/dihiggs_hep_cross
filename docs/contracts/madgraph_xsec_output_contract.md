@@ -18,6 +18,10 @@ make madgraph-sigma
 data/manual/madgraph_xsec_runs.csv
 ```
 
+A pre-filled skeleton of this file (with blank cross sections and rendered input
+decks) is produced by the MadGraph run-preparation basis, `make madgraph-prepare`
+— see [`madgraph_run_preparation_contract.md`](madgraph_run_preparation_contract.md).
+
 ## Default output
 
 ```text

@@ -9,7 +9,18 @@ There are two supported entry points into the pipeline.
 
 ## Option A — via normalized MadGraph runs (recommended)
 
-Create `madgraph_xsec_runs.csv` with one row per MadGraph run, following
+You can generate a pre-filled starting point with the MadGraph basis:
+
+```bash
+make madgraph-prepare   # renders input decks + outputs/madgraph_runs/madgraph_xsec_runs_skeleton.csv
+```
+
+Run MadGraph on the rendered decks, record each cross section into the skeleton,
+and copy it to `madgraph_xsec_runs.csv` here. (See
+[`docs/contracts/madgraph_run_preparation_contract.md`](../../docs/contracts/madgraph_run_preparation_contract.md).)
+
+Alternatively, hand-write `madgraph_xsec_runs.csv` directly with one row per
+MadGraph run, following
 [`docs/contracts/madgraph_xsec_output_contract.md`](../../docs/contracts/madgraph_xsec_output_contract.md)
 (required key: `point_id`; at least one of `xsec_pb` / `xsec_fb`). Then:
 

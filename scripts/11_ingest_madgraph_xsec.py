@@ -15,6 +15,12 @@ from typing import Iterable
 import numpy as np
 import pandas as pd
 
+from llp_recast.madgraph import (
+    MADGRAPH_RUN_COLUMNS as NORMALIZED_INPUT_COLUMNS,
+    MADGRAPH_TEMPLATE_COLUMNS as TEMPLATE_COLUMNS,
+    infer_production_mode as _infer_production_mode,
+)
+
 DEFAULT_MADGRAPH_TABLE = Path("data/manual/madgraph_xsec_runs.csv")
 DEFAULT_PRIORITY = Path("outputs/diphoton_2hdmc_bridge/priority_points_for_sigma.csv")
 DEFAULT_SIGMA_OUTPUT = Path("data/manual/diphoton_sigma_inputs.csv")
@@ -30,47 +36,9 @@ SIGMA_COLUMNS = [
     "sigma_notes",
 ]
 
-TEMPLATE_COLUMNS = [
-    "point_id",
-    "priority_rank",
-    "m_H_GeV",
-    "Gamma_over_m",
-    "br_gaga",
-    "mg_run_name",
-    "process",
-    "sqrt_s_TeV",
-    "xsec_pb",
-    "xsec_fb",
-    "xsec_unc_pb",
-    "k_factor",
-    "production_mode",
-    "madgraph_version",
-    "model_name",
-    "param_card_path",
-    "run_card_path",
-    "banner_path",
-    "lhe_path",
-    "notes",
-]
-
-NORMALIZED_INPUT_COLUMNS = [
-    "point_id",
-    "mg_run_name",
-    "process",
-    "sqrt_s_TeV",
-    "xsec_pb",
-    "xsec_fb",
-    "xsec_unc_pb",
-    "k_factor",
-    "production_mode",
-    "madgraph_version",
-    "model_name",
-    "param_card_path",
-    "run_card_path",
-    "banner_path",
-    "lhe_path",
-    "notes",
-]
+# TEMPLATE_COLUMNS / NORMALIZED_INPUT_COLUMNS are imported from llp_recast.madgraph
+# (the single source of truth for the MadGraph run-table schema) and re-exported
+# here under their historical names.
 
 
 def _empty(columns: Iterable[str]) -> pd.DataFrame:
@@ -102,15 +70,10 @@ def known_point_ids(priority: pd.DataFrame) -> set[str]:
 
 
 def infer_production_mode(row: pd.Series) -> str:
-    existing = row.get("production_mode", "")
-    if isinstance(existing, str) and existing.strip():
-        return existing.strip()
-    process = str(row.get("process", "")).lower()
-    if "vbf" in process or "j j" in process or "jj" in process:
-        return "VBF"
-    if "g g" in process or "gg" in process or "gluon" in process:
-        return "ggF"
-    return "unknown"
+    return _infer_production_mode(
+        process=str(row.get("process", "")),
+        existing=str(row.get("production_mode", "")),
+    )
 
 
 def build_madgraph_template(priority: pd.DataFrame, max_rows: int = 50) -> pd.DataFrame:

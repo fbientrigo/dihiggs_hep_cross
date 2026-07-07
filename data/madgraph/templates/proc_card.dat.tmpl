@@ -1,0 +1,21 @@
+#***********************************************************************
+# MadGraph5_aMC@NLO proc_card  --  BASIS / TEMPLATE ONLY
+#-----------------------------------------------------------------------
+# Point   : {{POINT_ID}}
+# Run tag : {{RUN_NAME}}
+# Made    : {{GENERATED_AT}}
+#
+# This repository does NOT ship a UFO/model and does NOT install MadGraph.
+# Replace {{MODEL}} with a real model before running.  Production only:
+# BR(gamma gamma) is applied downstream (scripts/10_apply_sigma_inputs.py),
+# so this card must NOT include the H -> gamma gamma decay.
+#***********************************************************************
+import model {{MODEL}}
+
+# Heavy neutral scalar production.  Adjust the particle label (h2) and the
+# process to match the chosen UFO's naming.
+generate {{PROCESS}}
+# Example additional production mode (uncomment and adapt if needed):
+# add process p p > h2 j j
+
+output {{RUN_NAME}}
