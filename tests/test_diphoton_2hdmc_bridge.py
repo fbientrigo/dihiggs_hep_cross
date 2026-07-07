@@ -283,6 +283,34 @@ def test_priority_selection_is_capped_deterministic_and_favors_high_br_in_range(
     assert first["priority_rank"].tolist() == [1, 2]
 
 
+def test_default_search_roots_include_repo_local_drop_in_dir():
+    assert Path("data/2hdmc_scans") in mod.DEFAULT_SEARCH_ROOTS
+    assert not any("Asus" in str(root) or "dihiggs_lake" in str(root) for root in mod.DEFAULT_SEARCH_ROOTS)
+
+
+def test_default_search_roots_dir_is_discovered(monkeypatch, tmp_path):
+    drop_in = tmp_path / "data" / "2hdmc_scans"
+    drop_in.mkdir(parents=True)
+    scan = _write_csv(
+        drop_in / "scan_tb_dropped.csv",
+        [
+            {
+                "m_phi": 500,
+                "total_width": 5,
+                "br_gaga": 0.01,
+                "positivity_ok": 1,
+                "unitarity_ok": 1,
+                "perturbativity_ok": 1,
+            }
+        ],
+    )
+    monkeypatch.setattr(mod, "DEFAULT_SEARCH_ROOTS", (drop_in, tmp_path / "outputs", tmp_path / "data"))
+
+    candidates = mod.discover_scan_files(mod.default_search_roots())
+
+    assert scan in candidates
+
+
 def test_comparison_output_is_context_only_and_needs_sigma_x_br():
     priority = pd.DataFrame(
         [

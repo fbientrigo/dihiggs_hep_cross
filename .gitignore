@@ -14,6 +14,11 @@ outputs/
 # These are local inputs or generator outputs, not repo content; keep the README.
 data/manual/*.csv
 
+# Drop-in directory for real 2HDMC scan files (see data/2hdmc_scans/README.md).
+# Keep the README; ignore any real/large scan data placed here.
+data/2hdmc_scans/*
+!data/2hdmc_scans/README.md
+
 # Large/bootstrap archives
 *.tar.gz
 *.zip

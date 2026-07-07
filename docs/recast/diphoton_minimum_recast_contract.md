@@ -73,7 +73,8 @@ SPIN0_ASSUMPTION_OK_FOR_2HDM        — a 2HDM H2 is spin-0, matches the search'
 
 1. A 2HDM scan CSV with `m_phi`, `total_width`, `br_gaga` for real
    points (the columns exist per the task brief; no such file lives in
-   this repo yet).
+   this repo yet). The moment one exists, drop it in `data/2hdmc_scans/`
+   and follow [`2hdmc_handoff_runbook.md`](2hdmc_handoff_runbook.md).
 2. A cross-section tool (e.g. SusHi/HIGLU-style ggF, or VBF) to turn a
    2HDM point into `sigma_ggF_fb`/`sigma_VBF_fb`. Not run this session —
    out of the 30-minute compute budget and out of scope ("do not invent
