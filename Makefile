@@ -3,7 +3,7 @@
 PYTHONPATH := src
 
 test:
-	PYTHONPATH=$(PYTHONPATH) pytest
+	PYTHONPATH=$(PYTHONPATH) python3 -m pytest
 
 inventory:
 	PYTHONPATH=$(PYTHONPATH) python3 scripts/01_hepdata_inventory.py
