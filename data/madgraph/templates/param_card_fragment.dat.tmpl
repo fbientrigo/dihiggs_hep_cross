@@ -1,0 +1,19 @@
+#***********************************************************************
+# MadGraph5_aMC@NLO param_card fragment  --  BASIS / TEMPLATE ONLY
+#-----------------------------------------------------------------------
+# Point   : {{POINT_ID}}
+# Run tag : {{RUN_NAME}}
+# Made    : {{GENERATED_AT}}
+#
+# The heavy-scalar mass and total width below come from the 2HDMC priority
+# point for this point_id.  Map them onto the chosen UFO's actual block/param
+# names before running -- block names depend on the model and are unknown here.
+#
+#   heavy scalar mass  (m_H)   = {{MH_GEV}} GeV
+#   heavy scalar width (Gamma) = {{WIDTH_GEV}} GeV
+#   BR(H -> gamma gamma)       = {{BR_GAGA}}   (applied downstream, NOT here)
+#***********************************************************************
+# Example (adapt block and PDG id to the real UFO):
+# Block MASS
+#     35   {{MH_GEV}}   # m_H
+# DECAY 35  {{WIDTH_GEV}}   # total width of H

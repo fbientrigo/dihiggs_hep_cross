@@ -30,9 +30,9 @@ EXPERIMENT_SIDE_CSV = Path("outputs/diphoton_recast_contract/experiment_side.csv
 MEETING_PACKAGE_SCRIPT = Path("scripts/08_diphoton_meeting_package.py")
 
 DEFAULT_SEARCH_ROOTS = (
+    Path("data/2hdmc_scans"),
     Path("outputs"),
     Path("data"),
-    Path("/mnt/c/Users/Asus/cern_db/dihiggs_lake"),
 )
 
 SCAN_PATTERNS = (
