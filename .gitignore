@@ -10,6 +10,10 @@ __pycache__/
 outputs/
 *.log
 
+# Local, user-supplied / generated sigma-input data (see data/manual/README.md).
+# These are local inputs or generator outputs, not repo content; keep the README.
+data/manual/*.csv
+
 # Large/bootstrap archives
 *.tar.gz
 *.zip

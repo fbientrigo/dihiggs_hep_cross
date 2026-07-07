@@ -161,8 +161,13 @@ def _ratio(numerator: pd.Series, denominator: pd.Series) -> pd.Series:
 
 
 def _context_bool(series: pd.Series) -> pd.Series:
-    numeric = pd.to_numeric(series, errors="coerce")
-    return pd.Series(np.where(numeric.notna(), np.where(numeric >= 1.0, "TRUE_CONTEXT_ONLY", "FALSE_CONTEXT_ONLY"), "UNKNOWN"), index=series.index)
+    # Coerce to a plain numpy float array (NaN for missing) before comparing.
+    # Comparing a nullable Float64 series that contains pd.NA raises
+    # "boolean value of NA is ambiguous" inside np.where; NaN comparisons are safe.
+    values = pd.to_numeric(series, errors="coerce").to_numpy(dtype=float, na_value=np.nan)
+    labels = np.where(values >= 1.0, "TRUE_CONTEXT_ONLY", "FALSE_CONTEXT_ONLY")
+    labels = np.where(np.isnan(values), "UNKNOWN", labels)
+    return pd.Series(labels, index=series.index)
 
 
 def build_sigma_applied(priority: pd.DataFrame, comparison: pd.DataFrame, sigma_input: pd.DataFrame) -> pd.DataFrame:

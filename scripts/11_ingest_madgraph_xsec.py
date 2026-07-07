@@ -2,7 +2,7 @@
 """Convert normalized MadGraph cross-section runs into diphoton sigma inputs.
 
 This is a preparation scaffold: it does not require the MadGraph model to exist
-y it does not parse fragile MG5 logs.  Instead, it defines the stable table that
+yet, and it does not parse fragile MG5 logs.  Instead, it defines the stable table that
 future MadGraph runs must export.  The generated output can be consumed by
 ``scripts/10_apply_sigma_inputs.py``.
 """

@@ -30,6 +30,23 @@ That output can then be consumed by:
 make sigma-apply
 ```
 
+## Running before vs after the MadGraph model exists
+
+This layer is intentionally usable **today**, before any UFO/model or MG5 process
+chain exists.
+
+- **Before** `data/manual/madgraph_xsec_runs.csv` exists: `make madgraph-sigma` still
+  runs. It writes a fill-in template at
+  `outputs/madgraph_sigma_ingest/madgraph_xsec_template.csv` and a schema-stable, empty
+  `data/manual/diphoton_sigma_inputs.csv` (header only). Nothing is fabricated: with no
+  runs table, zero sigma rows are produced. `make sigma-apply` then produces an
+  empty-but-correctly-shaped `diphoton_sigma_applied.csv`. This is the expected state
+  until real MadGraph output is available.
+- **After** `data/manual/madgraph_xsec_runs.csv` exists (one row per MadGraph run, columns
+  below): `make madgraph-sigma MADGRAPH_SIGMA_ARGS="--strict-point-ids"` converts it into
+  `data/manual/diphoton_sigma_inputs.csv`, and `make sigma-apply` computes the
+  context-only `sigma * BR(gamma gamma)` ratios.
+
 ## Required columns
 
 | Column | Meaning |
