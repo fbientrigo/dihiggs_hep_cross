@@ -14,10 +14,16 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
-from typing import Iterable
 
 import numpy as np
 import pandas as pd
+
+from llp_recast.tables import (
+    empty_frame as _empty,
+    finite_positive as _finite_positive,
+    numeric_column as _numeric,
+    read_csv_or_empty,
+)
 
 DEFAULT_BRIDGE_DIR = Path("outputs/diphoton_2hdmc_bridge")
 DEFAULT_PRIORITY = DEFAULT_BRIDGE_DIR / "priority_points_for_sigma.csv"
@@ -72,28 +78,6 @@ OUTPUT_COLUMNS = [
     "comparison_status",
     "quality_flags",
 ]
-
-
-def _empty(columns: Iterable[str]) -> pd.DataFrame:
-    return pd.DataFrame(columns=list(columns))
-
-
-def _numeric(df: pd.DataFrame, column: str) -> pd.Series:
-    if column not in df.columns:
-        return pd.Series(pd.NA, index=df.index, dtype="Float64")
-    return pd.to_numeric(df[column], errors="coerce")
-
-
-def _finite_positive(series: pd.Series) -> pd.Series:
-    numeric = pd.to_numeric(series, errors="coerce")
-    values = numeric.to_numpy(dtype=float, na_value=np.nan)
-    return pd.Series(np.isfinite(values) & (values > 0), index=series.index)
-
-
-def read_csv_or_empty(path: Path) -> pd.DataFrame:
-    if not path.exists():
-        return pd.DataFrame()
-    return pd.read_csv(path)
 
 
 def normalize_sigma_input(sigma: pd.DataFrame) -> pd.DataFrame:
@@ -161,8 +145,13 @@ def _ratio(numerator: pd.Series, denominator: pd.Series) -> pd.Series:
 
 
 def _context_bool(series: pd.Series) -> pd.Series:
-    numeric = pd.to_numeric(series, errors="coerce")
-    return pd.Series(np.where(numeric.notna(), np.where(numeric >= 1.0, "TRUE_CONTEXT_ONLY", "FALSE_CONTEXT_ONLY"), "UNKNOWN"), index=series.index)
+    # Coerce to a plain numpy float array (NaN for missing) before comparing.
+    # Comparing a nullable Float64 series that contains pd.NA raises
+    # "boolean value of NA is ambiguous" inside np.where; NaN comparisons are safe.
+    values = pd.to_numeric(series, errors="coerce").to_numpy(dtype=float, na_value=np.nan)
+    labels = np.where(values >= 1.0, "TRUE_CONTEXT_ONLY", "FALSE_CONTEXT_ONLY")
+    labels = np.where(np.isnan(values), "UNKNOWN", labels)
+    return pd.Series(labels, index=series.index)
 
 
 def build_sigma_applied(priority: pd.DataFrame, comparison: pd.DataFrame, sigma_input: pd.DataFrame) -> pd.DataFrame:

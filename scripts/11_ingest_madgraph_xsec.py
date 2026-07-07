@@ -2,7 +2,7 @@
 """Convert normalized MadGraph cross-section runs into diphoton sigma inputs.
 
 This is a preparation scaffold: it does not require the MadGraph model to exist
-y it does not parse fragile MG5 logs.  Instead, it defines the stable table that
+yet, and it does not parse fragile MG5 logs.  Instead, it defines the stable table that
 future MadGraph runs must export.  The generated output can be consumed by
 ``scripts/10_apply_sigma_inputs.py``.
 """
@@ -10,10 +10,20 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
-from typing import Iterable
 
-import numpy as np
 import pandas as pd
+
+from llp_recast.madgraph import (
+    MADGRAPH_RUN_COLUMNS as NORMALIZED_INPUT_COLUMNS,
+    MADGRAPH_TEMPLATE_COLUMNS as TEMPLATE_COLUMNS,
+    infer_production_mode as _infer_production_mode,
+)
+from llp_recast.tables import (
+    empty_frame as _empty,
+    finite_positive as _finite_positive,
+    numeric_column as _numeric,
+    read_csv_or_empty,
+)
 
 DEFAULT_MADGRAPH_TABLE = Path("data/manual/madgraph_xsec_runs.csv")
 DEFAULT_PRIORITY = Path("outputs/diphoton_2hdmc_bridge/priority_points_for_sigma.csv")
@@ -30,69 +40,9 @@ SIGMA_COLUMNS = [
     "sigma_notes",
 ]
 
-TEMPLATE_COLUMNS = [
-    "point_id",
-    "priority_rank",
-    "m_H_GeV",
-    "Gamma_over_m",
-    "br_gaga",
-    "mg_run_name",
-    "process",
-    "sqrt_s_TeV",
-    "xsec_pb",
-    "xsec_fb",
-    "xsec_unc_pb",
-    "k_factor",
-    "production_mode",
-    "madgraph_version",
-    "model_name",
-    "param_card_path",
-    "run_card_path",
-    "banner_path",
-    "lhe_path",
-    "notes",
-]
-
-NORMALIZED_INPUT_COLUMNS = [
-    "point_id",
-    "mg_run_name",
-    "process",
-    "sqrt_s_TeV",
-    "xsec_pb",
-    "xsec_fb",
-    "xsec_unc_pb",
-    "k_factor",
-    "production_mode",
-    "madgraph_version",
-    "model_name",
-    "param_card_path",
-    "run_card_path",
-    "banner_path",
-    "lhe_path",
-    "notes",
-]
-
-
-def _empty(columns: Iterable[str]) -> pd.DataFrame:
-    return pd.DataFrame(columns=list(columns))
-
-
-def _numeric(df: pd.DataFrame, column: str) -> pd.Series:
-    if column not in df.columns:
-        return pd.Series(pd.NA, index=df.index, dtype="Float64")
-    return pd.to_numeric(df[column], errors="coerce")
-
-
-def _finite_positive(series: pd.Series) -> pd.Series:
-    numeric = pd.to_numeric(series, errors="coerce")
-    values = numeric.to_numpy(dtype=float, na_value=np.nan)
-    return pd.Series(np.isfinite(values) & (values > 0), index=series.index)
-
-
-def read_csv_or_empty(path: Path) -> pd.DataFrame:
-    if not path.exists():
-        return pd.DataFrame()
-    return pd.read_csv(path)
+# TEMPLATE_COLUMNS / NORMALIZED_INPUT_COLUMNS are imported from llp_recast.madgraph
+# (the single source of truth for the MadGraph run-table schema) and re-exported
+# here under their historical names.
 
 
 def known_point_ids(priority: pd.DataFrame) -> set[str]:
@@ -102,15 +52,10 @@ def known_point_ids(priority: pd.DataFrame) -> set[str]:
 
 
 def infer_production_mode(row: pd.Series) -> str:
-    existing = row.get("production_mode", "")
-    if isinstance(existing, str) and existing.strip():
-        return existing.strip()
-    process = str(row.get("process", "")).lower()
-    if "vbf" in process or "j j" in process or "jj" in process:
-        return "VBF"
-    if "g g" in process or "gg" in process or "gluon" in process:
-        return "ggF"
-    return "unknown"
+    return _infer_production_mode(
+        process=str(row.get("process", "")),
+        existing=str(row.get("production_mode", "")),
+    )
 
 
 def build_madgraph_template(priority: pd.DataFrame, max_rows: int = 50) -> pd.DataFrame:

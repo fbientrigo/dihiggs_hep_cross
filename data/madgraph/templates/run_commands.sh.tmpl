@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# MadGraph run commands  --  BASIS / TEMPLATE ONLY
+# Point   : {{POINT_ID}}
+# Run tag : {{RUN_NAME}}
+# Made    : {{GENERATED_AT}}
+#
+# This script does NOT install MadGraph and does NOT ship a UFO.  It documents
+# the exact command to run once you have an MG5_aMC install and a real model.
+# Set MG5_AMC to your mg5_aMC executable (default: mg5_aMC on PATH).
+set -euo pipefail
+
+MG5_AMC="${MG5_AMC:-mg5_aMC}"
+HERE="$(cd "$(dirname "$0")" && pwd)"
+
+echo "[info] point={{POINT_ID}} run={{RUN_NAME}} model={{MODEL}}"
+echo "[info] proc card: ${HERE}/proc_card.dat"
+echo "[info] set the beam energy from ${HERE}/run_card_fragment.dat and the"
+echo "[info] mass/width from ${HERE}/param_card_fragment.dat in your run/param cards."
+
+# Uncomment to run once a real UFO/model and MG5_aMC are available:
+# "${MG5_AMC}" "${HERE}/proc_card.dat"
+#
+# After the run, read the cross section from the banner / crossx.html and record
+# it (in pb or fb) as one row of data/manual/madgraph_xsec_runs.csv, following
+# docs/contracts/madgraph_xsec_output_contract.md.  Do not fabricate a value.

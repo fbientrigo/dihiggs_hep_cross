@@ -18,6 +18,10 @@ make madgraph-sigma
 data/manual/madgraph_xsec_runs.csv
 ```
 
+A pre-filled skeleton of this file (with blank cross sections and rendered input
+decks) is produced by the MadGraph run-preparation basis, `make madgraph-prepare`
+— see [`madgraph_run_preparation_contract.md`](madgraph_run_preparation_contract.md).
+
 ## Default output
 
 ```text
@@ -29,6 +33,23 @@ That output can then be consumed by:
 ```bash
 make sigma-apply
 ```
+
+## Running before vs after the MadGraph model exists
+
+This layer is intentionally usable **today**, before any UFO/model or MG5 process
+chain exists.
+
+- **Before** `data/manual/madgraph_xsec_runs.csv` exists: `make madgraph-sigma` still
+  runs. It writes a fill-in template at
+  `outputs/madgraph_sigma_ingest/madgraph_xsec_template.csv` and a schema-stable, empty
+  `data/manual/diphoton_sigma_inputs.csv` (header only). Nothing is fabricated: with no
+  runs table, zero sigma rows are produced. `make sigma-apply` then produces an
+  empty-but-correctly-shaped `diphoton_sigma_applied.csv`. This is the expected state
+  until real MadGraph output is available.
+- **After** `data/manual/madgraph_xsec_runs.csv` exists (one row per MadGraph run, columns
+  below): `make madgraph-sigma MADGRAPH_SIGMA_ARGS="--strict-point-ids"` converts it into
+  `data/manual/diphoton_sigma_inputs.csv`, and `make sigma-apply` computes the
+  context-only `sigma * BR(gamma gamma)` ratios.
 
 ## Required columns
 
