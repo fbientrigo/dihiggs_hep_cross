@@ -1,4 +1,4 @@
-.PHONY: test inventory tidy toy paper-proxy figures figures-v2 chat-json diphoton-extract diphoton-package diphoton-2hdmc-bridge all clean
+.PHONY: test inventory tidy toy paper-proxy figures figures-v2 chat-json diphoton-extract diphoton-package diphoton-2hdmc-bridge sigma-apply all clean
 
 PYTHONPATH := src
 
@@ -34,6 +34,9 @@ diphoton-package:
 
 diphoton-2hdmc-bridge:
 	PYTHONPATH=$(PYTHONPATH) python3 scripts/09_link_2hdmc_to_diphoton.py $(DIPHOTON_2HDMC_ARGS)
+
+sigma-apply:
+	PYTHONPATH=$(PYTHONPATH) python3 scripts/10_apply_sigma_inputs.py $(SIGMA_APPLY_ARGS)
 
 all: test inventory tidy toy paper-proxy figures figures-v2 chat-json diphoton-extract diphoton-package
 
