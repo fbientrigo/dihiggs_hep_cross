@@ -1,4 +1,4 @@
-.PHONY: test inventory tidy toy paper-proxy figures figures-v2 chat-json diphoton-extract diphoton-package diphoton-2hdmc-bridge sigma-apply all clean
+.PHONY: test inventory tidy toy paper-proxy figures figures-v2 chat-json diphoton-extract diphoton-package diphoton-2hdmc-bridge sigma-apply madgraph-sigma all clean
 
 PYTHONPATH := src
 
@@ -37,6 +37,9 @@ diphoton-2hdmc-bridge:
 
 sigma-apply:
 	PYTHONPATH=$(PYTHONPATH) python3 scripts/10_apply_sigma_inputs.py $(SIGMA_APPLY_ARGS)
+
+madgraph-sigma:
+	PYTHONPATH=$(PYTHONPATH) python3 scripts/11_ingest_madgraph_xsec.py $(MADGRAPH_SIGMA_ARGS)
 
 all: test inventory tidy toy paper-proxy figures figures-v2 chat-json diphoton-extract diphoton-package
 
