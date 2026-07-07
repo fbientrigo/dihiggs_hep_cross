@@ -8,7 +8,8 @@ make diphoton-2hdmc-bridge
 
 with **no extra arguments** — this directory is the first entry in the
 bridge's default search roots (`scripts/09_link_2hdmc_to_diphoton.py`), so
-anything valid placed here is discovered automatically.
+anything valid placed here is found first and reported clearly, without
+needing `--scan-root`.
 
 ## Filename pattern
 

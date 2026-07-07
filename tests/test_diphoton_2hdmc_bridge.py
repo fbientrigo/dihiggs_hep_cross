@@ -1,11 +1,11 @@
 import importlib.util
-import subprocess
 import sys
 from pathlib import Path
 
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parents[1]
+from conftest import ROOT, run_script
+
 SCRIPT = ROOT / "scripts" / "09_link_2hdmc_to_diphoton.py"
 
 spec = importlib.util.spec_from_file_location("diphoton_2hdmc_bridge", SCRIPT)
@@ -150,23 +150,15 @@ def test_zero_accepted_files_writes_schema_outputs_and_discovery_report(tmp_path
     root.mkdir()
     _write_csv(root / "scan_tb_bad.csv", [{"m_phi": 500, "total_width": 5}])
 
-    result = subprocess.run(
+    run_script(
         [
-            sys.executable,
             str(SCRIPT),
-            "--outdir",
-            str(outdir),
-            "--scan-root",
-            str(root),
+            "--outdir", str(outdir),
+            "--scan-root", str(root),
             "--write-discovery-report",
-        ],
-        cwd=ROOT,
-        check=False,
-        text=True,
-        capture_output=True,
+        ]
     )
 
-    assert result.returncode == 0, result.stderr
     assert list(pd.read_csv(outdir / "theory_side_from_2hdmc.csv").columns) == mod.THEORY_COLUMNS
     assert list(pd.read_csv(outdir / "priority_points_for_sigma.csv").columns) == mod.PRIORITY_COLUMNS
     assert list(pd.read_csv(outdir / "diphoton_comparison_needs_xsec.csv").columns) == mod.COMPARISON_COLUMNS
@@ -289,6 +281,9 @@ def test_default_search_roots_include_repo_local_drop_in_dir():
 
 
 def test_default_search_roots_dir_is_discovered(monkeypatch, tmp_path):
+    # No parent "data" root here on purpose: this must prove the drop-in dir is
+    # discovered because it is itself an explicit root, not because some other
+    # root's recursive walk happens to cover it too.
     drop_in = tmp_path / "data" / "2hdmc_scans"
     drop_in.mkdir(parents=True)
     scan = _write_csv(
@@ -304,7 +299,7 @@ def test_default_search_roots_dir_is_discovered(monkeypatch, tmp_path):
             }
         ],
     )
-    monkeypatch.setattr(mod, "DEFAULT_SEARCH_ROOTS", (drop_in, tmp_path / "outputs", tmp_path / "data"))
+    monkeypatch.setattr(mod, "DEFAULT_SEARCH_ROOTS", (drop_in, tmp_path / "outputs"))
 
     candidates = mod.discover_scan_files(mod.default_search_roots())
 

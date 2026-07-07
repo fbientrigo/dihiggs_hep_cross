@@ -64,11 +64,9 @@ This is the one non-automatable step. Run MadGraph per each deck's
 `data/manual/madgraph_xsec_runs.csv` (or copy/edit the generated skeleton).
 Schema: [`madgraph_xsec_output_contract.md`](../contracts/madgraph_xsec_output_contract.md).
 
-**Option B — skip MadGraph entirely:** if you already have production cross
-sections from another tool (SusHi, an HXSWG table, etc.), hand-fill
-`data/manual/diphoton_sigma_inputs.csv` directly instead, following
-[`diphoton_sigma_input_contract.md`](../contracts/diphoton_sigma_input_contract.md),
-and skip straight to Step 5.
+**Option B — skip MadGraph entirely:** see "Option B" in
+[`data/manual/README.md`](../../data/manual/README.md) to hand-fill sigma
+inputs from another tool and skip straight to Step 5.
 
 ## Step 4 — `make madgraph-sigma`
 
