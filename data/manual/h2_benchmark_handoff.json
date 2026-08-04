@@ -1,0 +1,214 @@
+{
+  "candidate": {
+    "construction": {
+      "M2_GeV2": 22499.999999500335,
+      "m12_sq_GeV2": 0.07499999999964796,
+      "soft_scale_export_status": "VALIDATED_BY_SET_PARAM_PHYS_REPLAY"
+    },
+    "physics": {
+      "br_bb": 0.7567374858085787,
+      "ctau_mm": 4.326221529733112,
+      "lambda1_target": 1.0,
+      "lambda6_input": 1e-10,
+      "lambda7_input": 0.0,
+      "mA_GeV": 450.0,
+      "mHp_GeV": 450.0,
+      "m_H2_GeV": 150.0,
+      "sin_beta_minus_alpha": 1.0,
+      "tan_beta": 300000.0,
+      "total_width_GeV": 4.56118529862185e-14,
+      "yukawa_type": "Type I"
+    },
+    "point_id": "H2scan_mH150_tb300000",
+    "roundtrip_diagnostic": {
+      "accepted_as_construction": false,
+      "m12_sq_GeV2": 0.07499975253962432
+    }
+  },
+  "candidate_source": {
+    "benchmark_commit": "92ad4d80f537bffd8663e42f1c6881e82849feab",
+    "file": "FIRST_H2_RECAST_CANDIDATE.json",
+    "path": "benchmarks/FIRST_H2_RECAST_CANDIDATE.json",
+    "producer_commit": "31adde89d831195adde927b364046723ba29e3fe",
+    "repository": "https://github.com/fbientrigo/dihiggs",
+    "sha256": "c8a65f1bb0c75b48b3fd0571d5e3c1ee5dcb3388222ae50d087f102a92c0af98"
+  },
+  "cross_section": {
+    "created": false,
+    "value": null
+  },
+  "mismatches": [
+    {
+      "candidate_fields": [
+        "mA_GeV",
+        "mHp_GeV",
+        "tan_beta",
+        "sin_beta_minus_alpha",
+        "lambda1_target",
+        "lambda6_input",
+        "lambda7_input",
+        "yukawa_type",
+        "m12_sq_construction_GeV2",
+        "M2_construction_GeV2"
+      ],
+      "id": "FULL_2HDM_CONSTRUCTION_UNAVAILABLE",
+      "ufo_observation": "Frozen point schema has no full 2HDM construction contract.",
+      "ufo_unrepresentable_fields": [
+        "mA_GeV",
+        "mHp_GeV",
+        "tan_beta",
+        "sin_beta_minus_alpha",
+        "lambda1_target",
+        "lambda6_input",
+        "lambda7_input",
+        "yukawa_type",
+        "m12_sq_construction_GeV2",
+        "M2_construction_GeV2"
+      ]
+    },
+    {
+      "candidate_requirement": {
+        "M2_construction_GeV2": 22499.999999500335,
+        "m12_sq_construction_GeV2": 0.07499999999964796
+      },
+      "id": "PRODUCTION_COUPLING_NOT_REPLAYABLE",
+      "ufo_observation": {
+        "accepted_coupling_modes": [
+          "PI_FIXED"
+        ],
+        "coupling": "GC_90"
+      }
+    },
+    {
+      "candidate_requirement": {
+        "br_bb": 0.7567374858085787,
+        "ctau_mm": 4.326221529733112
+      },
+      "id": "BB_DECAY_RUNTIME_UNVALIDATED",
+      "ufo_observation": "h2 is stable in LHE; declared bb decay runtime is pending."
+    },
+    {
+      "expected": {
+        "mH2_GeV": 150.0,
+        "total_width_GeV": 4.56118529862185e-14
+      },
+      "id": "MASS_AND_WIDTH_DEFAULT_MISMATCH",
+      "ufo_actual_default": {
+        "ctauh2_default": 0.1,
+        "mH2_GeV": 200.0,
+        "mass_parameter": "Mh2",
+        "width_formula": "1.9732698e-16/ctauh2",
+        "width_parameter": "Wh2"
+      }
+    }
+  ],
+  "schema_version": "hep_cross.h2_benchmark_handoff.v1",
+  "status": "BLOCKED_BY_UFO",
+  "ufo": {
+    "accepted_coupling_modes": [
+      "PI_FIXED"
+    ],
+    "archive": "pi_ufo_baseline_v1_frozen_hotfix1.zip",
+    "external_defaults": {
+      "Gf": 1.16637e-05,
+      "MB": 4.7,
+      "MC": 1.27,
+      "MD": 0.00504,
+      "MH": 125.0,
+      "MMU": 0.10566,
+      "MP": 120.0,
+      "MS": 0.101,
+      "MT": 172.0,
+      "MTA": 1.777,
+      "MU": 0.00255,
+      "MZ": 91.1876,
+      "Me": 0.000511,
+      "Mh2": 200.0,
+      "WH": 0.00407,
+      "WH1": 0.00575308848,
+      "WT": 1.50833649,
+      "WW": 2.085,
+      "WZ": 2.4952,
+      "ZERO": 0.227736,
+      "aEWM1": 127.9,
+      "aS": 0.1184,
+      "ctauh2": 0.1,
+      "vev": 1e-05,
+      "ymb": 4.7,
+      "ymc": 1.27,
+      "ymdo": 0.00504,
+      "yme": 0.000511,
+      "ymm": 0.10566,
+      "yms": 0.101,
+      "ymt": 172.0,
+      "ymtau": 1.777,
+      "ymup": 0.00255
+    },
+    "external_parameters": [
+      "Gf",
+      "MB",
+      "MC",
+      "MD",
+      "MH",
+      "MMU",
+      "MP",
+      "MS",
+      "MT",
+      "MTA",
+      "MU",
+      "MZ",
+      "Me",
+      "Mh2",
+      "WH",
+      "WH1",
+      "WT",
+      "WW",
+      "WZ",
+      "aEWM1",
+      "aS",
+      "cabi",
+      "ctauh2",
+      "ymb",
+      "ymc",
+      "ymdo",
+      "yme",
+      "ymm",
+      "yms",
+      "ymt",
+      "ymtau",
+      "ymup"
+    ],
+    "git_commit": "a6065bfc6359c2b74d40e17972a1c697a4d9a843",
+    "h2_width_internal_formula": "1.9732698e-16/ctauh2",
+    "inspection_mode": "STATIC_ZIP_CONTENT_ONLY",
+    "pack_name": "pi_ufo_baseline_v1",
+    "pack_version": "frozen_hotfix1",
+    "parameter_map": {
+      "M2": null,
+      "lambda6": null,
+      "lambda7": null,
+      "m12_sq": null,
+      "mA": null,
+      "mH2": "Mh2",
+      "mHp": null,
+      "sin_beta_minus_alpha": null,
+      "tan_beta": null,
+      "total_width": "Wh2",
+      "yukawa_type": null
+    },
+    "particles": {
+      "H": 25,
+      "h2": 9000006
+    },
+    "path": "/home/fabi/atlas_dihiggs/ufos/releases/pack_a/frozen/pi_ufo_baseline_v1_frozen_hotfix1.zip",
+    "production_coupling": "GC_90",
+    "production_vertex": true,
+    "sha256": "58f1e976bc8fd6dcc89f353d68dc85ff70c935164e5d168322b1f8633e2537f6",
+    "signatures": {
+      "bb_runtime_is_pending": true,
+      "h2_is_stable_in_lhe": true,
+      "pack_is_not_full_2hdm": true,
+      "production_is_pi_fixed": true
+    }
+  }
+}
