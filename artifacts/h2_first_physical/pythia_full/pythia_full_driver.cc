@@ -19,12 +19,18 @@ static double jsonNumber(const std::string& text, const std::string& key) {
 }
 
 int main(int argc, char** argv) {
-  if (argc != 7) {
-    std::cerr << "usage: pythia_llp_full events.lhe[.gz] decay.slha point.json metrics.csv summary.json seed\n";
+  if (argc != 8) {
+    std::cerr << "usage: pythia_llp_full events.lhe[.gz] decay.slha point.json "
+                  "metrics.csv summary.json seed expected_events\n";
     return 2;
   }
   const std::string lhe = argv[1], slha = argv[2], pointPath = argv[3];
   const std::string seed = argv[6];
+  const long long expectedEvents = std::stoll(argv[7]);
+  if (expectedEvents <= 0) {
+    std::cerr << "expected_events must be a positive integer\n";
+    return 2;
+  }
   std::ifstream pin(pointPath);
   std::stringstream pbuf; pbuf << pin.rdbuf();
   const double ctauMm = jsonNumber(pbuf.str(), "ctau_mm");
@@ -57,8 +63,22 @@ int main(int argc, char** argv) {
   csv << "event,index,tau0_mm,tau_generated_mm,L3D_mm,Rxy_mm,n_daughters\n";
   long long nEvents = 0, nLLP = 0, nProductionLLP = 0, nRxy4 = 0, nDecayed = 0, nB = 0;
   double sumTau = 0.0, sumL3D = 0.0, sumRxy = 0.0;
-  const int maxEvents = 10000;
-  while (nEvents < maxEvents && pythia.next()) {
+  while (nEvents < expectedEvents) {
+    if (!pythia.next()) {
+      // next() failing before the expected count is reached is always an
+      // error: EOF this early means the LHE is short of expected_events
+      // (truncated input), and a non-EOF failure is a recoverable/fatal
+      // generation error. Neither may be reported as a completed sample.
+      if (pythia.info.atEndOfFile()) {
+        std::cerr << "truncated LHE input: EOF after " << nEvents
+                   << " of " << expectedEvents << " expected events\n";
+        return 4;
+      }
+      std::cerr << "Pythia event generation failed before reaching "
+                 << expectedEvents << " expected events (at event "
+                 << nEvents << ")\n";
+      return 5;
+    }
     ++nEvents;
     for (int i = 0; i < pythia.event.size(); ++i) {
       const Particle& p = pythia.event[i];
@@ -85,11 +105,32 @@ int main(int argc, char** argv) {
           << l3d << ',' << rxy << ',' << nd << '\n';
     }
   }
+  // The loop above stops exactly at expected_events regardless of how much
+  // input remains. Probe one more event to confirm the LHE did not contain
+  // more than expected_events: a successful read, or a failure that is not
+  // clean EOF, means expected_events under-states the input and the sample
+  // silently dropped trailing events.
+  const bool extraEventAvailable = pythia.next();
+  if (extraEventAvailable) {
+    std::cerr << "LHE input contains more than the expected " << expectedEvents
+               << " events\n";
+    return 6;
+  }
+  if (!pythia.info.atEndOfFile()) {
+    std::cerr << "Pythia event generation failed while confirming end-of-file "
+                  "after " << expectedEvents << " expected events\n";
+    return 6;
+  }
   pythia.stat();
+  const bool countsOk = nEvents == expectedEvents &&
+                         nLLP == 2 * expectedEvents &&
+                         nDecayed == 2 * expectedEvents &&
+                         nB == 4 * expectedEvents;
   std::ofstream js(argv[5]);
   js << std::setprecision(16);
   js << "{\n"
      << "  \"events\": " << nEvents << ",\n"
+     << "  \"expected_events\": " << expectedEvents << ",\n"
      << "  \"llp_records\": " << nLLP << ",\n"
      << "  \"production_h2_records_from_lhe\": " << 2 * nEvents << ",\n"
      << "  \"llp_decayed\": " << nDecayed << ",\n"
@@ -98,7 +139,14 @@ int main(int argc, char** argv) {
      << "  \"mean_tau_generated_mm\": " << (nLLP ? sumTau/nLLP : 0.0) << ",\n"
      << "  \"mean_L3D_mm\": " << (nLLP ? sumL3D/nLLP : 0.0) << ",\n"
      << "  \"mean_Rxy_mm\": " << (nLLP ? sumRxy/nLLP : 0.0) << ",\n"
-     << "  \"fraction_Rxy_gt_4mm\": " << (nLLP ? double(nRxy4)/nLLP : 0.0) << "\n"
+     << "  \"fraction_Rxy_gt_4mm\": " << (nLLP ? double(nRxy4)/nLLP : 0.0) << ",\n"
+     << "  \"status\": \"" << (countsOk ? "PASS" : "FAIL") << "\"\n"
      << "}\n";
-  return (nEvents > 0 && nB == 4 * nEvents) ? 0 : 4;
+  if (!countsOk) {
+    std::cerr << "event/LLP/decay/b-quark counts do not match expected_events="
+               << expectedEvents << " (events=" << nEvents << " llp=" << nLLP
+               << " decayed=" << nDecayed << " b=" << nB << ")\n";
+    return 7;
+  }
+  return 0;
 }
