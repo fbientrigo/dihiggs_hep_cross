@@ -1,0 +1,2 @@
+point_id,mg_run_name,process,sqrt_s_TeV,xsec_pb,xsec_fb,xsec_unc_pb,k_factor,production_mode,madgraph_version,model_name,param_card_path,run_card_path,banner_path,lhe_path,notes
+H2scan_mH150_tb300000,run_01+run_02,g g > H > h2 h2,13,0.000230291167568,,0.000000461,1.0,ggF,MG5_aMC@NLO 3.5.3,pack_b_h2_model_derived_v1,Pack B candidate param_card.dat,MG5 Cards/run_card.dat,run_01 and run_02 banners,artifacts/h2_first_physical/madgraph/run_01/unweighted_events.lhe.gz,"inverse-variance combined LO result; run compatibility passed"

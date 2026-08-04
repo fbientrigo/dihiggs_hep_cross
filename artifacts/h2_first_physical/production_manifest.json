@@ -1,0 +1,93 @@
+{
+  "schema": "hep_cross.h2_physical_production.v1",
+  "benchmark_id": "H2scan_mH150_tb300000",
+  "benchmark_commit": "92ad4d80f537bffd8663e42f1c6881e82849feab",
+  "coupling_artifact": {
+    "repository": "fbientrigo/dihiggs",
+    "commit": "6047e5f1bd40c4da2d076f5539b31ed727678990",
+    "path": "benchmarks/H2scan_mH150_tb300000_production_coupling.json",
+    "sha256": "8117355dd64f42fa9cf078c1047375521759b4edc8b21e994b80b5591bbf37f3"
+  },
+  "ufo": {
+    "repository": "fbientrigo/dihiggs_ufo",
+    "commit": "5b7b6b6770b62c8b7f87cc061bc4f35923fb3920",
+    "path": "releases/pack_b/candidates/H2scan_mH150_tb300000_MODEL_DERIVED/h2_model_derived_ufo.zip",
+    "sha256": "8c7335cf3d8aec4afdbd741409f0ff0bd40b8fce4db017fdd52335c8bf9fa455",
+    "coupling_mode": "MODEL_DERIVED",
+    "mass_GeV": 150.0,
+    "width_GeV": 4.56118529862185007e-14,
+    "lifetime_mm": 4.32622152973311191,
+    "GHphiphi_GeV": -63.5914252007596588
+  },
+  "madgraph": {
+    "version": "3.5.3",
+    "process": "g g > H > h2 h2",
+    "diagram_interpretation": {
+      "count": 1,
+      "mediator": "SM-like scalar, PDG 25",
+      "final_scalar": "h2, PDG 9000006",
+      "production_vertex": "model-derived GHphiphi through GC_90",
+      "competing_topologies": "none"
+    },
+    "sqrt_s_TeV": 13.0,
+    "pdf": "nn23lo1 (lhaid 230000; MG built-in PDF support)",
+    "scales": {
+      "fixed_ren_scale": false,
+      "fixed_fac_scale": false,
+      "dynamical_scale_choice": -1,
+      "scale_factor": 1.0
+    },
+    "seeds": {
+      "run_01": 101,
+      "run_02": 107
+    },
+    "sigma_run_1_pb": 0.00022986,
+    "sigma_run_1_error_pb": 0.000000749,
+    "sigma_run_2_pb": 0.00023054,
+    "sigma_run_2_error_pb": 0.000000569,
+    "compatibility": {
+      "difference_pb": 0.00000068,
+      "allowed_pb": 0.000000940617882033,
+      "criterion": "abs(sigma1 - sigma2) <= sqrt(error1^2 + error2^2)",
+      "status": "PASS"
+    },
+    "combined_sigma_pb": 0.000230291167568,
+    "k_factor": null,
+    "run_results_artifact": "artifacts/h2_first_physical/madgraph_results.json",
+    "normalized_ingest_artifact": "artifacts/h2_first_physical/madgraph_sigma_inputs.csv"
+  },
+  "lhe": {
+    "run_01_events": 1000,
+    "run_01_path": "artifacts/h2_first_physical/madgraph/run_01/unweighted_events.lhe.gz",
+    "run_01_sha256": "1c580b7a590f9bbfbf213eeef0e54fdcc4b6c1dce3f13bc0ed5278f6f3aec202",
+    "run_02_events": 1000,
+    "run_02_path": "artifacts/h2_first_physical/madgraph/run_02/unweighted_events.lhe.gz",
+    "run_02_sha256": "385faebf45403c224ce374488c3e51a06be56b13ec6b095f92393d0c8f4b1bfa",
+    "h2_per_event": 2,
+    "h2_decay_status": "stable in LHE"
+  },
+  "pythia": {
+    "version": "8.308",
+    "smoke_events": 1000,
+    "tau0_mm": 4.326221529733112,
+    "forced_decay": "9000006 -> b bbar",
+    "hadronization": "disabled; validation stops before hadronization",
+    "production_h2_records_from_lhe": 2000,
+    "b_quarks_before_hadronization": 4000,
+    "summary_path": "artifacts/h2_first_physical/pythia/pythia_summary.json",
+    "summary_sha256": "569435a3fa8d0cbb0452cedb4bdbe60d0e42b9692fe24006c67462b4139cca2e",
+    "metrics_sha256": "c6e2394006fe42ecac78064426272df1e2756a4312ac562cba14bdf79012ded2",
+    "decay_card_sha256": "3063cce25db2714e06816e028739ade6ade2610d9492dc2190a466a36228332b"
+  },
+  "normalization": {
+    "BR_bb": 0.756737485808578692,
+    "BR_bb_squared": 0.5726516224278888,
+    "forced_decay_sampling": "forced bb changes sampling, not physical normalization",
+    "formula": "sigma_H2H2 * br_bb^2"
+  },
+  "recast": {
+    "K_factor": null,
+    "acceptance": null,
+    "recast_status": "NOT_RUN"
+  }
+}

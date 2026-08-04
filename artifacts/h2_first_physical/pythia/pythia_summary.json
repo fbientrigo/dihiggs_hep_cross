@@ -1,0 +1,12 @@
+{
+  "events": 1000,
+  "llp_records": 15512,
+  "production_h2_records_from_lhe": 2000,
+  "llp_decayed": 15512,
+  "b_quarks_from_h2": 4000,
+  "tau0_configured_mm": 4.326221529733112,
+  "mean_tau_generated_mm": 0,
+  "mean_L3D_mm": 0,
+  "mean_Rxy_mm": 0,
+  "fraction_Rxy_gt_4mm": 0
+}
