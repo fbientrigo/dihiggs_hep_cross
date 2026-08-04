@@ -1,0 +1,10 @@
+{
+  "point_id": "H2scan_mH150_tb300000",
+  "ctau_mm": 4.32622152973311191,
+  "source": {
+    "repository": "fbientrigo/dihiggs_ufo",
+    "artifact_source_commit": "06467714fbac1ad3d3f97d2a7a79245146dedb33",
+    "merge_commit": "51d953a53d5777c5caf594481a3fd4a0c5a8f9b5",
+    "artifact_sha256": "9c685714f8840190cb08c34e4b804481564599619c1a3fa9a212256624951d33"
+  }
+}

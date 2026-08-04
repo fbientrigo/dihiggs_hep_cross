@@ -1,0 +1,14 @@
+{
+  "events": 2000,
+  "input_runs": 2,
+  "llp_records": 4000,
+  "production_h2_records_from_lhe": 4000,
+  "llp_decayed": 4000,
+  "b_quarks_from_h2": 8000,
+  "tau0_configured_mm": 4.326221529733112,
+  "mean_tau_generated_mm": 4.377504265296849,
+  "mean_L3D_mm": 9.266593542058974,
+  "mean_Rxy_mm": 2.865535733841411,
+  "fraction_Rxy_gt_4mm": 0.22275,
+  "status": "PASS"
+}
