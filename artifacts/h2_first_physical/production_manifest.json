@@ -4,15 +4,17 @@
   "benchmark_commit": "92ad4d80f537bffd8663e42f1c6881e82849feab",
   "coupling_artifact": {
     "repository": "fbientrigo/dihiggs",
-    "commit": "850414b44a2be51dd5946812c1d281339e0094a3",
+    "artifact_source_commit": "71dc775fe4b05e134e3a15a15a0f511aa5f24a25",
+    "merge_commit": "2502099e1c791cfb459b018dc63167775dc3ae1d",
     "path": "benchmarks/H2scan_mH150_tb300000_production_coupling.json",
-    "sha256": "01fb8a20dabedb119c8ba901b2d052d706b6fc14e2d25a207bc30db0ee97b282"
+    "sha256": "abb5dfbec1767fd004dda0362fe4ab07173b4f2c3202fa9be11f6c633678c5d0"
   },
   "ufo": {
     "repository": "fbientrigo/dihiggs_ufo",
-    "commit": "3e421141b1730b4a9940f1e723b36bb121dec83a",
+    "artifact_source_commit": "06467714fbac1ad3d3f97d2a7a79245146dedb33",
+    "merge_commit": "51d953a53d5777c5caf594481a3fd4a0c5a8f9b5",
     "path": "releases/pack_b/candidates/H2scan_mH150_tb300000_MODEL_DERIVED/h2_model_derived_ufo.zip",
-    "sha256": "04445700b026ade846f2fb9ac316881be329ffd3713af051a8cb2481ba9870de",
+    "sha256": "9c685714f8840190cb08c34e4b804481564599619c1a3fa9a212256624951d33",
     "coupling_mode": "MODEL_DERIVED",
     "mass_GeV": 150.0,
     "width_GeV": 4.56118529862185007e-14,
