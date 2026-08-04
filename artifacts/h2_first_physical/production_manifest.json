@@ -143,7 +143,7 @@
       "mean_Rxy_mm": 2.865535733841411,
       "fraction_Rxy_gt_4mm": 0.22275
     },
-    "driver_source_sha256": "fa2e93ceb7d0563cabad194f1e8191aa0edbe3e213093c34199a2748b8e9e3cd",
+    "driver_source_sha256": "758978054b3526560c7ab19d9ed6ebd001f7366afa8117b1b88aac793277a372",
     "decay_card_sha256": "3063cce25db2714e06816e028739ade6ade2610d9492dc2190a466a36228332b",
     "point_input_sha256": "fb57ac48582be095266edab2688fe91cfaec9a8336f4a25341664d28aed81cda",
     "summary_path": "artifacts/h2_first_physical/pythia_full/summary.json",
@@ -152,7 +152,13 @@
       "EOF termination after each complete 1000-event LHE input",
       "run_02 TauDecays unknown correlated tau production warning; unrelated to forced H2 -> bb"
     ],
-    "status": "PASS"
+    "status": "PASS",
+    "driver_fix_provenance": {
+      "description": "PR #10 review (P2, comment id 3709314077) found that pythia_full_driver.cc could report success for a truncated LHE if every processed event happened to carry 4 b quarks, since success was inferred from the processed count rather than an explicit expected count. Fixed in fix/h2-full-pythia-complete-input-gate by requiring an explicit expected_events argument and gating success on nEvents/nLLP/nDecayed/nB matching it exactly, with pythia.info.atEndOfFile() distinguishing a truncated LHE from a recoverable/fatal generation failure.",
+      "physics_settings_unchanged": true,
+      "committed_run_01_run_02_outputs_regenerated": false,
+      "reverification": "Both canonical LHE inputs (run_01, run_02) were independently re-processed with the fixed driver and expected_events=1000; both returned status PASS with events=1000, llp_records=2000, llp_decayed=2000, b_quarks_from_h2=4000, tau0_configured_mm=4.326221529733112, matching the committed run_01/run_02 summary.json counts. Re-verification outputs were not committed to avoid implying the committed run_01/run_02 artifacts were regenerated."
+    }
   },
   "normalization": {
     "BR_bb": 0.756737485808578692,
