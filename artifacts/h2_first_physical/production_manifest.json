@@ -71,12 +71,27 @@
     "smoke_events": 1000,
     "tau0_mm": 4.326221529733112,
     "forced_decay": "9000006 -> b bbar",
-    "hadronization": "disabled; validation stops before hadronization",
+    "hadronization": "HadronLevel:Hadronize = off; Pythia decays remain enabled",
+    "settings": [
+      "LesHouches:setLifetime = 2",
+      "ParticleDecays:limitTau0 = off",
+      "PartonLevel:ISR = off",
+      "PartonLevel:FSR = off",
+      "PartonLevel:MPI = off",
+      "BeamRemnants:primordialKT = off",
+      "HadronLevel:Decay = on"
+    ],
     "production_h2_records_from_lhe": 2000,
     "b_quarks_before_hadronization": 4000,
+    "lifetime_validation": {
+      "status": "PASS",
+      "mean_tau_generated_mm": 4.293076431685829,
+      "mean_L3D_mm": 8.939686085857831,
+      "fraction_Rxy_gt_4mm": 0.228
+    },
     "summary_path": "artifacts/h2_first_physical/pythia/pythia_summary.json",
-    "summary_sha256": "569435a3fa8d0cbb0452cedb4bdbe60d0e42b9692fe24006c67462b4139cca2e",
-    "metrics_sha256": "c6e2394006fe42ecac78064426272df1e2756a4312ac562cba14bdf79012ded2",
+    "summary_sha256": "ccfe2ba754e2fab30245316f3eb3bd35dfd191923d8f80725bf1b963a3bac2e4",
+    "metrics_sha256": "3d01d16aa12e11c129c383d1391883d453ace4144a06201637c63c0f42b5bd4f",
     "decay_card_sha256": "3063cce25db2714e06816e028739ade6ade2610d9492dc2190a466a36228332b"
   },
   "normalization": {

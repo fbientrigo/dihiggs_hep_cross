@@ -1,12 +1,12 @@
 {
   "events": 1000,
-  "llp_records": 15512,
+  "llp_records": 4000,
   "production_h2_records_from_lhe": 2000,
-  "llp_decayed": 15512,
+  "llp_decayed": 4000,
   "b_quarks_from_h2": 4000,
   "tau0_configured_mm": 4.326221529733112,
-  "mean_tau_generated_mm": 0,
-  "mean_L3D_mm": 0,
-  "mean_Rxy_mm": 0,
-  "fraction_Rxy_gt_4mm": 0
+  "mean_tau_generated_mm": 4.293076431685829,
+  "mean_L3D_mm": 8.939686085857831,
+  "mean_Rxy_mm": 2.848857581999214,
+  "fraction_Rxy_gt_4mm": 0.228
 }
