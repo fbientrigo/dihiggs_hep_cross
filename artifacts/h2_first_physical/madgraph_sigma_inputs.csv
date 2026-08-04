@@ -1,0 +1,2 @@
+point_id,sigma_ggF_fb,sigma_VBF_fb,sigma_total_fb,sigma_source,production_mode,sigma_notes
+H2scan_mH150_tb300000,0.230291167568,,0.230291167568,MadGraph_normalized_table;MG5_aMC@NLO 3.5.3;run_01+run_02,ggF,process=g g > H > h2 h2;model_name=pack_b_h2_model_derived_v1;param_card_path=Pack B candidate param_card.dat;run_card_path=MG5 Cards/run_card.dat;banner_path=run_01 and run_02 banners;lhe_path=artifacts/h2_first_physical/madgraph/run_01/unweighted_events.lhe.gz;notes=inverse-variance combined LO result; run compatibility passed;k_factor_recorded_not_applied=1.0

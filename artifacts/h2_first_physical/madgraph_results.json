@@ -1,0 +1,46 @@
+{
+  "schema": "hep_cross.h2_madgraph_result.v1",
+  "benchmark_id": "H2scan_mH150_tb300000",
+  "madgraph_version": "3.5.3",
+  "process": "g g > H > h2 h2",
+  "diagram": {
+    "count": 1,
+    "mediator_pdg": 25,
+    "final_scalar_pdg": 9000006,
+    "production_vertex": "model-derived GHphiphi via GC_90",
+    "competing_topologies": "none"
+  },
+  "sqrt_s_TeV": 13.0,
+  "pdf": "nn23lo1 (lhaid 230000; MG built-in PDF support)",
+  "scales": {
+    "fixed_ren_scale": false,
+    "fixed_fac_scale": false,
+    "dynamical_scale_choice": -1,
+    "scale_factor": 1.0
+  },
+  "run_01": {
+    "seed_from_banner": 101,
+    "events": 1000,
+    "sigma_pb": 0.00022986,
+    "error_pb": 0.000000749,
+    "lhe_sha256": "1c580b7a590f9bbfb213eeef0e54fdcc4b6c1dce3f13bc0ed5278f6f3aec202"
+  },
+  "run_02": {
+    "seed_from_banner": 107,
+    "events": 1000,
+    "sigma_pb": 0.00023054,
+    "error_pb": 0.000000569,
+    "lhe_sha256": "385faebf45403c224ce374488c3e51a06be56b13ec6b095f92393d0c8f4b1bfa"
+  },
+  "compatibility": {
+    "absolute_difference_pb": 0.00000068,
+    "combined_error_pb": 0.000000940617882033,
+    "criterion": "abs(sigma1 - sigma2) <= sqrt(error1^2 + error2^2)",
+    "status": "PASS"
+  },
+  "combined": {
+    "sigma_pb": 0.000230291167568,
+    "error_pb": 0.000000461,
+    "k_factor": null
+  }
+}
