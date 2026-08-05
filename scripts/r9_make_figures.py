@@ -74,7 +74,7 @@ def figure_expected_events(baseline: dict, thresholds: list[dict], atlas: dict) 
             markeredgecolor="white", markeredgewidth=1.4)
     ax.annotate(
         f"validated R8 benchmark\n$\\kappa_g=1$, $N={n0:.4f}$\n$|g_{{hH_2H_2}}|={g0:.2f}$ GeV",
-        xy=(1.0, n0), xytext=(1.35, n0 * 0.22),
+        xy=(1.0, n0), xytext=(0.55, n0 * 2.3),
         fontsize=8.5, color=BASELINE_COLOR,
         arrowprops=dict(arrowstyle="->", color=BASELINE_COLOR, lw=1.0),
     )
@@ -123,9 +123,9 @@ def figure_expected_events(baseline: dict, thresholds: list[dict], atlas: dict) 
         "Green band: entire theory-valid $\\kappa_g$ window of the 2HDM scan\n"
         r"($\Delta\kappa_g \approx 3.6\times10^{-10}$ — narrower than this line)."
     )
-    ax.text(0.015, 0.985, note, transform=ax.transAxes, va="top", ha="left", fontsize=7.6,
+    ax.text(0.985, 0.025, note, transform=ax.transAxes, va="bottom", ha="right", fontsize=7.6,
             bbox=dict(boxstyle="round,pad=0.45", facecolor="#f7f7f7", edgecolor="#bbbbbb"))
-    ax.legend(loc="lower right", fontsize=8.5, framealpha=0.92)
+    ax.legend(loc="upper left", fontsize=8.5, framealpha=0.92)
 
     fig.tight_layout()
     path = OUTDIR / "expected_events_vs_kappa_g.png"
