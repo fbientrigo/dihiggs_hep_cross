@@ -51,8 +51,8 @@ def main() -> int:
     with open(grid_csv, newline="", encoding="utf-8") as fh:
         existing_rows = list(csv.DictReader(fh))
 
-    if len(existing_rows) != 240:
-        print(f"[FAIL] Expected 240 grid rows, found {len(existing_rows)}", file=sys.stderr)
+    if len(existing_rows) != 360:
+        print(f"[FAIL] Expected 360 grid rows, found {len(existing_rows)}", file=sys.stderr)
         return 1
 
     # Load efficiency_vs_ctau.csv
@@ -118,7 +118,7 @@ def main() -> int:
             print(f"  ... and {len(errors) - 10} more errors", file=sys.stderr)
         return 1
 
-    print("[PASS] r10_recompute_grid: all 240 effective grid rows reconstructed and verified with zero mismatches!")
+    print(f"[PASS] r10_recompute_grid: all {len(existing_rows)} effective grid rows reconstructed and verified with zero mismatches!")
     return 0
 
 

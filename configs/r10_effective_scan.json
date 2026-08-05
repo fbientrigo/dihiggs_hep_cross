@@ -1,15 +1,13 @@
 {
   "schema": "hep_cross.r10.effective_scan_config.v1",
   "study_id": "r10_effective_ctau_g_br_scan",
-  "interpretation": "EFFECTIVE_PHENOMENOLOGICAL",
   "process": {
-    "production": "pp -> H2 H2",
-    "decay_forced": "H2 -> b b",
-    "final_state": "b b b b",
-    "m_H2_GeV": 150.0,
-    "sqrt_s_TeV": 13.0,
+    "name": "pp -> H2 H2 -> b b~ b b~",
+    "sqrts_GeV": 13000.0,
     "luminosity_fb_inverse": 139.0,
-    "primary_signal_region": "ATLAS DV+jets Trackless"
+    "pdg_h": 25,
+    "pdg_H2": 35,
+    "m_H2_GeV": 150.0
   },
   "official_limits": {
     "observed_S95": 3.0,
@@ -43,15 +41,20 @@
       10.0,
       30.0,
       100.0,
-      300.0
+      200.0,
+      300.0,
+      500.0,
+      700.0,
+      1000.0
     ],
     "BR_H2_to_bb": [
-      0.10,
+      0.1,
       0.25,
-      0.50,
+      0.5,
       0.7567374858085787,
-      1.00
+      1.0
     ]
   },
-  "hbar_c_GeV_mm": 1.973269804e-13
+  "hbar_c_GeV_mm": 1.973269804e-13,
+  "interpretation": "EFFECTIVE_PHENOMENOLOGICAL"
 }

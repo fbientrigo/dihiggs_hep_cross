@@ -1,4 +1,4 @@
-"""Comprehensive Pytest test suite for R10 effective phenomenological scan."""
+"""Comprehensive Pytest test suite for R10 effective phenomenological scan (360-point grid)."""
 
 import csv
 import hashlib
@@ -91,15 +91,15 @@ def test_exact_preservation_of_baseline_anchor(grid_rows, config):
 
 def test_no_br_double_counting(eff_rows):
     for r in eff_rows:
-        assert int(r["generated_events"]) == 2000
+        assert int(r["generated_events"]) >= 2000
         aeff = float(r["Trackless_Aeff"])
         assert 0.0 <= aeff <= 1.0
 
 
-def test_all_240_grid_points_present(grid_rows):
-    assert len(grid_rows) == 240
+def test_all_360_grid_points_present(grid_rows):
+    assert len(grid_rows) == 360
     pids = {r["point_id"] for r in grid_rows}
-    assert len(pids) == 240, "Point IDs in effective grid must be unique!"
+    assert len(pids) == 360, "Point IDs in effective grid must be unique!"
 
 
 def test_no_model_derived_interpretation_labels(grid_rows):
@@ -109,16 +109,15 @@ def test_no_model_derived_interpretation_labels(grid_rows):
         assert "2HDM" not in r["interpretation"]
 
 
-def test_blocker3_regression_counts_and_maximums(grid_rows, config):
+def test_extended_grid_counts_and_maximums(grid_rows, config):
     n_ge_1 = sum(1 for r in grid_rows if float(r["N_expected_139fb"]) >= 1.0)
     n_ge_3 = sum(1 for r in grid_rows if float(r["N_expected_139fb"]) >= 3.0)
     max_N = max(float(r["N_expected_139fb"]) for r in grid_rows)
 
-    assert n_ge_1 == 54, f"Expected 54 points with N>=1, got {n_ge_1}"
-    assert n_ge_3 == 23, f"Expected 23 points with N>=3, got {n_ge_3}"
+    assert n_ge_1 == 68, f"Expected 68 points with N>=1, got {n_ge_1}"
+    assert n_ge_3 == 26, f"Expected 26 points with N>=3, got {n_ge_3}"
     assert max_N == pytest.approx(13.269202801224393, rel=1e-8)
 
-    # Structural cross section at g = 150 GeV
     g_0 = config["baseline_anchor"]["abs_g_0_GeV"]
     sigma_0 = config["baseline_anchor"]["sigma_0_pb"]
     sigma_g150 = sigma_0 * (150.0 / g_0) ** 2

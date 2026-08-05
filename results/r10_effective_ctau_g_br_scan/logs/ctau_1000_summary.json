@@ -1,6 +1,6 @@
 {
-  "ctau_mm": 10.0,
-  "total_width_GeV": 1.9732698040000002e-14,
+  "ctau_mm": 1000.0,
+  "total_width_GeV": 1.973269804e-16,
   "generated_events": 2000,
   "provenance": {
     "pythia_version": "8.308",
@@ -14,23 +14,23 @@
   },
   "initial_2000_event_pass": {
     "generated_events": 2000,
-    "selected_trackless_events": 47,
-    "Trackless_Aeff": 0.018625475000000002,
+    "selected_trackless_events": 15,
+    "Trackless_Aeff": 0.0024641585,
     "run01": {
-      "card": "results/r10_effective_ctau_g_br_scan/cards/ctau_10_run01.cmnd",
-      "card_sha256": "de3f3ff74784df799ef8c8f54e63fc24978fb745a07eb486c14fc7ba36638982",
-      "log": "results/r10_effective_ctau_g_br_scan/logs/ctau_10_run01.log",
-      "log_sha256": "6564fdd19b05aa59d6057170aa0df2381946d7d31c6cc7a8adbbca56fdfd45ff",
-      "trackless_acc": 20.0,
-      "trackless_acc_x_eff": 13.91186
+      "card": "results/r10_effective_ctau_g_br_scan/cards/ctau_1000_run01.cmnd",
+      "card_sha256": "d783aed54980508a0a69e118fda14fd0553fc59419f5a9629e7ae273eac1970a",
+      "log": "results/r10_effective_ctau_g_br_scan/logs/ctau_1000_run01.log",
+      "log_sha256": "7e4f5752f99f403f79b30ed71aaf336f20ffc1cd50d3263fca8fe2e2277ef412",
+      "trackless_acc": 7.0,
+      "trackless_acc_x_eff": 1.993391
     },
     "run02": {
-      "card": "results/r10_effective_ctau_g_br_scan/cards/ctau_10_run02.cmnd",
-      "card_sha256": "f540b4f1e51bb40386fd0572d7ab4748a916f596671e8e16c38a5aa226d32ae4",
-      "log": "results/r10_effective_ctau_g_br_scan/logs/ctau_10_run02.log",
-      "log_sha256": "fb7487966aeba7d85e44d38a5254e6992d3de49f762ba52d52892413bb48a5df",
-      "trackless_acc": 27.0,
-      "trackless_acc_x_eff": 23.33909
+      "card": "results/r10_effective_ctau_g_br_scan/cards/ctau_1000_run02.cmnd",
+      "card_sha256": "c1ef9a718389beadd13e4099fa8505047ae2425090bd1625059388927f561935",
+      "log": "results/r10_effective_ctau_g_br_scan/logs/ctau_1000_run02.log",
+      "log_sha256": "d93ad6cb87f1f29bb8fab98092a5f5b474691e7e27ae057adcad6fe45a9c57d2",
+      "trackless_acc": 8.0,
+      "trackless_acc_x_eff": 2.934926
     }
   },
   "adaptive_extension": {
@@ -39,12 +39,12 @@
   },
   "combined": {
     "total_generated_events": 2000,
-    "selected_trackless_events": 47,
-    "Trackless_Aeff": 0.018625475000000002,
-    "Trackless_Aeff_stat_uncertainty": 0.0027168047525192476,
-    "Trackless_Aeff_95CL_limit": 0.023950412314937726,
-    "selected_highpt_events": 5,
-    "HighPt_Aeff": 0.001992123,
+    "selected_trackless_events": 15,
+    "Trackless_Aeff": 0.0024641585,
+    "Trackless_Aeff_stat_uncertainty": 0.0006362429888610299,
+    "Trackless_Aeff_95CL_limit": 0.0037111947581676182,
+    "selected_highpt_events": 1,
+    "HighPt_Aeff": 0.0002702658,
     "Trackless_status": "VALIDATED",
     "HighPt_status": "LOW_MC_STATISTICS"
   }

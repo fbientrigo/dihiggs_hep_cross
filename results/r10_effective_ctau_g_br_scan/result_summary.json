@@ -21,14 +21,14 @@
   },
   "scan_dimensions": {
     "g_hH2H2_GeV_points": 6,
-    "ctau_mm_points": 8,
+    "ctau_mm_points": 12,
     "BR_H2_to_bb_points": 5,
-    "total_effective_combinations": 240
+    "total_effective_combinations": 360
   },
   "grid_reach_summary": {
-    "total_points": 240,
-    "N_expected_ge_1_points": 54,
-    "N_expected_ge_3_points": 23,
+    "total_points": 360,
+    "N_expected_ge_1_points": 68,
+    "N_expected_ge_3_points": 26,
     "maximum_N_expected": 13.269202801224393,
     "maximum_point": {
       "ctau_mm": 10.0,

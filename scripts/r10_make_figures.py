@@ -42,17 +42,23 @@ def plot_efficiency_vs_ctau() -> None:
     with open(eff_csv, newline="", encoding="utf-8") as fh:
         data = list(csv.DictReader(fh))
 
-    ctaus = [float(r["ctau_mm"]) for r in data]
-    aeffs = [float(r["Trackless_Aeff"]) for r in data]
-    uncs = [float(r["Trackless_Aeff_stat_uncertainty"]) for r in data]
+    ctaus_all = np.array([float(r["ctau_mm"]) for r in data])
+    aeffs_all = np.array([float(r["Trackless_Aeff"]) for r in data])
+    uncs_all = np.array([float(r["Trackless_Aeff_stat_uncertainty"]) for r in data])
+    limits_all = np.array([float(r.get("Trackless_Aeff_95CL_limit", 0.0)) for r in data])
+    statuses = [r["Trackless_status"] for r in data]
 
-    fig, ax = plt.subplots(figsize=(8, 6), dpi=300)
+    # Measured points vs Upper Limit points
+    meas_mask = np.array([s != "UPPER_LIMIT_ONLY" for s in statuses])
+    limit_mask = ~meas_mask
 
-    # Plot line and error bars
+    fig, ax = plt.subplots(figsize=(9, 6.5), dpi=300)
+
+    # Plot measured efficiency curve and error bars
     ax.errorbar(
-        ctaus,
-        aeffs,
-        yerr=uncs,
+        ctaus_all[meas_mask],
+        aeffs_all[meas_mask],
+        yerr=uncs_all[meas_mask],
         fmt="o-",
         color="#1f77b4",
         ecolor="#1f77b4",
@@ -61,26 +67,68 @@ def plot_efficiency_vs_ctau() -> None:
         capthick=1.5,
         linewidth=2,
         markersize=7,
-        label=r"ATLAS DV+jets Trackless ($A \times \epsilon$)",
+        label=r"Measured Trackless Efficiency ($A \times \epsilon$)",
     )
 
-    # Baseline anchor line
+    # Plot upper limit points (hollow marker with downward arrow)
+    if np.any(limit_mask):
+        ax.scatter(
+            ctaus_all[limit_mask],
+            limits_all[limit_mask],
+            marker="o",
+            facecolors="none",
+            edgecolors="#d62728",
+            s=80,
+            linewidths=2,
+            label=r"95% CL Upper Limit ($N_{\mathrm{sel}}=0$)",
+            zorder=5,
+        )
+        for ctau_lim, lim_val in zip(ctaus_all[limit_mask], limits_all[limit_mask]):
+            ax.annotate(
+                "",
+                xy=(ctau_lim, lim_val * 0.4),
+                xytext=(ctau_lim, lim_val),
+                arrowprops=dict(arrowstyle="->", color="#d62728", lw=1.8),
+            )
+
+    # Vertical reference lines for 1 cm, 10 cm, 1 m and Baseline Anchor
     ax.axvline(
         x=CTAU_0,
         color="#d62728",
         linestyle="--",
-        linewidth=1.5,
+        linewidth=1.4,
+        alpha=0.85,
         label=f"Baseline Anchor ($c\\tau_0 = {CTAU_0:.2f}$ mm)",
     )
 
+    scale_lines = [(10.0, "1 cm"), (100.0, "10 cm"), (1000.0, "1 m")]
+    for val_mm, name_str in scale_lines:
+        ax.axvline(x=val_mm, color="#555555", linestyle=":", linewidth=1.2, alpha=0.7)
+        ax.text(
+            val_mm * 1.05,
+            0.0225,
+            name_str,
+            fontsize=10,
+            color="#333333",
+            fontweight="bold",
+            bbox=dict(boxstyle="round,pad=0.2", facecolor="white", edgecolor="#cccccc", alpha=0.8),
+        )
+
     ax.set_xscale("log")
+    ax.set_xlim(left=0.2, right=1400.0)
+    ax.set_ylim(bottom=-0.001, top=0.0245)
+
     ax.set_xlabel(r"Proper Decay Length $c\tau$ [mm]", fontsize=13, labelpad=8)
     ax.set_ylabel(r"Selection Efficiency ($A \times \epsilon$)", fontsize=13, labelpad=8)
-    ax.set_title("ATLAS DV+jets Trackless Selection Efficiency vs. Lifetime", fontsize=14, pad=12, fontweight="bold")
+    ax.set_title(
+        "ATLAS DV+jets Trackless Efficiency across Centimetre-to-Metre Lifetime Regime",
+        fontsize=13,
+        pad=12,
+        fontweight="bold",
+    )
 
     ax.grid(True, which="both", linestyle=":", alpha=0.5)
-    ax.legend(fontsize=11, loc="upper right", framealpha=0.95)
-    ax.set_ylim(bottom=-0.001, top=0.024)
+    ax.legend(fontsize=10.5, loc="upper right", framealpha=0.95)
 
     plt.tight_layout()
     out_path = OUT_DIR / "efficiency_vs_ctau.png"
@@ -104,7 +152,6 @@ def plot_3d_scatter() -> None:
     fig = plt.figure(figsize=(10, 8), dpi=300)
     ax = fig.add_subplot(111, projection="3d")
 
-    # Categories
     cat1 = n_exps < 1.0
     cat2 = (n_exps >= 1.0) & (n_exps < 3.0)
     cat3 = n_exps >= 3.0
@@ -116,10 +163,10 @@ def plot_3d_scatter() -> None:
         c=log_n[cat1],
         cmap="viridis",
         vmin=-3,
-        vmax=2,
+        vmax=1.5,
         marker="o",
-        s=30,
-        alpha=0.6,
+        s=25,
+        alpha=0.5,
         label=r"$N_{\mathrm{expected}} < 1$",
     )
     s2 = ax.scatter(
@@ -129,9 +176,9 @@ def plot_3d_scatter() -> None:
         c=log_n[cat2],
         cmap="viridis",
         vmin=-3,
-        vmax=2,
+        vmax=1.5,
         marker="s",
-        s=50,
+        s=45,
         alpha=0.85,
         edgecolors="blue",
         linewidths=0.8,
@@ -144,9 +191,9 @@ def plot_3d_scatter() -> None:
         c=log_n[cat3],
         cmap="viridis",
         vmin=-3,
-        vmax=2,
+        vmax=1.5,
         marker="^",
-        s=80,
+        s=70,
         alpha=1.0,
         edgecolors="crimson",
         linewidths=1.2,
@@ -157,7 +204,7 @@ def plot_3d_scatter() -> None:
     ax.set_ylabel(r"$g_{hH_2H_2}$ [GeV]", fontsize=11, labelpad=8)
     ax.set_zlabel(r"$\mathrm{BR}(H_2 \to b\bar{b})$", fontsize=11, labelpad=8)
     ax.set_title(
-        r"Expected Yield $N_{\mathrm{expected}}$ across $(c\tau, g_{hH_2H_2}, \mathrm{BR}_{b\bar{b}})$",
+        r"Expected Yield $N_{\mathrm{expected}}$ across $(c\tau, g_{hH_2H_2}, \mathrm{BR}_{b\bar{b}})$ Grid (360 Points)",
         fontsize=13,
         pad=14,
         fontweight="bold",
@@ -192,26 +239,23 @@ def plot_2d_slice(
     with open(grid_csv, newline="", encoding="utf-8") as fh:
         data = list(csv.DictReader(fh))
 
-    # Filter rows matching fix_var
     filtered = [r for r in data if abs(float(r[fix_var]) - fix_val) < 1e-4]
 
     xs = np.array([float(r[x_var]) for r in filtered])
     ys = np.array([float(r[y_var]) for r in filtered])
     ns = np.array([float(r["N_expected_139fb"]) for r in filtered])
 
-    # Interpolate on fine 2D grid for smooth contouring
     x_unique = np.sort(np.unique(xs))
     y_unique = np.sort(np.unique(ys))
 
     if x_log:
-        xi = np.logspace(np.log10(x_unique.min()), np.log10(x_unique.max()), 100)
+        xi = np.logspace(np.log10(x_unique.min()), np.log10(x_unique.max()), 120)
     else:
-        xi = np.linspace(x_unique.min(), x_unique.max(), 100)
-    yi = np.linspace(y_unique.min(), y_unique.max(), 100)
+        xi = np.linspace(x_unique.min(), x_unique.max(), 120)
+    yi = np.linspace(y_unique.min(), y_unique.max(), 120)
 
     Xi, Yi = np.meshgrid(xi, yi)
 
-    # Convert x to log scale if needed for griddata
     points_x = np.log10(xs) if x_log else xs
     eval_x = np.log10(Xi) if x_log else Xi
 
@@ -219,18 +263,15 @@ def plot_2d_slice(
 
     fig, ax = plt.subplots(figsize=(8.5, 6.5), dpi=300)
 
-    # Color fill (log scale for N_expected)
     log_Zi = np.log10(np.maximum(Zi, 1e-4))
-    levels_fill = np.linspace(-3, 2, 51)
+    levels_fill = np.linspace(-3, 1.5, 51)
     cf = ax.contourf(Xi, Yi, log_Zi, levels=levels_fill, cmap="YlGnBu_r", extend="both")
 
     cbar = fig.colorbar(cf, ax=ax, label=r"$\log_{10}(N_{\mathrm{expected}})$")
 
-    # Prominent contours for N = 1 and N = 3
     c1 = ax.contour(Xi, Yi, Zi, levels=[1.0], colors=["#ff7f0e"], linewidths=[2.0], linestyles=["--"])
     c3 = ax.contour(Xi, Yi, Zi, levels=[3.0], colors=["#d62728"], linewidths=[2.5], linestyles=["-"])
 
-    # Label contours
     ax.clabel(c1, fmt={1.0: "N = 1"}, inline=True, fontsize=10)
     ax.clabel(c3, fmt={3.0: "N = 3 (S95)"}, inline=True, fontsize=11)
 
@@ -284,7 +325,7 @@ def plot_interactive_3d() -> None:
                 z=brs,
                 mode="markers",
                 marker=dict(
-                    size=6,
+                    size=5,
                     color=np.log10(np.maximum(n_exps, 1e-4)),
                     colorscale="Viridis",
                     colorbar=dict(title="log10(N_expected)"),
@@ -297,7 +338,7 @@ def plot_interactive_3d() -> None:
     )
 
     fig.update_layout(
-        title="Interactive 3D Scan: Expected Yields N_expected(ctau, g, BR_bb)",
+        title="Interactive 3D Scan: Expected Yields N_expected(ctau, g, BR_bb) [360 Points]",
         scene=dict(
             xaxis_title="log10(ctau / mm)",
             yaxis_title="g_hH2H2 [GeV]",

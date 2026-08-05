@@ -2,29 +2,50 @@
   "ctau_mm": 30.0,
   "total_width_GeV": 6.577566013333333e-15,
   "generated_events": 2000,
-  "run01": {
-    "card": "results/r10_effective_ctau_g_br_scan/cards/ctau_30_run01.cmnd",
-    "card_sha256": "646e38c84b20ee8bfc79e9e1baf0215fa17803862099e56824ac637fe0684036",
-    "log": "results/r10_effective_ctau_g_br_scan/logs/ctau_30_run01.log",
-    "log_sha256": "ecf222ff941a1a645da07c6be7ed8e914850defda4e8f92a7522c5036576b1ce",
-    "trackless_acc": 21.0,
-    "trackless_acc_x_eff": 14.79783
+  "provenance": {
+    "pythia_version": "8.308",
+    "recast_executable_path": "/home/fabi/atlas_dihiggs/_worktrees/r8-h2-model-derived-recast/results/upstream_build_patched/analysis/recast_2301_13866",
+    "recast_executable_sha256": "f03a5cb6d94d8f3c5513c814f26036d38eddb180b35f91449ff74f83201e1331",
+    "lhe_run01_path": "/home/fabi/atlas_dihiggs/_worktrees/r8-h2-model-derived-recast/data/raw/r8_h2_model_derived_4b/relabelled_run_01.lhe.gz",
+    "lhe_run01_sha256": "547db2ddec2dfab31bd9383fa2be4bcfcc9773216ed88aec0b8ef4afb2e3b967",
+    "lhe_run02_path": "/home/fabi/atlas_dihiggs/_worktrees/r8-h2-model-derived-recast/data/raw/r8_h2_model_derived_4b/relabelled_run_02.lhe.gz",
+    "lhe_run02_sha256": "3f0f2c37c2c72739b9bd10e6f4130f7fd71c8eb29b95c233a54180a9973386f4",
+    "llp_recast_commit": "28b3a0a93d9b90e67fb4391938e8c060de5af74fc1a68eca35377e39577f52aa"
   },
-  "run02": {
-    "card": "results/r10_effective_ctau_g_br_scan/cards/ctau_30_run02.cmnd",
-    "card_sha256": "1f99e86fb52613ebbd71792a3ba2e637cfa44c6b0ac617a7aee1b377a9963705",
-    "log": "results/r10_effective_ctau_g_br_scan/logs/ctau_30_run02.log",
-    "log_sha256": "c87abd7bfccc03089feaa4879619e5a52c9475071eae8a67a89c45115fba816c",
-    "trackless_acc": 27.0,
-    "trackless_acc_x_eff": 22.32721
+  "initial_2000_event_pass": {
+    "generated_events": 2000,
+    "selected_trackless_events": 48,
+    "Trackless_Aeff": 0.01856252,
+    "run01": {
+      "card": "results/r10_effective_ctau_g_br_scan/cards/ctau_30_run01.cmnd",
+      "card_sha256": "646e38c84b20ee8bfc79e9e1baf0215fa17803862099e56824ac637fe0684036",
+      "log": "results/r10_effective_ctau_g_br_scan/logs/ctau_30_run01.log",
+      "log_sha256": "ecf222ff941a1a645da07c6be7ed8e914850defda4e8f92a7522c5036576b1ce",
+      "trackless_acc": 21.0,
+      "trackless_acc_x_eff": 14.79783
+    },
+    "run02": {
+      "card": "results/r10_effective_ctau_g_br_scan/cards/ctau_30_run02.cmnd",
+      "card_sha256": "1f99e86fb52613ebbd71792a3ba2e637cfa44c6b0ac617a7aee1b377a9963705",
+      "log": "results/r10_effective_ctau_g_br_scan/logs/ctau_30_run02.log",
+      "log_sha256": "c87abd7bfccc03089feaa4879619e5a52c9475071eae8a67a89c45115fba816c",
+      "trackless_acc": 27.0,
+      "trackless_acc_x_eff": 22.32721
+    }
+  },
+  "adaptive_extension": {
+    "extra_subruns_count": 0,
+    "extra_subruns": []
   },
   "combined": {
+    "total_generated_events": 2000,
     "selected_trackless_events": 48,
     "Trackless_Aeff": 0.01856252,
     "Trackless_Aeff_stat_uncertainty": 0.0026792689797094527,
+    "Trackless_Aeff_95CL_limit": 0.023813887200230525,
     "selected_highpt_events": 5,
     "HighPt_Aeff": 0.0019739080000000003,
     "Trackless_status": "VALIDATED",
-    "HighPt_status": "INSUFFICIENT_MC_STATISTICS"
+    "HighPt_status": "LOW_MC_STATISTICS"
   }
 }
