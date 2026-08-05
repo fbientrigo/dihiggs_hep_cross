@@ -62,23 +62,55 @@ def check(name: str, got: float, want: float, rtol: float = RTOL) -> None:
 
 
 def main() -> int:
-    production = json.loads(PRODUCTION_MANIFEST.read_text())
-    normalization = json.loads(R8_NORMALIZATION.read_text())
-    coupling = json.loads(COUPLING_ARTIFACT.read_text())
+    # ---- 0. resolve the primary inputs -------------------------------------
+    # sigma and BR always come from this repo's own production manifest. The
+    # Trackless acceptance lives in dihiggs_llp_recast and the coupling in
+    # dihiggs; when those sibling checkouts are present (a full workspace) they
+    # are the source of truth and baseline.json is cross-checked against them.
+    # In a single-repo checkout (CI) the snapshot recorded in baseline.json --
+    # which carries each value together with its source path and SHA-256 -- is
+    # used instead, and the cross-repo check is reported as skipped. Every
+    # derived number is re-derived either way; nothing is waived.
+    baseline_doc = json.loads((OUTDIR / "baseline.json").read_text())
+    snapshot = baseline_doc["frozen_inputs"]
 
-    # ---- 1. primary inputs still equal the frozen baseline -----------------
+    production = json.loads(PRODUCTION_MANIFEST.read_text())
+    siblings_available = R8_NORMALIZATION.exists() and COUPLING_ARTIFACT.exists()
+
     sigma_pb = production["madgraph"]["combined_sigma_pb"]
     br_sq = production["normalization"]["BR_bb_squared"]
-    a_eff = normalization["regions"]["Trackless"]["a_eff_acc_x_eff"]
-    g_abs = coupling["coupling"]["g_hH2H2_GeV"]
-    ghphiphi = coupling["coupling"]["converted_GHphiphi_GeV"]
 
+    if siblings_available:
+        normalization = json.loads(R8_NORMALIZATION.read_text())
+        coupling = json.loads(COUPLING_ARTIFACT.read_text())
+        a_eff = normalization["regions"]["Trackless"]["a_eff_acc_x_eff"]
+        g_abs = coupling["coupling"]["g_hH2H2_GeV"]
+        ghphiphi = coupling["coupling"]["converted_GHphiphi_GeV"]
+        ctau = coupling["replay"]["ctau_mm"]
+        source_mode = "SIBLING_REPOSITORIES"
+        # the committed snapshot must agree with the live sibling artifacts
+        check("snapshot vs sibling Trackless_Aeff", snapshot["Trackless_Aeff"]["value"], a_eff)
+        check("snapshot vs sibling g_hH2H2_GeV", snapshot["g_hH2H2_GeV"]["value"], g_abs)
+        check("snapshot vs sibling GHphiphi_GeV", snapshot["GHphiphi_GeV"]["value"], ghphiphi)
+        check("snapshot vs sibling ctau_mm", snapshot["ctau_mm"]["value"], ctau)
+    else:
+        a_eff = snapshot["Trackless_Aeff"]["value"]
+        g_abs = snapshot["g_hH2H2_GeV"]["value"]
+        ghphiphi = snapshot["GHphiphi_GeV"]["value"]
+        ctau = snapshot["ctau_mm"]["value"]
+        source_mode = "BASELINE_SNAPSHOT (sibling checkouts absent; cross-repo check skipped)"
+
+    # the snapshot must always agree with this repo's own production manifest
+    check("snapshot vs local sigma_H2H2_pb", snapshot["sigma_H2H2_pb"]["value"], sigma_pb)
+    check("snapshot vs local BR_bb_squared", snapshot["BR_bb_squared"]["value"], br_sq)
+
+    # ---- 1. primary inputs still equal the frozen baseline -----------------
     check("primary sigma_H2H2_pb", sigma_pb, FROZEN["sigma_H2H2_pb"])
     check("primary BR_bb_squared", br_sq, FROZEN["BR_bb_squared"])
     check("primary Trackless_Aeff", a_eff, FROZEN["Trackless_Aeff"])
     check("primary g_hH2H2_GeV", g_abs, FROZEN["g_hH2H2_GeV"])
     check("primary GHphiphi_GeV", ghphiphi, FROZEN["GHphiphi_GeV"])
-    check("primary ctau_mm", coupling["replay"]["ctau_mm"], FROZEN["ctau_mm"])
+    check("primary ctau_mm", ctau, FROZEN["ctau_mm"])
     check("GHphiphi = -g_hH2H2", ghphiphi, -g_abs)
 
     # ---- 2. yield chain, recomputed from scratch ---------------------------
@@ -91,10 +123,10 @@ def main() -> int:
     check("Trackless_expected_events", n0, FROZEN["Trackless_expected_events"])
 
     # ---- 3. baseline.json agrees with the recomputation --------------------
-    baseline = json.loads((OUTDIR / "baseline.json").read_text())
-    check("baseline.json visible sigma", baseline["recomputed"]["Trackless_visible_sigma_fb"], vis)
-    check("baseline.json expected events", baseline["recomputed"]["Trackless_expected_events"], n0)
-    check("baseline.json sigma_4b_fb", baseline["recomputed"]["sigma_4b_fb"], sigma4b)
+    recomputed = baseline_doc["recomputed"]
+    check("baseline.json visible sigma", recomputed["Trackless_visible_sigma_fb"], vis)
+    check("baseline.json expected events", recomputed["Trackless_expected_events"], n0)
+    check("baseline.json sigma_4b_fb", recomputed["sigma_4b_fb"], sigma4b)
 
     # ---- 4. every illustrative threshold, recomputed -----------------------
     with open(OUTDIR / "yield_thresholds.csv", newline="") as fh:
@@ -200,6 +232,7 @@ def main() -> int:
             print(f"  - {f}")
         return 1
     print("R9 RECOMPUTATION CHECK: PASSED (all values re-derived from primary inputs)")
+    print(f"  primary-input source: {source_mode}")
     return 0
 
 
