@@ -32,8 +32,57 @@
     0.7567783629056958
   ],
   "theory_validity_boundary_cause": {
-    "increasing_m12_sq": "lambda1 -> 0+, positivity_ok fails first",
-    "decreasing_m12_sq": "lambda1 -> 4*pi/3, unitarity_ok fails first"
+    "method": "measured by evaluating just outside each edge and recording which flags flip",
+    "increasing_m12_sq": {
+      "direction": "increasing m12_sq",
+      "edge_relative_offset": 2.99381630597395e-11,
+      "first_failing_predicates": [
+        "positivity_ok"
+      ],
+      "lambda1_inside_edge": 3.6067431082955863e-06,
+      "lambda1_outside_edge": -0.04999652966630007,
+      "flags_inside": {
+        "construction_ok": 1,
+        "numerical_ok": 1,
+        "positivity_ok": 1,
+        "unitarity_ok": 1,
+        "perturbativity_ok": 1,
+        "theory_ok_v1": 1
+      },
+      "flags_outside": {
+        "construction_ok": 1,
+        "numerical_ok": 1,
+        "positivity_ok": 0,
+        "unitarity_ok": 1,
+        "perturbativity_ok": 1,
+        "theory_ok_v1": 0
+      }
+    },
+    "decreasing_m12_sq": {
+      "direction": "decreasing m12_sq",
+      "edge_relative_offset": 9.546613499722412e-11,
+      "first_failing_predicates": [
+        "perturbativity_ok"
+      ],
+      "lambda1_inside_edge": 4.188786907475692,
+      "lambda1_outside_edge": 4.34823322711438,
+      "flags_inside": {
+        "construction_ok": 1,
+        "numerical_ok": 1,
+        "positivity_ok": 1,
+        "unitarity_ok": 1,
+        "perturbativity_ok": 1,
+        "theory_ok_v1": 1
+      },
+      "flags_outside": {
+        "construction_ok": 1,
+        "numerical_ok": 1,
+        "positivity_ok": 1,
+        "unitarity_ok": 1,
+        "perturbativity_ok": 0,
+        "theory_ok_v1": 0
+      }
+    }
   },
   "theory_validity_edge_relative_offset_up": 2.99381630597395e-11,
   "theory_validity_edge_relative_offset_down": 9.546613499722412e-11,

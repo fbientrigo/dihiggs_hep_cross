@@ -197,7 +197,16 @@ The baseline sits at M² = m_H2² = 22500 GeV², where the M²-dependent term ca
 
     |g| = m_h²/v = 125.13² / 246.2205 = 63.5914 GeV
 
-reproducing the frozen coupling to every printed digit. This coordinate also changes λ₁ (and
+reproducing the frozen coupling to every printed digit. The coupling relation was verified
+independently against 2HDMC across the whole scanned range — at M² = 22500, 33750, 45000, 67500 and
+76427 GeV² it returns v = 246.220569 to nine digits, matching v = (√2 G_F)^(−1/2) exactly.
+
+*Precision note.* The λ₁ relation is exact, but it must not be evaluated by forming
+(m_H2² − M²) numerically near the baseline: those two quantities agree to eleven digits while their
+difference matters at the 10⁻⁷ GeV² level, so double precision cannot represent it. This is
+precisely the cancellation that motivated the high-precision m₁₂² inversion behind the benchmark
+(`roundtrip_coordinate_rejected: true` in the coupling artifact). Every λ₁ quoted here is the value
+**2HDMC itself reconstructs**, never one recomputed from the closed form. This coordinate also changes λ₁ (and
 therefore the theory predicates) — that is what makes it the interesting direction, and it is
 documented rather than hidden.
 
@@ -210,7 +219,7 @@ Every BR, width and lifetime is recomputed per point; none is inherited from the
 |---|---:|---:|---:|:--:|---:|---:|
 | P1 baseline | 22500.000 | +1.0000 | 1.000000000 | ✓ ✓ ✓ | 4.326222 | 0.756737 |
 | P2 valid edge (M² ↑) | 22500.000 | +3.61 × 10⁻⁶ | 0.999999999914 | ✓ ✓ ✓ | 4.326143 | 0.756724 |
-| P3 valid edge (M² ↓) | 22500.000 | +4.18879 (= 4π/3) | 1.000000000274 | ✓ ✓ ✓ | 4.326455 | 0.756778 |
+| P3 valid edge (M² ↓) | 22500.000 | +4.18879 (= 4π/3, the perturbativity bound) | 1.000000000274 | ✓ ✓ ✓ | 4.326455 | 0.756778 |
 | P4 κ = 1.20 | 39723.3 | −2.56 × 10¹⁰ | 1.200000 | ✗ ✗ ✗ | — | — |
 | P5 κ = 1.50 | 42071.9 | −2.91 × 10¹⁰ | 1.500000 | ✗ ✗ ✗ | — | — |
 | P6 κ = N₁ threshold | 44906.3 | −3.33 × 10¹⁰ | 1.862049 | ✗ ✗ ✗ | — | — |
@@ -229,8 +238,13 @@ BR(H2→bb) → 10⁻¹⁵. Those are artefacts of an invalid Lagrangian, not pr
 Bisection on both branches locates the validity edges at a **relative offset of 3.0 × 10⁻¹¹
 (increasing m₁₂²) and 9.5 × 10⁻¹¹ (decreasing)**. What fails, and why, is asymmetric:
 
-* **Increasing M²** → λ₁ → 0⁺ → **positivity** fails first.
-* **Decreasing M²** → λ₁ → 4π/3 → **unitarity** fails first.
+* **Increasing M²** → λ₁ → 0⁺ → **positivity** fails first (λ₁ = +0.00000 inside the edge,
+  −0.05000 just outside).
+* **Decreasing M²** → λ₁ → 4π/3 = 4.18879 → **perturbativity** fails first (λ₁ = 4.18879 inside,
+  4.34823 just outside).
+
+Both causes are *measured*, not asserted: the scan evaluates just outside each edge and records
+which flags flip, in `model_scan_provenance.json → theory_validity_boundary_cause`.
 
 Across that entire window:
 

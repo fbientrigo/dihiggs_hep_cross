@@ -197,6 +197,29 @@ def bisect_validity_edge(evaluate: Evaluator, *, direction: int, max_rel: float 
     return lo
 
 
+def validity_edge_cause(evaluate: Evaluator, *, direction: int, edge_rel: float) -> dict:
+    """Report which predicate actually fails just past a validity edge.
+
+    Measured rather than asserted: evaluate immediately outside the edge and
+    name the flags that flipped, together with the lambda1 values on both sides.
+    """
+    inside = evaluate(M12_SQ_BASELINE * (1.0 + direction * edge_rel))
+    outside = evaluate(M12_SQ_BASELINE * (1.0 + direction * edge_rel * 1.05))
+    fi, fo = theory_flags(inside), theory_flags(outside)
+    predicates = ("construction_ok", "numerical_ok", "positivity_ok",
+                  "unitarity_ok", "perturbativity_ok")
+    flipped = [p for p in predicates if fi[p] == 1 and fo[p] == 0]
+    return {
+        "direction": "increasing m12_sq" if direction > 0 else "decreasing m12_sq",
+        "edge_relative_offset": edge_rel,
+        "first_failing_predicates": flipped,
+        "lambda1_inside_edge": float(inside["lambda1_reconstructed"]),
+        "lambda1_outside_edge": float(outside["lambda1_reconstructed"]),
+        "flags_inside": fi,
+        "flags_outside": fo,
+    }
+
+
 def solve_m12sq_for_kappa(evaluate: Evaluator, target_kappa: float) -> float:
     """Find m12^2 on the increasing-M^2 branch giving |g|/|g0| = target_kappa.
 
@@ -505,8 +528,9 @@ def main() -> int:
             max((float(r["BR_bb"]) for r in valid), default=None),
         ],
         "theory_validity_boundary_cause": {
-            "increasing_m12_sq": "lambda1 -> 0+, positivity_ok fails first",
-            "decreasing_m12_sq": "lambda1 -> 4*pi/3, unitarity_ok fails first",
+            "method": "measured by evaluating just outside each edge and recording which flags flip",
+            "increasing_m12_sq": validity_edge_cause(evaluate, direction=+1, edge_rel=up_edge),
+            "decreasing_m12_sq": validity_edge_cause(evaluate, direction=-1, edge_rel=down_edge),
         },
         "theory_validity_edge_relative_offset_up": up_edge,
         "theory_validity_edge_relative_offset_down": down_edge,
