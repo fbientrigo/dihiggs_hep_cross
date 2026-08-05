@@ -1,0 +1,69 @@
+{
+  "schema": "hep_cross.r10.result_summary.v1",
+  "study_id": "r10_effective_ctau_g_br_scan",
+  "interpretation": "EFFECTIVE_PHENOMENOLOGICAL",
+  "process": "pp -> H2 H2 -> b b b b",
+  "luminosity_fb_inverse": 139.0,
+  "official_limits": {
+    "observed_S95": 3.0,
+    "observed_visible_sigma_limit_fb": 0.022
+  },
+  "baseline_anchor": {
+    "m_H2_GeV": 150.0,
+    "ctau_0_mm": 4.326221529733112,
+    "abs_g_0_GeV": 63.59142520075966,
+    "GHphiphi_0_GeV": -63.59142520075966,
+    "BR_bb_0": 0.7567374858085787,
+    "sigma_0_pb": 0.000230291167568,
+    "Trackless_Aeff_0": 0.01573386,
+    "visible_sigma_0_fb": 0.0020749281306360694,
+    "N_expected_0": 0.28841501015841364
+  },
+  "scan_dimensions": {
+    "g_hH2H2_GeV_points": 6,
+    "ctau_mm_points": 12,
+    "BR_H2_to_bb_points": 5,
+    "total_effective_combinations": 360
+  },
+  "grid_reach_summary": {
+    "total_points": 360,
+    "N_expected_ge_1_points": 68,
+    "N_expected_ge_3_points": 26,
+    "maximum_N_expected": 13.269202801224393,
+    "maximum_point": {
+      "ctau_mm": 10.0,
+      "g_hH2H2_GeV": 300.0,
+      "BR_H2_to_bb": 1.0,
+      "N_expected": 13.269202801224393
+    },
+    "maximum_point_at_baseline_BR": {
+      "ctau_mm": 10.0,
+      "g_hH2H2_GeV": 300.0,
+      "BR_H2_to_bb": 0.7567374858085787,
+      "N_expected": 7.598630512445835
+    }
+  },
+  "structural_production_cross_sections_pb": {
+    "g_150_GeV": 0.001281334981474172,
+    "g_300_GeV": 0.005125339925896688,
+    "formula": "sigma(g) = sigma_0 * (g / g_0)^2"
+  },
+  "ctau_efficiency_summary": {
+    "statistically_compatible_plateau_mm": [
+      10.0,
+      30.0
+    ],
+    "ctau_10mm_Trackless_Aeff": 0.018625,
+    "ctau_30mm_Trackless_Aeff": 0.0185625,
+    "baseline_ctau_mm": 4.326221529733112,
+    "baseline_Trackless_Aeff": 0.01573386,
+    "ctau_0p3mm_status": "zero selected events out of 2000; efficiency is unresolved and an upper limit is required",
+    "large_ctau_trend": "the decrease at large ctau is consistent with more decays occurring outside the fiducial displaced-vertex volume"
+  },
+  "methodology_provenance": {
+    "production_status": "STRUCTURAL_PREDICTION_ONLY",
+    "madgraph_status": "MADGRAPH_NOT_EXECUTED_LHAPDF_UNAVAILABLE",
+    "pythia_recast_status": "MEASURED_WITH_FULL_PYTHIA_AND_ATLAS_DVJETS_RECAST",
+    "grid_construction": "ALGEBRAIC_CARTESIAN_PRODUCT_FACTORIZATION"
+  }
+}

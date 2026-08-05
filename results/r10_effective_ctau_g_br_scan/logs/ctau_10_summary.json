@@ -1,0 +1,51 @@
+{
+  "ctau_mm": 10.0,
+  "total_width_GeV": 1.9732698040000002e-14,
+  "generated_events": 2000,
+  "provenance": {
+    "pythia_version": "8.308",
+    "recast_executable_path": "/home/fabi/atlas_dihiggs/_worktrees/r8-h2-model-derived-recast/results/upstream_build_patched/analysis/recast_2301_13866",
+    "recast_executable_sha256": "f03a5cb6d94d8f3c5513c814f26036d38eddb180b35f91449ff74f83201e1331",
+    "lhe_run01_path": "/home/fabi/atlas_dihiggs/_worktrees/r8-h2-model-derived-recast/data/raw/r8_h2_model_derived_4b/relabelled_run_01.lhe.gz",
+    "lhe_run01_sha256": "547db2ddec2dfab31bd9383fa2be4bcfcc9773216ed88aec0b8ef4afb2e3b967",
+    "lhe_run02_path": "/home/fabi/atlas_dihiggs/_worktrees/r8-h2-model-derived-recast/data/raw/r8_h2_model_derived_4b/relabelled_run_02.lhe.gz",
+    "lhe_run02_sha256": "3f0f2c37c2c72739b9bd10e6f4130f7fd71c8eb29b95c233a54180a9973386f4",
+    "llp_recast_commit": "28b3a0a93d9b90e67fb4391938e8c060de5af74fc1a68eca35377e39577f52aa"
+  },
+  "initial_2000_event_pass": {
+    "generated_events": 2000,
+    "selected_trackless_events": 47,
+    "Trackless_Aeff": 0.018625475000000002,
+    "run01": {
+      "card": "results/r10_effective_ctau_g_br_scan/cards/ctau_10_run01.cmnd",
+      "card_sha256": "de3f3ff74784df799ef8c8f54e63fc24978fb745a07eb486c14fc7ba36638982",
+      "log": "results/r10_effective_ctau_g_br_scan/logs/ctau_10_run01.log",
+      "log_sha256": "6564fdd19b05aa59d6057170aa0df2381946d7d31c6cc7a8adbbca56fdfd45ff",
+      "trackless_acc": 20.0,
+      "trackless_acc_x_eff": 13.91186
+    },
+    "run02": {
+      "card": "results/r10_effective_ctau_g_br_scan/cards/ctau_10_run02.cmnd",
+      "card_sha256": "f540b4f1e51bb40386fd0572d7ab4748a916f596671e8e16c38a5aa226d32ae4",
+      "log": "results/r10_effective_ctau_g_br_scan/logs/ctau_10_run02.log",
+      "log_sha256": "fb7487966aeba7d85e44d38a5254e6992d3de49f762ba52d52892413bb48a5df",
+      "trackless_acc": 27.0,
+      "trackless_acc_x_eff": 23.33909
+    }
+  },
+  "adaptive_extension": {
+    "extra_subruns_count": 0,
+    "extra_subruns": []
+  },
+  "combined": {
+    "total_generated_events": 2000,
+    "selected_trackless_events": 47,
+    "Trackless_Aeff": 0.018625475000000002,
+    "Trackless_Aeff_stat_uncertainty": 0.0027168047525192476,
+    "Trackless_Aeff_95CL_limit": 0.023950412314937726,
+    "selected_highpt_events": 5,
+    "HighPt_Aeff": 0.001992123,
+    "Trackless_status": "VALIDATED",
+    "HighPt_status": "LOW_MC_STATISTICS"
+  }
+}
