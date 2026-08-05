@@ -1,0 +1,6 @@
+# R9 coupling-scaling deck -- identical topology to the canonical R8 production.
+# Reproduces the MG5ProcCard recorded in
+# artifacts/h2_first_physical/madgraph/run_01/run_01_tag_1_banner.txt
+import model ./pi_ufo_baseline_v1_release_candidate_hotfix1/model/LLscalar_v3_UFO_runtime
+generate g g > H > h2 h2
+output r9_h2_scaling -f

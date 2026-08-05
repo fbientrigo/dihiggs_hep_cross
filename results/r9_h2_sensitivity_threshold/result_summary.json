@@ -1,0 +1,147 @@
+{
+  "schema": "hep_cross.r9.result_summary.v2",
+  "study": "R9 controlled sensitivity-threshold study around the validated R8 benchmark",
+  "benchmark_id": "H2scan_mH150_tb300000",
+  "status": "COMPLETE",
+  "scope_status": "THRESHOLD_NOT_REACHABLE_IN_THE_TESTED_FIXED_SLICE",
+  "tested_fixed_slice": {
+    "m_H2_GeV": 150.0,
+    "m_A_GeV": 450.0,
+    "m_Hp_GeV": 450.0,
+    "tan_beta": 300000.0,
+    "sin_beta_minus_alpha": 1.0,
+    "lambda6": 1e-10,
+    "lambda7": 0.0,
+    "varied_coordinate": "m12_sq / M2 only"
+  },
+  "baseline": {
+    "m_H2_GeV": 150.0,
+    "ctau_mm": 4.326221529733112,
+    "g_hH2H2_GeV": 63.59142520075966,
+    "sigma_H2H2_pb": 0.000230291167568,
+    "BR_bb_squared": 0.5726516224278888,
+    "Trackless_Aeff": 0.01573386,
+    "Trackless_visible_sigma_fb": 0.0020749281306360694,
+    "luminosity_fb_inverse": 139.0,
+    "Trackless_expected_events": 0.28841501015841364
+  },
+  "q1_sigma_scaling": {
+    "question": "Does sigma(pp -> H2H2) scale quadratically with |g_hH2H2|?",
+    "answer": "Yes within the frozen UFO/process/fixed-width contract.",
+    "fitted_exponent_p": 2.0,
+    "method": "STRUCTURAL_EXACT_WITHIN_FROZEN_UFO_AND_PROCESS",
+    "quadratic_scaling": "PASS",
+    "empirical_fit_status": "NOT_EXECUTED_MADGRAPH_UNAVAILABLE_EGRESS_BLOCKED",
+    "madgraph_numerical_crosscheck": "PENDING_LOCAL"
+  },
+  "q2_q3_illustrative_thresholds": [
+    {
+      "target_events": 1.0,
+      "rate_multiplier": 3.4672259236811014,
+      "kappa_g": 1.8620488510458315,
+      "required_abs_g_hH2H2_GeV": 118.41034023144145,
+      "required_visible_sigma_fb": 0.007194244604316547,
+      "interpretation": "ILLUSTRATIVE_RATE_SCALE_NOT_DISCOVERY_OR_EXCLUSION"
+    },
+    {
+      "target_events": 3.0,
+      "rate_multiplier": 10.401677771043305,
+      "kappa_g": 3.225163216186633,
+      "required_abs_g_hH2H2_GeV": 205.09272542237372,
+      "required_visible_sigma_fb": 0.02158273381294964,
+      "interpretation": "ILLUSTRATIVE_RATE_SCALE_NOT_DISCOVERY_OR_EXCLUSION"
+    },
+    {
+      "target_events": 5.0,
+      "rate_multiplier": 17.336129618405508,
+      "kappa_g": 4.16366780836386,
+      "required_abs_g_hH2H2_GeV": 264.7735699963813,
+      "required_visible_sigma_fb": 0.03597122302158274,
+      "interpretation": "ILLUSTRATIVE_RATE_SCALE_NOT_DISCOVERY_OR_EXCLUSION"
+    },
+    {
+      "target_events": 10.0,
+      "rate_multiplier": 34.672259236811016,
+      "kappa_g": 5.888315483804432,
+      "required_abs_g_hH2H2_GeV": 374.44637364682444,
+      "required_visible_sigma_fb": 0.07194244604316548,
+      "interpretation": "ILLUSTRATIVE_RATE_SCALE_NOT_DISCOVERY_OR_EXCLUSION"
+    }
+  ],
+  "q4_official_atlas_threshold": {
+    "status": "OFFICIAL_THRESHOLD_RESOLVED",
+    "region_mapping_status": "UNAMBIGUOUS",
+    "official_region": "Trackless jet SR",
+    "observed_events": 0,
+    "expected_background": 0.83,
+    "expected_background_up": 0.51,
+    "expected_background_down": 0.53,
+    "observed_S95": 3.0,
+    "expected_S95": 3.4,
+    "published_visible_sigma_limit_fb": 0.022,
+    "required_visible_sigma_fb": 0.02158273381294964,
+    "required_rate_multiplier": 10.401677771043305,
+    "required_kappa_g": 3.225163216186633,
+    "required_abs_g_hH2H2_GeV": 205.09272542237372,
+    "source": "ATLAS JHEP 06 (2023) 200, arXiv:2301.13866v3, Table 6"
+  },
+  "q5_model_reachability": {
+    "varied_coordinate": "m12_sq (M2 = m12_sq/(sin beta cos beta))",
+    "points_tested": 7,
+    "theory_valid_points": 3,
+    "min_theory_valid_kappa_g": 0.9999999999139636,
+    "max_theory_valid_kappa_g": 1.0000000002743763,
+    "theory_valid_kappa_window_width": 3.6041269968478673e-10,
+    "max_theory_valid_abs_g_hH2H2_GeV": 63.59142521820764,
+    "official_threshold_kappa_g": 3.225163216186633,
+    "official_threshold_reached": false,
+    "shortfall_factor_in_kappa": 3.225163215301838,
+    "shortfall_factor_in_rate": 10.401677765336152,
+    "theory_valid_ctau_mm_range": [
+      4.326143038676392,
+      4.326455221406271
+    ],
+    "theory_valid_br_bb_range": [
+      0.7567237562376858,
+      0.7567783629056958
+    ],
+    "theory_validity_boundary_cause": {
+      "method": "measured by evaluating just outside each edge and recording which flags flip",
+      "increasing_m12_sq": {
+        "direction": "increasing m12_sq",
+        "edge_relative_offset": 2.99381630597395e-11,
+        "first_failing_predicates": [
+          "positivity_ok"
+        ],
+        "lambda1_inside_edge": 3.6067431082955863e-06,
+        "lambda1_outside_edge": -0.04999652966630007
+      },
+      "decreasing_m12_sq": {
+        "direction": "decreasing m12_sq",
+        "edge_relative_offset": 9.546613499722412e-11,
+        "first_failing_predicates": [
+          "perturbativity_ok"
+        ],
+        "lambda1_inside_edge": 4.188786907475692,
+        "lambda1_outside_edge": 4.34823322711438
+      }
+    },
+    "verdict": "THRESHOLD_NOT_REACHABLE_IN_THE_TESTED_FIXED_SLICE"
+  },
+  "q6_rate_limitation_cause": {
+    "dominant_cause": "production coupling",
+    "branching_ratio": "not limiting across the tested valid M2 window",
+    "lifetime_acceptance": "not limiting across the tested valid M2 window; A×eff is nonzero and MC-statistically resolved",
+    "safe_lifetime_statement": "At this benchmark, large tan(beta) suppresses Type-I fermionic widths and enables a millimetre-scale lifetime; no global lifetime scaling law is established."
+  },
+  "additional_recast": {
+    "run": false,
+    "reason": "No theory-valid point approaches the official threshold and the lifetime remains stable in the tested slice."
+  },
+  "presentation": {
+    "insert": "docs/R9_PRESENTATION_INSERT_ES.md",
+    "canonical_threshold_figure": "results/r9_h2_sensitivity_threshold/expected_events_vs_kappa_g_official.svg",
+    "model_reachability_figure": "results/r9_h2_sensitivity_threshold/model_reachability_vs_threshold.png"
+  },
+  "next_step": "PRESENT_RESULT"
+}

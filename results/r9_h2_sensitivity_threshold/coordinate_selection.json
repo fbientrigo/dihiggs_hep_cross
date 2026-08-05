@@ -1,0 +1,196 @@
+{
+  "schema": "hep_cross.r9.coordinate_selection.v1",
+  "question": "Which single 2HDM input coordinate most directly changes g_hH2H2?",
+  "method": "numeric perturbation of each candidate through the canonical 2HDMC evaluator",
+  "baseline": {
+    "m12_sq_GeV2": 0.07499999999964796,
+    "M2_GeV2": 22500.000000144388,
+    "lambda1_reconstructed": 1.0000009341820415,
+    "g_hH2H2_GeV": 63.59142520075966
+  },
+  "candidates": {
+    "m12_sq": {
+      "enters_g_hH2H2": true,
+      "mechanism": "g_hH2H2 = [2 (mH2^2 - M^2) + mh^2] / v with M^2 = m12^2/(sb cb); m12^2 is the only input that moves M^2 at fixed masses and tan beta",
+      "d_abs_g_d_m12sq_GeV_per_GeV2": 741.068127021808,
+      "samples": [
+        {
+          "relative_offset": 1e-12,
+          "m12_sq_GeV2": 0.07499999999972297,
+          "M2_GeV2": 22500.00000016689,
+          "lambda1_reconstructed": 0.9665973001690591,
+          "g_hH2H2_GeV": 63.59142520057651,
+          "kappa_g": 0.9999999999971199,
+          "theory_ok_v1": 1
+        },
+        {
+          "relative_offset": 1e-09,
+          "m12_sq_GeV2": 0.07500000007464797,
+          "M2_GeV2": 22500.000022644388,
+          "lambda1_reconstructed": -32.4022990937395,
+          "g_hH2H2_GeV": 63.59142501799681,
+          "kappa_g": 0.9999999971259829,
+          "theory_ok_v1": 0
+        },
+        {
+          "relative_offset": 1e-06,
+          "m12_sq_GeV2": 0.07500007499964795,
+          "M2_GeV2": 22500.022500144383,
+          "lambda1_reconstructed": -33401.29951391618,
+          "g_hH2H2_GeV": 63.59124243780013,
+          "kappa_g": 0.9999971259810745,
+          "theory_ok_v1": 0
+        },
+        {
+          "relative_offset": 0.001,
+          "m12_sq_GeV2": 0.0750749999996476,
+          "M2_GeV2": 22522.50000014453,
+          "lambda1_reconstructed": -33402298.520428408,
+          "g_hH2H2_GeV": 63.40866224083163,
+          "kappa_g": 0.9971259810681858,
+          "theory_ok_v1": 0
+        },
+        {
+          "relative_offset": 0.1,
+          "m12_sq_GeV2": 0.08249999999961276,
+          "M2_GeV2": 24750.000000158827,
+          "lambda1_reconstructed": -3340229951.0434346,
+          "g_hH2H2_GeV": 45.31512920797013,
+          "kappa_g": 0.7125981068187917,
+          "theory_ok_v1": 0
+        },
+        {
+          "relative_offset": 1.0,
+          "m12_sq_GeV2": 0.14999999999929592,
+          "M2_GeV2": 45000.000000288775,
+          "lambda1_reconstructed": -33402299519.43438,
+          "g_hH2H2_GeV": -119.17153472713437,
+          "kappa_g": 1.874018931812064,
+          "theory_ok_v1": 0
+        }
+      ]
+    },
+    "lambda6": {
+      "enters_g_hH2H2": false,
+      "kappa_g_span_over_10_decades": 7.105427357601002e-15,
+      "mechanism": "lambda6 shifts lambda1 through -1.5*lambda6*tan(beta) but does not enter the h-H2-H2 trilinear at exact alignment; it does move ctau at large values",
+      "samples": [
+        {
+          "lambda6": 1e-10,
+          "lambda1_reconstructed": 1.0000009341820415,
+          "g_hH2H2_GeV": 63.59142520075966,
+          "kappa_g": 1.0,
+          "ctau_mm": 4.326221529733112,
+          "theory_ok_v1": 1
+        },
+        {
+          "lambda6": 1e-08,
+          "lambda1_reconstructed": 0.9955459341821691,
+          "g_hH2H2_GeV": 63.591425200759204,
+          "kappa_g": 0.9999999999999929,
+          "ctau_mm": 4.326221415016074,
+          "theory_ok_v1": 1
+        },
+        {
+          "lambda6": 1e-06,
+          "lambda1_reconstructed": 0.5500459341949213,
+          "g_hH2H2_GeV": 63.59142520075943,
+          "kappa_g": 0.9999999999999964,
+          "ctau_mm": 4.3262099156337985,
+          "theory_ok_v1": 1
+        },
+        {
+          "lambda6": 0.0001,
+          "lambda1_reconstructed": -43.99995406452986,
+          "g_hH2H2_GeV": 63.59142520075943,
+          "kappa_g": 0.9999999999999964,
+          "ctau_mm": 4.324783361435276,
+          "theory_ok_v1": 0
+        },
+        {
+          "lambda6": 0.01,
+          "lambda1_reconstructed": -4498.999953937007,
+          "g_hH2H2_GeV": 63.59142520075966,
+          "kappa_g": 1.0,
+          "ctau_mm": 2.584654628397851,
+          "theory_ok_v1": 0
+        },
+        {
+          "lambda6": 1.0,
+          "lambda1_reconstructed": -449998.99994118477,
+          "g_hH2H2_GeV": 63.591425200759204,
+          "kappa_g": 0.9999999999999929,
+          "ctau_mm": 0.0006682514489811073,
+          "theory_ok_v1": 0
+        }
+      ]
+    },
+    "lambda1_target": {
+      "enters_g_hH2H2": "only as a re-parameterisation of m12_sq",
+      "d_m12sq_d_lambda1_GeV2": -2.245354359937915e-12,
+      "kappa_g_span_over_full_perturbative_window": 2.162479417755492e-09,
+      "perturbative_window": [
+        -12.566370614359172,
+        12.566370614359172
+      ],
+      "samples": [
+        {
+          "lambda1_target": -12.566370614359172,
+          "lambda1_reconstructed": -12.56636789845158,
+          "m12_sq_GeV2": 0.07500000003010927,
+          "g_hH2H2_GeV": 63.59142512653068,
+          "kappa_g": 0.9999999988327203,
+          "theory_ok_v1": 0
+        },
+        {
+          "lambda1_target": 0.0,
+          "lambda1_reconstructed": 3.6067431082955863e-06,
+          "m12_sq_GeV2": 0.07500000000189332,
+          "g_hH2H2_GeV": 63.59142519528848,
+          "kappa_g": 0.9999999999139636,
+          "theory_ok_v1": 1
+        },
+        {
+          "lambda1_target": 1.0000009341820415,
+          "lambda1_reconstructed": 1.0000009341820415,
+          "m12_sq_GeV2": 0.07499999999964796,
+          "g_hH2H2_GeV": 63.59142520075966,
+          "kappa_g": 1.0,
+          "theory_ok_v1": 1
+        },
+        {
+          "lambda1_target": 12.566370614359172,
+          "lambda1_reconstructed": 12.566375111937797,
+          "m12_sq_GeV2": 0.07499999997367736,
+          "g_hH2H2_GeV": 63.591425264045824,
+          "kappa_g": 1.0000000009951997,
+          "theory_ok_v1": 0
+        }
+      ]
+    }
+  },
+  "selected_coordinate": "m12_sq (equivalently M2 = m12_sq / (sin beta cos beta))",
+  "selection_reason": "Measured, not assumed: lambda6 leaves kappa_g unchanged to the printed precision across ten decades, and the entire perturbative lambda1 window maps onto an m12_sq interval whose kappa_g span is negligible. m12_sq is the only coordinate with a non-vanishing d|g|/dx at fixed mH2, mA, mHp, sin(beta-alpha) and tan beta.",
+  "baseline_gate": {
+    "g_hH2H2_GeV": {
+      "computed": 63.59142520075966,
+      "frozen": 63.59142520075966,
+      "relative_difference": 0.0
+    },
+    "ctau_mm": {
+      "computed": 4.326221529733112,
+      "frozen": 4.326221529733112,
+      "relative_difference": 0.0
+    },
+    "BR_bb": {
+      "computed": 0.7567374858085787,
+      "frozen": 0.7567374858085787,
+      "relative_difference": 0.0
+    },
+    "total_width_GeV": {
+      "computed": 4.56118529862185e-14,
+      "frozen": 4.56118529862185e-14,
+      "relative_difference": 0.0
+    }
+  }
+}
