@@ -1,0 +1,78 @@
+{
+  "schema": "hep_cross.r9.baseline.v1",
+  "benchmark_id": "H2scan_mH150_tb300000",
+  "luminosity_fb_inverse": 139.0,
+  "luminosity_source": "R9 task specification; the R8 normalization artifact deliberately leaves luminosity_fb_inv null because it was not present in the recast repository",
+  "frozen_inputs": {
+    "m_H2_GeV": {
+      "value": 150.0,
+      "source_path": "dihiggs_hep_cross/artifacts/h2_first_physical/production_manifest.json",
+      "source_sha256": "2c79b5a1d9874f962ff394fbea2ed69d2d9bc8062dce02510063b51b34848c02"
+    },
+    "ctau_mm": {
+      "value": 4.326221529733112,
+      "source_path": "dihiggs/benchmarks/H2scan_mH150_tb300000_production_coupling.json",
+      "source_sha256": "abb5dfbec1767fd004dda0362fe4ab07173b4f2c3202fa9be11f6c633678c5d0"
+    },
+    "total_width_GeV": {
+      "value": 4.56118529862185e-14,
+      "source_path": "dihiggs/benchmarks/H2scan_mH150_tb300000_production_coupling.json",
+      "source_sha256": "abb5dfbec1767fd004dda0362fe4ab07173b4f2c3202fa9be11f6c633678c5d0"
+    },
+    "g_hH2H2_GeV": {
+      "value": 63.59142520075966,
+      "source_path": "dihiggs/benchmarks/H2scan_mH150_tb300000_production_coupling.json",
+      "source_sha256": "abb5dfbec1767fd004dda0362fe4ab07173b4f2c3202fa9be11f6c633678c5d0"
+    },
+    "GHphiphi_GeV": {
+      "value": -63.59142520075966,
+      "source_path": "dihiggs_hep_cross/artifacts/h2_first_physical/production_manifest.json",
+      "source_sha256": "2c79b5a1d9874f962ff394fbea2ed69d2d9bc8062dce02510063b51b34848c02",
+      "note": "GHphiphi = -g_hH2H2 (2HDMC c = -i g; UFO vertex +i GHphiphi)"
+    },
+    "sigma_H2H2_pb": {
+      "value": 0.000230291167568,
+      "source_path": "dihiggs_hep_cross/artifacts/h2_first_physical/production_manifest.json",
+      "source_sha256": "2c79b5a1d9874f962ff394fbea2ed69d2d9bc8062dce02510063b51b34848c02",
+      "note": "inverse-variance combination of run_01 and run_02"
+    },
+    "BR_bb": {
+      "value": 0.7567374858085787,
+      "source_path": "dihiggs_hep_cross/artifacts/h2_first_physical/production_manifest.json",
+      "source_sha256": "2c79b5a1d9874f962ff394fbea2ed69d2d9bc8062dce02510063b51b34848c02"
+    },
+    "BR_bb_squared": {
+      "value": 0.5726516224278888,
+      "source_path": "dihiggs_hep_cross/artifacts/h2_first_physical/production_manifest.json",
+      "source_sha256": "2c79b5a1d9874f962ff394fbea2ed69d2d9bc8062dce02510063b51b34848c02"
+    },
+    "Trackless_Aeff": {
+      "value": 0.01573386,
+      "source_path": "dihiggs_llp_recast/results/r8_h2_model_derived_4b/normalization.json",
+      "source_sha256": "28b3a0a93d9b90e67fb4391938e8c060de5af74fc1a68eca35377e39577f52aa",
+      "note": "a_eff_acc_x_eff"
+    },
+    "Trackless_visible_sigma_fb": {
+      "value": 0.0020749281306360694,
+      "source_path": "dihiggs_llp_recast/results/r8_h2_model_derived_4b/normalization.json",
+      "source_sha256": "28b3a0a93d9b90e67fb4391938e8c060de5af74fc1a68eca35377e39577f52aa"
+    }
+  },
+  "recomputed": {
+    "sigma_4b_fb": 0.131876610738628,
+    "Trackless_visible_sigma_fb": 0.0020749281306360694,
+    "Trackless_expected_events": 0.28841501015841364,
+    "formula": "sigma[pb] * 1000 * BR_bb^2 * (A x eff) * L[fb^-1]"
+  },
+  "r8_status": {
+    "recast_validation_status": "VALIDATED",
+    "acceptance_status": "RECAST_ACCEPTANCE_COMPUTED",
+    "exclusion_status": "NOT_RUN",
+    "highpt_statistics_status": "INSUFFICIENT_MC_STATISTICS"
+  },
+  "provenance": {
+    "dihiggs_merge_commit": "92ad4d80f537bffd8663e42f1c6881e82849feab",
+    "ufo_merge_commit": "51d953a53d5777c5caf594481a3fd4a0c5a8f9b5",
+    "coupling_artifact_merge_commit": "2502099e1c791cfb459b018dc63167775dc3ae1d"
+  }
+}

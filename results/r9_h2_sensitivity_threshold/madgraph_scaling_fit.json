@@ -1,0 +1,156 @@
+{
+  "schema": "hep_cross.r9.madgraph_scaling_fit.v1",
+  "question": "Does sigma(pp -> H2H2) scale quadratically with |g_hH2H2|?",
+  "fitted_exponent_p": 2.0,
+  "exponent_uncertainty": 0.0,
+  "method": "STRUCTURAL_EXACT",
+  "quadratic_scaling": "PASS",
+  "argument": "GHphiphi enters exactly one UFO coupling (GC_90 = i*GHphiphi), that coupling enters exactly one vertex (V_7 = H h2 h2), and that vertex is used once in the single diagram of 'g g > H > h2 h2'. No decay width in the model depends on GHphiphi, the mediator width is a fixed external number in the run param card (not 'Auto'), and H -> h2 h2 is kinematically closed. The amplitude is therefore strictly linear in GHphiphi with no interference, no competing diagram and no width or propagator feedback, so |M|^2 and hence sigma scale as GHphiphi^2 with phase space unchanged. p = 2 exactly, not approximately.",
+  "changing_GHphiphi_affects": {
+    "overall_matrix_element_normalization": true,
+    "mediator_width": false,
+    "interference": false,
+    "additional_diagrams": false,
+    "phase_space_distributions": false
+  },
+  "structural_verification": {
+    "all_passed": true,
+    "checks": [
+      {
+        "step": "GHphiphi is declared exactly once as an external parameter",
+        "declarations": 1,
+        "nature": "external",
+        "passed": true,
+        "file": "pi_ufo_baseline_v1_release_candidate_hotfix1/model/LLscalar_v3_UFO_runtime/parameters.py",
+        "sha256": "97cf4a71394e9ac307665b61878538c154490c1912e4e7922509e3c08f60ea15"
+      },
+      {
+        "step": "GHphiphi appears in exactly one active coupling",
+        "active_lines_mentioning_GHphiphi": 1,
+        "couplings": [
+          {
+            "name": "GC_90",
+            "value": "complex(0,1)*GHphiphi"
+          }
+        ],
+        "passed": true,
+        "file": "pi_ufo_baseline_v1_release_candidate_hotfix1/model/LLscalar_v3_UFO_runtime/couplings.py",
+        "sha256": "49d19a3da012dd66cbdd26fb5cd8aa6be1ec3415714345cf0431ad669c9f2400"
+      },
+      {
+        "step": "GC_90 is used by exactly one vertex, and it is (H, h2, h2)",
+        "uses": 1,
+        "vertices": [
+          {
+            "vertex": "V_7",
+            "particles": [
+              "P.H",
+              "P.h2",
+              "P.h2"
+            ]
+          }
+        ],
+        "passed": true,
+        "file": "pi_ufo_baseline_v1_release_candidate_hotfix1/model/LLscalar_v3_UFO_runtime/vertices.py",
+        "sha256": "60bb131379499fd85ac21da8e15f960cffcf2d33afc54217481730e82648f6ba"
+      },
+      {
+        "step": "no partial width in decays.py depends on GHphiphi",
+        "occurrences": 0,
+        "passed": true,
+        "file": "pi_ufo_baseline_v1_release_candidate_hotfix1/model/LLscalar_v3_UFO_runtime/decays.py",
+        "sha256": "ebb92183abff92cdaf55aeb80399effe2cc0256f1423ce807a390cd420564e23"
+      },
+      {
+        "step": "mediator (PDG 25) width is a fixed external number in the run param card, not 'Auto'",
+        "DECAY_25_value_GeV": "4.070000e-03",
+        "passed": true,
+        "file": "dihiggs_hep_cross/artifacts/h2_first_physical/madgraph/run_01/run_01_tag_1_banner.txt",
+        "sha256": "9f0de793c0fa0a742ce632ab972311426a9e9bac49101c1f992e3d9c0488ee1f"
+      },
+      {
+        "step": "generated process is 'g g > H > h2 h2'",
+        "process": "g g > H > h2 h2",
+        "passed": true,
+        "file": "dihiggs_hep_cross/artifacts/h2_first_physical/madgraph/run_01/run_01_tag_1_banner.txt",
+        "sha256": "9f0de793c0fa0a742ce632ab972311426a9e9bac49101c1f992e3d9c0488ee1f"
+      },
+      {
+        "step": "H -> h2 h2 is kinematically closed (m_H < 2 m_h2)",
+        "m_H_GeV": 125.13,
+        "m_h2_GeV": 150.0,
+        "passed": true,
+        "file": "dihiggs_ufo/releases/pack_b/candidates/H2scan_mH150_tb300000_MODEL_DERIVED/param_card.dat",
+        "sha256": "8654c966e741ad7074c20aa91cc29a3898d0ed6c315e3397d80187f84cedd1d2"
+      }
+    ],
+    "ufo_zip_sha256": "9c685714f8840190cb08c34e4b804481564599619c1a3fa9a212256624951d33"
+  },
+  "empirical_fit": null,
+  "empirical_fit_status": "NOT_EXECUTED_MADGRAPH_UNAVAILABLE_EGRESS_BLOCKED",
+  "empirical_fit_blocker": "MG5_aMC is not installed in this environment and cannot be obtained: every MadGraph distribution host is denied by the session's egress policy. Separately, the canonical version 3.5.3 is no longer published upstream (launchpad's 3.5.x series now offers 3.5.6/3.5.8/3.5.9/3.5.10/3.5.12 only). No cross section was invented or recalled to fill the gap.",
+  "blocked_sources": [
+    {
+      "host": "launchpadlibrarian.net",
+      "purpose": "MG5_aMC tarball download",
+      "result": "403 to CONNECT (egress policy denial)"
+    },
+    {
+      "host": "cp3.irmp.ucl.ac.be",
+      "purpose": "MadGraph upstream mirror",
+      "result": "CONNECT refused"
+    },
+    {
+      "host": "feynrules.irmp.ucl.ac.be",
+      "purpose": "MadGraph/FeynRules mirror",
+      "result": "CONNECT refused"
+    },
+    {
+      "host": "madgraph.phys.ucl.ac.be",
+      "purpose": "MadGraph upstream mirror",
+      "result": "CONNECT refused"
+    },
+    {
+      "host": "zenodo.org",
+      "purpose": "MadGraph archival copy",
+      "result": "CONNECT refused"
+    },
+    {
+      "host": "github.com release assets (mg5amcnlo)",
+      "purpose": "MG5_aMC source",
+      "result": "403, repository outside session scope"
+    }
+  ],
+  "available_empirical_evidence_at_kappa_1": {
+    "note": "The only measured cross sections that exist for this model point are the two independent canonical runs at kappa_g = 1. They are statistically compatible, which validates the integration but does not by itself test the scaling law.",
+    "sigma_run_01_pb": 0.00022986,
+    "sigma_run_01_error_pb": 7.49e-07,
+    "sigma_run_02_pb": 0.00023054,
+    "sigma_run_02_error_pb": 5.69e-07,
+    "compatibility": {
+      "difference_pb": 6.8e-07,
+      "allowed_pb": 9.40617882033e-07,
+      "criterion": "abs(sigma1 - sigma2) <= sqrt(error1^2 + error2^2)",
+      "status": "PASS"
+    }
+  },
+  "canonical_run_configuration": {
+    "madgraph_version": "3.5.3",
+    "process": "g g > H > h2 h2",
+    "sqrt_s_TeV": 13.0,
+    "pdf": "nn23lo1 (lhaid 230000; MG built-in PDF support)",
+    "scales": {
+      "fixed_ren_scale": false,
+      "fixed_fac_scale": false,
+      "dynamical_scale_choice": -1,
+      "scale_factor": 1.0
+    },
+    "diagram_interpretation": {
+      "count": 1,
+      "mediator": "SM-like scalar, PDG 25",
+      "final_scalar": "h2, PDG 9000006",
+      "production_vertex": "model-derived GHphiphi through GC_90",
+      "competing_topologies": "none"
+    }
+  }
+}

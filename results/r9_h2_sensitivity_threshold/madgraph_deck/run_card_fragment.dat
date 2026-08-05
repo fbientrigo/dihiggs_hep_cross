@@ -1,0 +1,16 @@
+# Integration-only settings, byte-compatible with the canonical run_card.
+# Cross sections only: no unweighted events are needed for the scaling fit.
+  1000   = nevents
+  1      = lpp1
+  1      = lpp2
+  6500.0 = ebeam1
+  6500.0 = ebeam2
+  nn23lo1 = pdlabel
+  230000 = lhaid
+  False  = fixed_ren_scale
+  False  = fixed_fac_scale
+  -1     = dynamical_scale_choice
+  1.0    = scalefact
+  0      = nhel
+  4      = maxjetflavor
+  True   = use_syst

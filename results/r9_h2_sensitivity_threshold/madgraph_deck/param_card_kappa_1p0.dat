@@ -1,0 +1,6 @@
+Block MASS
+  25 1.25130000000000000e+02 # SM-like scalar
+  9000006 1.50000000000000000e+02 # H2
+Block FRBlock
+  2 4.32622152973311230e-03 # ctauh2 [m] (unchanged)
+  3 -6.35914252007596588e+01 # GHphiphi [GeV] = 1.0 x baseline

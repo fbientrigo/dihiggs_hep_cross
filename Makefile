@@ -1,4 +1,4 @@
-.PHONY: test inventory tidy toy paper-proxy figures figures-v2 chat-json diphoton-extract diphoton-package diphoton-2hdmc-bridge madgraph-prepare sigma-apply madgraph-sigma all clean
+.PHONY: test inventory tidy toy paper-proxy figures figures-v2 chat-json diphoton-extract diphoton-package diphoton-2hdmc-bridge madgraph-prepare sigma-apply madgraph-sigma r9 r9-verify all clean
 
 PYTHONPATH := src
 
@@ -43,6 +43,28 @@ sigma-apply:
 
 madgraph-sigma:
 	PYTHONPATH=$(PYTHONPATH) python3 scripts/11_ingest_madgraph_xsec.py $(MADGRAPH_SIGMA_ARGS)
+
+# R9: sensitivity-threshold study. R9_EVALUATOR must point at a build of
+# fbientrigo/dihiggs benchmarks/check_H2scan_mH150_tb300000.cpp (see
+# docs/R9_H2_SENSITIVITY_THRESHOLD_RESULT.md section 9).
+R9_EVALUATOR ?= /tmp/check_h2
+R9_DIHIGGS ?= ../dihiggs
+
+r9:
+	PYTHONPATH=$(PYTHONPATH) python3 scripts/r9_build_iteration1.py
+	PYTHONPATH=$(PYTHONPATH) python3 scripts/r9_atlas_threshold.py
+	PYTHONPATH=$(PYTHONPATH) python3 scripts/r9_run_model_scan.py \
+		--evaluator $(R9_EVALUATOR) \
+		--evaluator-source $(R9_DIHIGGS)/benchmarks/check_H2scan_mH150_tb300000.cpp \
+		--lib2hdmc $(R9_DIHIGGS)/2hdmc/lib/lib2HDMC.a \
+		--outdir results/r9_h2_sensitivity_threshold
+	PYTHONPATH=$(PYTHONPATH) python3 scripts/r9_make_figures.py
+	PYTHONPATH=$(PYTHONPATH) python3 scripts/r9_build_summary.py
+
+r9-verify:
+	PYTHONPATH=$(PYTHONPATH) python3 scripts/r9_recompute_check.py
+	PYTHONPATH=$(PYTHONPATH) python3 scripts/verify_r9_artifacts.py
+	python3 -m json.tool results/r9_h2_sensitivity_threshold/result_summary.json >/dev/null
 
 all: test inventory tidy toy paper-proxy figures figures-v2 chat-json diphoton-extract diphoton-package
 

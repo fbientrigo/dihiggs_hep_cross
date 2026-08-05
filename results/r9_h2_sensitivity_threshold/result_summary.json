@@ -1,0 +1,235 @@
+{
+  "schema": "hep_cross.r9.result_summary.v1",
+  "study": "R9 controlled sensitivity-threshold study around the validated R8 benchmark",
+  "benchmark_id": "H2scan_mH150_tb300000",
+  "status": "COMPLETE",
+  "iterations_run": 2,
+  "baseline": {
+    "m_H2_GeV": 150.0,
+    "ctau_mm": 4.326221529733112,
+    "g_hH2H2_GeV": 63.59142520075966,
+    "GHphiphi_GeV": -63.59142520075966,
+    "sigma_H2H2_pb": 0.000230291167568,
+    "BR_bb_squared": 0.5726516224278888,
+    "Trackless_Aeff": 0.01573386,
+    "Trackless_visible_sigma_fb": 0.0020749281306360694,
+    "luminosity_fb_inverse": 139.0,
+    "Trackless_expected_events": 0.28841501015841364,
+    "r8_status": {
+      "recast_validation_status": "VALIDATED",
+      "acceptance_status": "RECAST_ACCEPTANCE_COMPUTED",
+      "exclusion_status": "NOT_RUN",
+      "highpt_statistics_status": "INSUFFICIENT_MC_STATISTICS"
+    }
+  },
+  "q1_sigma_scaling": {
+    "question": "Does sigma(pp -> H2H2) scale quadratically with |g_hH2H2|?",
+    "answer": "Yes, exactly.",
+    "fitted_exponent_p": 2.0,
+    "method": "STRUCTURAL_EXACT",
+    "quadratic_scaling": "PASS",
+    "tested_kappa_values": [
+      0.5,
+      1.0,
+      2.0,
+      4.0
+    ],
+    "empirical_fit_status": "NOT_EXECUTED_MADGRAPH_UNAVAILABLE_EGRESS_BLOCKED",
+    "changing_GHphiphi_affects": {
+      "overall_matrix_element_normalization": true,
+      "mediator_width": false,
+      "interference": false,
+      "additional_diagrams": false,
+      "phase_space_distributions": false
+    }
+  },
+  "q2_q3_illustrative_thresholds": [
+    {
+      "target_events": 1.0,
+      "rate_multiplier": 3.4672259236811014,
+      "kappa_g": 1.8620488510458315,
+      "required_abs_g_hH2H2_GeV": 118.41034023144145,
+      "required_visible_sigma_fb": 0.007194244604316547,
+      "interpretation": "ILLUSTRATIVE_RATE_SCALE_NOT_DISCOVERY_OR_EXCLUSION"
+    },
+    {
+      "target_events": 3.0,
+      "rate_multiplier": 10.401677771043305,
+      "kappa_g": 3.225163216186633,
+      "required_abs_g_hH2H2_GeV": 205.09272542237372,
+      "required_visible_sigma_fb": 0.02158273381294964,
+      "interpretation": "ILLUSTRATIVE_RATE_SCALE_NOT_DISCOVERY_OR_EXCLUSION"
+    },
+    {
+      "target_events": 5.0,
+      "rate_multiplier": 17.336129618405508,
+      "kappa_g": 4.16366780836386,
+      "required_abs_g_hH2H2_GeV": 264.7735699963813,
+      "required_visible_sigma_fb": 0.03597122302158274,
+      "interpretation": "ILLUSTRATIVE_RATE_SCALE_NOT_DISCOVERY_OR_EXCLUSION"
+    },
+    {
+      "target_events": 10.0,
+      "rate_multiplier": 34.672259236811016,
+      "kappa_g": 5.888315483804432,
+      "required_abs_g_hH2H2_GeV": 374.44637364682444,
+      "required_visible_sigma_fb": 0.07194244604316548,
+      "interpretation": "ILLUSTRATIVE_RATE_SCALE_NOT_DISCOVERY_OR_EXCLUSION"
+    }
+  ],
+  "q4_official_atlas_threshold": {
+    "status": "OFFICIAL_THRESHOLD_MAPPING_UNRESOLVED",
+    "region_mapping_status": "UNAMBIGUOUS",
+    "official_region": "Trackless jet selection signal region (ATLAS DV+jets, 139 fb^-1)",
+    "observed_S95": null,
+    "expected_S95": null,
+    "model_independent_visible_sigma_limit_fb": null,
+    "why_unresolved": "The publication abstract (recorded in submission.yaml) states that model-independent cross-section limits were set, but the HEPData record contains no such table: its limit content is exclusively model-dependent SUSY exclusion contours and excluded cross sections versus mass and lifetime. The paper, the HEPData web record, the DOI and the ATLAS public page are all unreachable from this session (egress policy). No S95 was invented or recalled from memory."
+  },
+  "q5_model_reachability": {
+    "varied_coordinate": "m12_sq (M2 = m12_sq / (sin beta cos beta))",
+    "coordinate_selection_method": "numeric perturbation of each candidate through the canonical 2HDMC evaluator",
+    "coordinate_selection_reason": "Measured, not assumed: lambda6 leaves kappa_g unchanged to the printed precision across ten decades, and the entire perturbative lambda1 window maps onto an m12_sq interval whose kappa_g span is negligible. m12_sq is the only coordinate with a non-vanishing d|g|/dx at fixed mH2, mA, mHp, sin(beta-alpha) and tan beta.",
+    "rejected_coordinates": {
+      "lambda6": {
+        "kappa_g_span_over_10_decades": 7.105427357601002e-15,
+        "verdict": "does not enter g_hH2H2"
+      },
+      "lambda1_target": {
+        "kappa_g_span_over_full_perturbative_window": 2.162479417755492e-09,
+        "verdict": "only a re-parameterisation of m12_sq; span is negligible"
+      }
+    },
+    "points_tested": 7,
+    "point_budget": 7,
+    "theory_valid_points": 3,
+    "max_theory_valid_kappa_g": 1.0000000002743763,
+    "min_theory_valid_kappa_g": 0.9999999999139636,
+    "theory_valid_kappa_window_width": 3.6041269968478673e-10,
+    "theory_valid_ctau_mm_range": [
+      4.326143038676392,
+      4.326455221406271
+    ],
+    "theory_valid_br_bb_range": [
+      0.7567237562376858,
+      0.7567783629056958
+    ],
+    "max_theory_valid_abs_g_hH2H2_GeV": 63.59142521820764,
+    "smallest_illustrative_threshold_kappa_g": 1.8620488510458315,
+    "threshold_reached": false,
+    "shortfall_factor_in_kappa": 1.8620488505349295,
+    "shortfall_factor_in_rate": 3.4672259217784522,
+    "theory_validity_boundary_cause": {
+      "increasing_m12_sq": "lambda1 -> 0+, positivity_ok fails first",
+      "decreasing_m12_sq": "lambda1 -> 4*pi/3, unitarity_ok fails first"
+    },
+    "verdict": "THRESHOLD_NOT_MODEL_REACHABLE"
+  },
+  "q6_rate_limitation_cause": {
+    "dominant_cause": "production coupling",
+    "production_coupling": "Dominant. |g_hH2H2| is pinned at m_h^2/v = 63.59 GeV: at tan(beta) = 3e5 the only coordinate that reaches the trilinear, M^2, is locked to m_H2^2 by perturbativity and positivity of lambda1, whose sensitivity to M^2 is enhanced by tan(beta)^2 while the coupling's is not.",
+    "branching_ratio": "Not the limitation. BR(H2->bb) = 0.7567 is already large and is unchanged across the entire theory-valid window (span < 1e-4 relative).",
+    "lifetime_acceptance": "Not the limitation. ctau = 4.326 mm sits in the region the analysis accepts; the Trackless A x eff of 1.5734% is a normal displaced-vertex acceptance, and ctau varies by < 1e-4 relative across the theory-valid window.",
+    "combination": "There is a genuine structural tension rather than an independent set of limitations: the large tan(beta) that produces the mm-scale lifetime in Type I is the same parameter that locks the production trilinear."
+  },
+  "acceptance_stability": {
+    "acceptance_reuse_valid_for_all_theory_valid_points": true,
+    "max_relative_ctau_change_among_valid_points": 5.40175e-05,
+    "note": "A pure kappa_g rescaling multiplies the single diagram's amplitude by a constant, so the production kinematics are identical and the validated R8 acceptance is exact, not approximate, for the coupling-only interpretation."
+  },
+  "additional_recast": {
+    "run": false,
+    "reason": "The gate requires a theory-valid point whose coupling or predicted rate is near the first relevant threshold and whose ctau moved enough to make baseline acceptance reuse unreliable. No theory-valid point comes within a factor of 1.86 in kappa_g of the smallest illustrative threshold, and every theory-valid point has |delta ctau|/ctau below 1e-4. No condition of the gate is satisfied, so no additional recast was run. R8 was not rerun and no lifetime grid was executed."
+  },
+  "interpretation": {
+    "phenomenological_threshold": "The effective production coupling must reach |g| = 118.41 GeV (kappa_g = 1.862, rate x 3.467) for a single expected Trackless event at 139 fb^-1, and 374.45 GeV (kappa_g = 5.888) for ten.",
+    "model_reachability": "No. The full theory-valid range of the only coordinate that reaches the trilinear changes kappa_g by 3.60e-10, about 1.86 times short of the smallest illustrative threshold.",
+    "experimental_relevance": "Not established either way: the region mapping to the ATLAS Trackless SR is unambiguous, but no official model-independent threshold could be read, so the 1/3/5/10-event scales remain illustrative.",
+    "acceptance_stability": "Stable. Changing the model along the selected coordinate does not move the lifetime enough to require a new recast."
+  },
+  "next_step": "THRESHOLD_NOT_MODEL_REACHABLE",
+  "provenance": {
+    "baseline_sources": {
+      "m_H2_GeV": {
+        "source_path": "dihiggs_hep_cross/artifacts/h2_first_physical/production_manifest.json",
+        "source_sha256": "2c79b5a1d9874f962ff394fbea2ed69d2d9bc8062dce02510063b51b34848c02"
+      },
+      "ctau_mm": {
+        "source_path": "dihiggs/benchmarks/H2scan_mH150_tb300000_production_coupling.json",
+        "source_sha256": "abb5dfbec1767fd004dda0362fe4ab07173b4f2c3202fa9be11f6c633678c5d0"
+      },
+      "total_width_GeV": {
+        "source_path": "dihiggs/benchmarks/H2scan_mH150_tb300000_production_coupling.json",
+        "source_sha256": "abb5dfbec1767fd004dda0362fe4ab07173b4f2c3202fa9be11f6c633678c5d0"
+      },
+      "g_hH2H2_GeV": {
+        "source_path": "dihiggs/benchmarks/H2scan_mH150_tb300000_production_coupling.json",
+        "source_sha256": "abb5dfbec1767fd004dda0362fe4ab07173b4f2c3202fa9be11f6c633678c5d0"
+      },
+      "GHphiphi_GeV": {
+        "source_path": "dihiggs_hep_cross/artifacts/h2_first_physical/production_manifest.json",
+        "source_sha256": "2c79b5a1d9874f962ff394fbea2ed69d2d9bc8062dce02510063b51b34848c02"
+      },
+      "sigma_H2H2_pb": {
+        "source_path": "dihiggs_hep_cross/artifacts/h2_first_physical/production_manifest.json",
+        "source_sha256": "2c79b5a1d9874f962ff394fbea2ed69d2d9bc8062dce02510063b51b34848c02"
+      },
+      "BR_bb": {
+        "source_path": "dihiggs_hep_cross/artifacts/h2_first_physical/production_manifest.json",
+        "source_sha256": "2c79b5a1d9874f962ff394fbea2ed69d2d9bc8062dce02510063b51b34848c02"
+      },
+      "BR_bb_squared": {
+        "source_path": "dihiggs_hep_cross/artifacts/h2_first_physical/production_manifest.json",
+        "source_sha256": "2c79b5a1d9874f962ff394fbea2ed69d2d9bc8062dce02510063b51b34848c02"
+      },
+      "Trackless_Aeff": {
+        "source_path": "dihiggs_llp_recast/results/r8_h2_model_derived_4b/normalization.json",
+        "source_sha256": "28b3a0a93d9b90e67fb4391938e8c060de5af74fc1a68eca35377e39577f52aa"
+      },
+      "Trackless_visible_sigma_fb": {
+        "source_path": "dihiggs_llp_recast/results/r8_h2_model_derived_4b/normalization.json",
+        "source_sha256": "28b3a0a93d9b90e67fb4391938e8c060de5af74fc1a68eca35377e39577f52aa"
+      }
+    },
+    "model_scan": {
+      "evaluator_source": "/home/user/dihiggs/benchmarks/check_H2scan_mH150_tb300000.cpp",
+      "evaluator_source_sha256": "3ce43838b366702e7ebeabd2a2a122ad1311df543100bfbad985c87faae8fae9",
+      "evaluator_binary_sha256": "213ecbd08ef1cfe7e0ad8f10785647659f9cdd9bc5b5fa8df0011457b0f9af28",
+      "lib2hdmc_sha256": "7af97069f4dc8d7da724abffbb5f99ba9538a508b9b88bd2bfeb81ae54671f0c",
+      "evaluator_calls": 262
+    },
+    "ufo_zip_sha256": "9c685714f8840190cb08c34e4b804481564599619c1a3fa9a212256624951d33",
+    "blocked_sources": [
+      {
+        "host": "launchpadlibrarian.net",
+        "purpose": "MG5_aMC tarball download",
+        "result": "403 to CONNECT (egress policy denial)"
+      },
+      {
+        "host": "cp3.irmp.ucl.ac.be",
+        "purpose": "MadGraph upstream mirror",
+        "result": "CONNECT refused"
+      },
+      {
+        "host": "feynrules.irmp.ucl.ac.be",
+        "purpose": "MadGraph/FeynRules mirror",
+        "result": "CONNECT refused"
+      },
+      {
+        "host": "madgraph.phys.ucl.ac.be",
+        "purpose": "MadGraph upstream mirror",
+        "result": "CONNECT refused"
+      },
+      {
+        "host": "zenodo.org",
+        "purpose": "MadGraph archival copy",
+        "result": "CONNECT refused"
+      },
+      {
+        "host": "github.com release assets (mg5amcnlo)",
+        "purpose": "MG5_aMC source",
+        "result": "403, repository outside session scope"
+      }
+    ]
+  }
+}
