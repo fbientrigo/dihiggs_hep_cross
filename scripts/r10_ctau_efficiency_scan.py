@@ -8,11 +8,12 @@ Computes Trackless_Aeff and HighPt_Aeff with statistical uncertainties.
 
 from __future__ import annotations
 
+import argparse
 import csv
 import hashlib
 import json
 import math
-import re
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -23,15 +24,18 @@ OUT_DIR = REPO_ROOT / "results" / "r10_effective_ctau_g_br_scan"
 CARDS_DIR = OUT_DIR / "cards"
 LOGS_DIR = OUT_DIR / "logs"
 
-# Paths to the validated recast binary and relabelled LHE files
-RECAST_EXE = Path(
-    "/home/fabi/atlas_dihiggs/_worktrees/r8-h2-model-derived-recast/results/upstream_build_patched/analysis/recast_2301_13866"
+# Default fallback paths if not provided via CLI or environment
+DEFAULT_RECAST_EXE = os.environ.get(
+    "RECAST_EXE",
+    "/home/fabi/atlas_dihiggs/_worktrees/r8-h2-model-derived-recast/results/upstream_build_patched/analysis/recast_2301_13866",
 )
-LHE_RUN01 = Path(
-    "/home/fabi/atlas_dihiggs/_worktrees/r8-h2-model-derived-recast/data/raw/r8_h2_model_derived_4b/relabelled_run_01.lhe.gz"
+DEFAULT_LHE_RUN01 = os.environ.get(
+    "LHE_RUN01",
+    "/home/fabi/atlas_dihiggs/_worktrees/r8-h2-model-derived-recast/data/raw/r8_h2_model_derived_4b/relabelled_run_01.lhe.gz",
 )
-LHE_RUN02 = Path(
-    "/home/fabi/atlas_dihiggs/_worktrees/r8-h2-model-derived-recast/data/raw/r8_h2_model_derived_4b/relabelled_run_02.lhe.gz"
+DEFAULT_LHE_RUN02 = os.environ.get(
+    "LHE_RUN02",
+    "/home/fabi/atlas_dihiggs/_worktrees/r8-h2-model-derived-recast/data/raw/r8_h2_model_derived_4b/relabelled_run_02.lhe.gz",
 )
 
 
@@ -105,12 +109,12 @@ Beams:LHEF = {lhe_path.resolve()}
     path.write_text(content, encoding="utf-8")
 
 
-def run_recast_single(card_path: Path, log_path: Path) -> dict[str, float]:
+def run_recast_single(recast_exe: Path, card_path: Path, log_path: Path) -> dict[str, float]:
     if log_path.exists() and log_path.stat().st_size > 0:
         return parse_recast_output(log_path.read_text(encoding="utf-8"))
     proc = subprocess.run(
-        [str(RECAST_EXE), str(card_path)],
-        cwd=RECAST_EXE.parent,
+        [str(recast_exe), str(card_path)],
+        cwd=recast_exe.parent,
         capture_output=True,
         text=True,
     )
@@ -121,12 +125,36 @@ def run_recast_single(card_path: Path, log_path: Path) -> dict[str, float]:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--recast-exe", type=Path, default=Path(DEFAULT_RECAST_EXE))
+    parser.add_argument("--lhe-run01", type=Path, default=Path(DEFAULT_LHE_RUN01))
+    parser.add_argument("--lhe-run02", type=Path, default=Path(DEFAULT_LHE_RUN02))
+    args = parser.parse_args()
+
+    recast_exe = args.recast_exe
+    lhe_run01 = args.lhe_run01
+    lhe_run02 = args.lhe_run02
+
+    # Check existence if logs are missing and runs need to be executed
+    missing = []
+    if not recast_exe.exists():
+        missing.append(f"recast-exe: {recast_exe}")
+    if not lhe_run01.exists():
+        missing.append(f"lhe-run01: {lhe_run01}")
+    if not lhe_run02.exists():
+        missing.append(f"lhe-run02: {lhe_run02}")
+
     config = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
     ctau_values = config["grid"]["ctau_mm"]
     hbar_c = config["hbar_c_GeV_mm"]
 
     CARDS_DIR.mkdir(parents=True, exist_ok=True)
     LOGS_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Hashes for provenance recording (if files exist)
+    recast_exe_sha256 = sha256_file(recast_exe) if recast_exe.exists() else ""
+    lhe_run01_sha256 = sha256_file(lhe_run01) if lhe_run01.exists() else ""
+    lhe_run02_sha256 = sha256_file(lhe_run02) if lhe_run02.exists() else ""
 
     fieldnames = [
         "ctau_mm",
@@ -154,11 +182,16 @@ def main() -> int:
         log1 = LOGS_DIR / f"{tag}_run01.log"
         log2 = LOGS_DIR / f"{tag}_run02.log"
 
-        write_cmnd_card(card1, ctau, seed=81001, lhe_path=LHE_RUN01)
-        write_cmnd_card(card2, ctau, seed=81002, lhe_path=LHE_RUN02)
+        if not (log1.exists() and log2.exists() and log1.stat().st_size > 0 and log2.stat().st_size > 0):
+            if missing:
+                print(f"[FAIL] Missing input files required to run recast:\n" + "\n".join(missing), file=sys.stderr)
+                return 1
 
-        out1 = run_recast_single(card1, log1)
-        out2 = run_recast_single(card2, log2)
+        write_cmnd_card(card1, ctau, seed=81001, lhe_path=lhe_run01)
+        write_cmnd_card(card2, ctau, seed=81002, lhe_path=lhe_run02)
+
+        out1 = run_recast_single(recast_exe, card1, log1)
+        out2 = run_recast_single(recast_exe, card2, log2)
 
         # Parse Acc and Acc x Eff
         acc_tl1 = out1.get("Trackless Acc", 0.0)
@@ -178,7 +211,7 @@ def main() -> int:
         trackless_aeff = (aeff_tl1 + aeff_tl2) / n_gen
         highpt_aeff = (aeff_hp1 + aeff_hp2) / n_gen
 
-        # Statistical uncertainty: binomial / Poisson on selected events
+        # Statistical uncertainty
         if trackless_aeff > 0:
             trackless_aeff_unc = trackless_aeff * math.sqrt(max(1, n_tl_sel)) / max(1, n_tl_sel)
         else:
@@ -192,6 +225,16 @@ def main() -> int:
             "ctau_mm": ctau,
             "total_width_GeV": width_gev,
             "generated_events": n_gen,
+            "provenance": {
+                "pythia_version": "8.308",
+                "recast_executable_path": str(recast_exe),
+                "recast_executable_sha256": recast_exe_sha256,
+                "lhe_run01_path": str(lhe_run01),
+                "lhe_run01_sha256": lhe_run01_sha256,
+                "lhe_run02_path": str(lhe_run02),
+                "lhe_run02_sha256": lhe_run02_sha256,
+                "llp_recast_commit": "28b3a0a93d9b90e67fb4391938e8c060de5af74fc1a68eca35377e39577f52aa",
+            },
             "run01": {
                 "card": str(card1.relative_to(REPO_ROOT)),
                 "card_sha256": sha256_file(card1),

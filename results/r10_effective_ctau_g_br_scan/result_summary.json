@@ -4,8 +4,10 @@
   "interpretation": "EFFECTIVE_PHENOMENOLOGICAL",
   "process": "pp -> H2 H2 -> b b b b",
   "luminosity_fb_inverse": 139.0,
-  "observed_S95": 3.0,
-  "observed_visible_sigma_limit_fb": 0.022,
+  "official_limits": {
+    "observed_S95": 3.0,
+    "observed_visible_sigma_limit_fb": 0.022
+  },
   "baseline_anchor": {
     "m_H2_GeV": 150.0,
     "ctau_0_mm": 4.326221529733112,
@@ -15,8 +17,7 @@
     "sigma_0_pb": 0.000230291167568,
     "Trackless_Aeff_0": 0.01573386,
     "visible_sigma_0_fb": 0.0020749281306360694,
-    "N_expected_0": 0.28841501015841364,
-    "anchor_verification_status": "VERIFIED_EXACT_MATCH"
+    "N_expected_0": 0.28841501015841364
   },
   "scan_dimensions": {
     "g_hH2H2_GeV_points": 6,
@@ -25,33 +26,44 @@
     "total_effective_combinations": 240
   },
   "grid_reach_summary": {
-    "n_points_total": 240,
-    "n_points_N_ge_1": 42,
-    "n_points_N_ge_3_S95": 21,
-    "max_N_expected": 25.80212959828557,
-    "min_N_expected": 0.0
+    "total_points": 240,
+    "N_expected_ge_1_points": 54,
+    "N_expected_ge_3_points": 23,
+    "maximum_N_expected": 13.269202801224393,
+    "maximum_point": {
+      "ctau_mm": 10.0,
+      "g_hH2H2_GeV": 300.0,
+      "BR_H2_to_bb": 1.0,
+      "N_expected": 13.269202801224393
+    },
+    "maximum_point_at_baseline_BR": {
+      "ctau_mm": 10.0,
+      "g_hH2H2_GeV": 300.0,
+      "BR_H2_to_bb": 0.7567374858085787,
+      "N_expected": 7.598630512445835
+    }
+  },
+  "structural_production_cross_sections_pb": {
+    "g_150_GeV": 0.001281334981474172,
+    "g_300_GeV": 0.005125339925896688,
+    "formula": "sigma(g) = sigma_0 * (g / g_0)^2"
   },
   "ctau_efficiency_summary": {
-    "peak_ctau_mm": 10.0,
-    "peak_Trackless_Aeff": 0.018625,
+    "statistically_compatible_plateau_mm": [
+      10.0,
+      30.0
+    ],
+    "ctau_10mm_Trackless_Aeff": 0.018625,
+    "ctau_30mm_Trackless_Aeff": 0.0185625,
     "baseline_ctau_mm": 4.326221529733112,
     "baseline_Trackless_Aeff": 0.01573386,
-    "efficiency_trend": "Efficiency starts near zero at 0.3 mm (sel=0), rises sharply to 0.0157 at 4.33 mm, peaks at 0.0186 for 10-30 mm, and drops to 0.0069 at 300 mm due to decays outside the inner detector tracking volume."
-  },
-  "production_scaling_summary": {
-    "scaling_law": "sigma(g) = sigma_0 * (g / g_0)^2",
-    "g_range_GeV": [40.0, 300.0],
-    "sigma_production_range_pb": [0.0000910014282, 0.00512803876]
+    "ctau_0p3mm_status": "zero selected events out of 2000; efficiency is unresolved and an upper limit is required",
+    "large_ctau_trend": "the decrease at large ctau is consistent with more decays occurring outside the fiducial displaced-vertex volume"
   },
   "methodology_provenance": {
-    "madgraph_status": "MADGRAPH_NOT_EXECUTED_LHAPDF_UNAVAILABLE;STRUCTURAL_PREDICTION_ONLY",
+    "production_status": "STRUCTURAL_PREDICTION_ONLY",
+    "madgraph_status": "MADGRAPH_NOT_EXECUTED_LHAPDF_UNAVAILABLE",
     "pythia_recast_status": "MEASURED_WITH_FULL_PYTHIA_AND_ATLAS_DVJETS_RECAST",
     "grid_construction": "ALGEBRAIC_CARTESIAN_PRODUCT_FACTORIZATION"
-  },
-  "key_findings": {
-    "efficiency_dependence": "Trackless selection efficiency is strongly non-monotonic with ctau, peaking in the 10-30 mm window.",
-    "trilinear_coupling_impact": "Production cross section scales quadratically with g_hH2H2; increasing g from 63.6 GeV to 205.1 GeV enhances yield by 10.4x, reaching the S95 = 3 threshold at baseline ctau and BR.",
-    "branching_ratio_suppression": "Yield scales as BR(H2->bb)^2; reducing BR from 1.0 to 0.1 suppresses signal yield by a factor of 100.",
-    "experimentally_relevant_region": "Effective combinations with g >= 150 GeV, ctau in 3-100 mm, and BR >= 0.5 reach N_expected >= 1, while g >= 205 GeV reaches or exceeds the official ATLAS S95 = 3 event threshold."
   }
 }

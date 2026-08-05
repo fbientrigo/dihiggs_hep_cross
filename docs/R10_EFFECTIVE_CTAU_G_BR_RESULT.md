@@ -11,6 +11,8 @@ In this exploration, three physical parameters are varied as independent numeric
 
 Every point evaluated in this scan is explicitly labeled as an **effective phenomenological point**. These variables are treated as numerically independent and are **not yet mapped to a theory-valid 2HDM point**. No 2HDM theoretical validity condition (such as vacuum stability, unitarity, or perturbativity) is imposed on this effective scan grid.
 
+All conclusions based on $g_{hH_2H_2}$ use the structurally exact quadratic cross-section prediction $\sigma(g) = \sigma_0 \cdot (g/g_0)^2$ anchored to the validated baseline. They are not measured MadGraph outputs because MadGraph could not be executed locally due to missing LHAPDF set 230000 (`MADGRAPH_NOT_EXECUTED_LHAPDF_UNAVAILABLE; STRUCTURAL_PREDICTION_ONLY`).
+
 ---
 
 ## Core Factorization and Simulation Contract
@@ -45,45 +47,38 @@ The frozen R8/R9 benchmark anchor point was verified with exact agreement before
 ## Answers to Key Scientific Questions
 
 ### 1. How does Trackless efficiency vary with $c\tau$?
-The selection efficiency $(A \times \epsilon)_{\text{Trackless}}$ exhibits a strongly non-monotonic dependence on $c\tau$:
-* At $c\tau = 0.3\text{ mm}$, the efficiency is zero (0 selected events out of 2000), yielding status `LOW_MC_STATISTICS`.
-* As $c\tau$ increases to $1.0\text{ mm}$, efficiency rises to $0.003952$ (10 selected events).
+The selection efficiency $(A \times \epsilon)_{\text{Trackless}}$ exhibits a non-monotonic dependence on $c\tau$:
+* At $c\tau = 0.3\text{ mm}$, zero selected events out of 2000 were observed; efficiency is unresolved and an upper limit is required rather than claiming zero physically.
+* As $c\tau$ increases to $1.0\text{ mm}$, efficiency reaches $0.003952$ (10 selected events).
 * At the baseline anchor $c\tau_0 = 4.326\text{ mm}$, efficiency is $0.015734$ (40 selected events).
-* Peak selection efficiency occurs in the window $c\tau \in [10, 30]\text{ mm}$, reaching **$0.018625$** (47–48 selected events).
-* Beyond $30\text{ mm}$, efficiency decreases as LLPs decay beyond the inner detector tracking volume, falling to $0.006872$ at $c\tau = 300\text{ mm}$.
+* Between $c\tau = 10\text{ mm}$ ($(A \times \epsilon) = 0.018625$, 47 selected events) and $c\tau = 30\text{ mm}$ ($(A \times \epsilon) = 0.018563$, 48 selected events), the efficiency exhibits a **statistically compatible efficiency plateau**.
+* The decrease at large $c\tau$ (falling to $0.006872$ at $c\tau = 300\text{ mm}$) is consistent with more decays occurring outside the fiducial displaced-vertex volume.
 
 ### 2. How does the production cross section vary with $g$?
-The production cross section $\sigma_{\text{production}}(g)$ scales quadratically with the trilinear coupling:
-
-$$\sigma(g) = \sigma_0 \times \left(\frac{g}{g_0}\right)^2$$
-
-For the tested couplings $g \in [40.0, 300.0]\text{ GeV}$:
-* $g = 40.0\text{ GeV} \implies \sigma = 0.0000910\text{ pb}$ ($0.395 \times \sigma_0$)
-* $g = 63.59\text{ GeV} \implies \sigma = 0.0002303\text{ pb}$ ($1.000 \times \sigma_0$)
-* $g = 100.0\text{ GeV} \implies \sigma = 0.0005691\text{ pb}$ ($2.471 \times \sigma_0$)
-* $g = 150.0\text{ GeV} \implies \sigma = 0.01280\text{ pb}$ ($5.560 \times \sigma_0$)
-* $g = 205.09\text{ GeV} \implies \sigma = 0.0023954\text{ pb}$ ($10.402 \times \sigma_0$)
-* $g = 300.0\text{ GeV} \implies \sigma = 0.0051280\text{ pb}$ ($22.268 \times \sigma_0$)
+The production cross section $\sigma_{\text{production}}(g)$ uses the structurally exact quadratic prediction anchored to the validated baseline $\sigma(g) = \sigma_0 \cdot (g/g_0)^2$:
+* $g = 40.0\text{ GeV} \implies \sigma = 0.000091001428\text{ pb}$
+* $g = 63.59\text{ GeV} \implies \sigma = 0.000230291168\text{ pb}$ (baseline anchor)
+* $g = 100.0\text{ GeV} \implies \sigma = 0.000569103756\text{ pb}$
+* $g = 150.0\text{ GeV} \implies \sigma = 0.001280483452\text{ pb}$ (structural prediction: $0.001281334981\text{ pb}$ using exact nominal $g$)
+* $g = 205.09\text{ GeV} \implies \sigma = 0.002395414519\text{ pb}$
+* $g = 300.0\text{ GeV} \implies \sigma = 0.005125339926\text{ pb}$
 
 ### 3. How strongly does $\mathrm{BR}_{b\bar{b}}^2$ suppress or enhance the final yield?
 Because both produced scalars decay into $b\bar{b}$, the signal yield scales quadratically with $\mathrm{BR}(H_2 \to b\bar{b})$:
-* $\mathrm{BR} = 1.00 \implies \text{factor} = 1.0000$ (enhancement of $1.75\times$ over baseline)
+* $\mathrm{BR} = 1.00 \implies \text{factor} = 1.0000$ ($1.75\times$ enhancement over baseline $\text{BR}_0^2$)
 * $\mathrm{BR} = 0.7567 \implies \text{factor} = 0.5727$ (baseline anchor)
 * $\mathrm{BR} = 0.50 \implies \text{factor} = 0.2500$ ($2.29\times$ suppression relative to baseline)
 * $\mathrm{BR} = 0.25 \implies \text{factor} = 0.0625$ ($9.16\times$ suppression relative to baseline)
 * $\mathrm{BR} = 0.10 \implies \text{factor} = 0.0100$ ($57.27\times$ suppression relative to baseline)
 
 ### 4. Which effective combinations reach one expected event ($N_{\text{expected}} \ge 1$)?
-Out of the 240 grid points, **42 effective combinations** reach or exceed $N_{\text{expected}} \ge 1.0$.
-Representative conditions:
-* $g \ge 150\text{ GeV}$ with $c\tau \in [3, 100]\text{ mm}$ and $\mathrm{BR} \ge 0.50$.
-* $g \ge 205\text{ GeV}$ with $c\tau \in [1, 300]\text{ mm}$ for $\mathrm{BR} \ge 0.50$.
-* $g = 300\text{ GeV}$ for all $c\tau \in [1, 300]\text{ mm}$ down to $\mathrm{BR} = 0.25$.
+Out of the 240 grid points, **54 effective combinations** reach or exceed $N_{\text{expected}} \ge 1.0$.
 
 ### 5. Which effective combinations reach observed $S_{95} = 3.0$ events?
-Out of 240 grid points, **21 effective combinations** reach or exceed the official ATLAS model-independent Trackless threshold of $S_{95} = 3.0$ events ($\sigma_{\text{visible}} \ge 0.022\text{ fb}$):
-* At baseline lifetime $c\tau_0 = 4.33\text{ mm}$ and $\mathrm{BR}_0 = 0.757$, $g = 205.09\text{ GeV}$ yields exactly **$N_{\text{expected}} = 3.00$ events**.
-* At $g = 300\text{ GeV}$ and peak lifetime $c\tau \in [10, 30]\text{ mm}$ with $\mathrm{BR} = 1.00$, the yield reaches **$N_{\text{expected}} = 25.8$ events** ($8.6 \times S_{95}$).
+Out of 240 grid points, **23 effective combinations** reach or exceed the official ATLAS model-independent Trackless threshold of $S_{95} = 3.0$ events ($\sigma_{\text{visible}} \ge 0.022\text{ fb}$):
+* Maximum yield in the grid occurs at $(c\tau = 10\text{ mm}, g = 300\text{ GeV}, \mathrm{BR} = 1.0)$, reaching **$N_{\text{expected}} = 13.269202801224393\text{ events}$**.
+* At baseline BR ($\mathrm{BR}_0 = 0.7567$), the maximum yield at $(c\tau = 10\text{ mm}, g = 300\text{ GeV})$ is **$N_{\text{expected}} = 7.598630512445835\text{ events}$**.
+* At baseline lifetime $c\tau_0 = 4.33\text{ mm}$ and $\mathrm{BR}_0 = 0.7567$, $g = 205.09\text{ GeV}$ yields exactly $N_{\text{expected}} = 3.00\text{ events}$.
 
 ### 6. Where is the validated R8/R9 anchor in the effective space?
 The baseline anchor point sits at $(c\tau = 4.326\text{ mm}, g = 63.59\text{ GeV}, \mathrm{BR} = 0.7567)$ with:
@@ -97,9 +92,9 @@ The anchor point is safely below experimental exclusion, situated in the unexclu
 * **Measured with Full Pythia + ATLAS DV+jets Recast**:
   The 8 efficiency values $(A \times \epsilon)_{\text{Trackless}}(c\tau)$ were computed via Pythia showering and detector recast across 16 run logs (2000 events per $c\tau$ point).
 * **Algebraic Cartesian Grid**:
-  The 240-point grid for $\sigma_{\text{production}}(g)$, $\sigma_{4b}$, $\sigma_{\text{visible}}$, and $N_{\text{expected}}$ was constructed algebraically exploiting the core factorization.
+  The 240-point grid for $\sigma_{\text{production}}(g)$, $\sigma_{4b}$, $\sigma_{\text{visible}}$, and $N_{\text{expected}}$ was constructed algebraically exploiting core factorization.
 * **MadGraph Production Status**:
-  MadGraph cross-section measurements could not be executed due to the local absence of LHAPDF set 230000. Measured columns in `production_vs_g.csv` are preserved blank with status `MADGRAPH_NOT_EXECUTED_LHAPDF_UNAVAILABLE;STRUCTURAL_PREDICTION_ONLY`.
+  MadGraph cross-section measurements could not be executed due to missing LHAPDF set 230000 (`MADGRAPH_NOT_EXECUTED_LHAPDF_UNAVAILABLE`). Production cross sections rely on the structurally exact quadratic prediction `STRUCTURAL_PREDICTION_ONLY`.
 
 ---
 
@@ -109,7 +104,7 @@ All generated artifacts are committed under `results/r10_effective_ctau_g_br_sca
 * `production_vs_g.csv` (6 production coupling points)
 * `efficiency_vs_ctau.csv` (8 lifetime efficiency points)
 * `effective_grid.csv` (240 Cartesian grid points)
-* `result_summary.json` (Structured JSON summary)
+* `result_summary.json` (Programmatically generated JSON summary)
 * `efficiency_vs_ctau.png` (Static plot 1)
 * `nexpected_3d_ctau_g_br.png` (Static plot 2)
 * `nexpected_ctau_vs_g_br_baseline.png` (2D Cut 1)

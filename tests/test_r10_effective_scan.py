@@ -4,6 +4,7 @@ import csv
 import hashlib
 import json
 import math
+import subprocess
 import sys
 from pathlib import Path
 
@@ -69,7 +70,6 @@ def test_n_over_s95_formula():
 
 def test_exact_preservation_of_baseline_anchor(grid_rows, config):
     anchor = config["baseline_anchor"]
-    # Find anchor row in effective_grid.csv
     anchor_row = next(
         (
             r
@@ -90,11 +90,8 @@ def test_exact_preservation_of_baseline_anchor(grid_rows, config):
 
 
 def test_no_br_double_counting(eff_rows):
-    # Verify that forced decay sample BR is 1.0 and physical BR is separate
     for r in eff_rows:
-        # Check generated events is 2000
         assert int(r["generated_events"]) == 2000
-        # Aeff must be in [0, 1]
         aeff = float(r["Trackless_Aeff"])
         assert 0.0 <= aeff <= 1.0
 
@@ -112,6 +109,42 @@ def test_no_model_derived_interpretation_labels(grid_rows):
         assert "2HDM" not in r["interpretation"]
 
 
+def test_blocker3_regression_counts_and_maximums(grid_rows, config):
+    n_ge_1 = sum(1 for r in grid_rows if float(r["N_expected_139fb"]) >= 1.0)
+    n_ge_3 = sum(1 for r in grid_rows if float(r["N_expected_139fb"]) >= 3.0)
+    max_N = max(float(r["N_expected_139fb"]) for r in grid_rows)
+
+    assert n_ge_1 == 54, f"Expected 54 points with N>=1, got {n_ge_1}"
+    assert n_ge_3 == 23, f"Expected 23 points with N>=3, got {n_ge_3}"
+    assert max_N == pytest.approx(13.269202801224393, rel=1e-8)
+
+    # Structural cross section at g = 150 GeV
+    g_0 = config["baseline_anchor"]["abs_g_0_GeV"]
+    sigma_0 = config["baseline_anchor"]["sigma_0_pb"]
+    sigma_g150 = sigma_0 * (150.0 / g_0) ** 2
+    assert sigma_g150 == pytest.approx(0.001281334981474172, rel=1e-8)
+
+
+def test_no_stale_summary_numbers_in_artifacts():
+    stale_tokens = [
+        "42 points",
+        "21 points",
+        "25.8",
+        "18.6",
+        "0.01280 pb",
+    ]
+    files_to_check = [
+        REPO_ROOT / "docs" / "R10_EFFECTIVE_CTAU_G_BR_RESULT.md",
+        REPO_ROOT / "docs" / "R10_PRESENTATION_INSERT_ES.md",
+        OUT_DIR / "result_summary.json",
+    ]
+    for file_path in files_to_check:
+        assert file_path.exists(), f"Missing file: {file_path}"
+        text = file_path.read_text(encoding="utf-8")
+        for token in stale_tokens:
+            assert token not in text, f"Stale incorrect number '{token}' found in {file_path}"
+
+
 def test_required_figures_exist():
     required_figures = [
         OUT_DIR / "efficiency_vs_ctau.png",
@@ -126,23 +159,34 @@ def test_required_figures_exist():
         assert fig_path.stat().st_size > 0, f"Figure file is empty: {fig_path}"
 
 
-def test_manifest_hashes_verify():
+def test_manifest_hashes_verify_and_clean_checkout():
     manifest_path = OUT_DIR / "artifact_manifest.json"
     assert manifest_path.exists()
     payload = json.loads(manifest_path.read_text(encoding="utf-8"))
     assert payload["schema"] == "hep_cross.r10.artifact_manifest.v1"
-    assert len(payload["artifacts"]) >= 20
 
     for rel_path, expected_hash in payload["artifacts"].items():
         full_path = REPO_ROOT / rel_path
-        assert full_path.exists(), f"File in manifest missing: {rel_path}"
+        assert full_path.exists(), f"Clean checkout assertion failed: missing file {rel_path}"
         digest = hashlib.sha256(full_path.read_bytes()).hexdigest()
         assert digest == expected_hash, f"Hash mismatch for {rel_path}"
 
 
-def test_recomputation_gate_passes():
-    import subprocess
+def test_verifier_default_mode_does_not_modify_manifest():
+    manifest_path = OUT_DIR / "artifact_manifest.json"
+    mtime_before = manifest_path.stat().st_mtime_ns
+    proc = subprocess.run(
+        [sys.executable, "scripts/verify_r10_effective_scan.py"],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+    )
+    mtime_after = manifest_path.stat().st_mtime_ns
+    assert proc.returncode == 0, f"Verifier failed: {proc.stderr}\n{proc.stdout}"
+    assert mtime_before == mtime_after, "Verifier in default mode modified artifact_manifest.json!"
 
+
+def test_recomputation_gate_passes():
     proc = subprocess.run(
         [sys.executable, "scripts/r10_recompute_grid.py"],
         cwd=REPO_ROOT,

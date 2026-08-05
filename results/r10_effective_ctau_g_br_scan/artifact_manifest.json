@@ -5,8 +5,8 @@
   "n_files": 60,
   "artifacts": {
     "configs/r10_effective_scan.json": "77eb6494b5883a9bf1bd9c9af4e07077957e36a5f757286629a1ec081377d10e",
-    "docs/R10_EFFECTIVE_CTAU_G_BR_RESULT.md": "9e552c7d09335dcf3b42b9d5656757cb66267859ee5445462a07a75e0f22b8f1",
-    "docs/R10_PRESENTATION_INSERT_ES.md": "81aa8bcb2a88c65b64a369a7a5f47dfbec0a0a4e305cd42c372d9522764e09d3",
+    "docs/R10_EFFECTIVE_CTAU_G_BR_RESULT.md": "16bb94f5acb44ce615cfa934e0ed4560663b248a919896f2cc4e9a0329deb6db",
+    "docs/R10_PRESENTATION_INSERT_ES.md": "81bbfe85560c8cbf724c9e0be30a29f783b44c5447c06cec00cabb005b5ea41f",
     "results/r10_effective_ctau_g_br_scan/cards/ctau_0p3_run01.cmnd": "457254991c90160e5fbca91828a8f3b0c6f4b947e65e948569ac378372f1a4c3",
     "results/r10_effective_ctau_g_br_scan/cards/ctau_0p3_run02.cmnd": "726f881ae0a693c8c3d66e6ea3b388fdab4a6dd41beba9f9be8c0a0d6598398d",
     "results/r10_effective_ctau_g_br_scan/cards/ctau_100_run01.cmnd": "b1cb5a52629eb9d55b14d0e6c402eacb6aba2ca51fad447334a37df6e5611691",
@@ -51,18 +51,18 @@
     "results/r10_effective_ctau_g_br_scan/logs/ctau_4p326221529733112_run02.log": "6c9ff402a67c4fd0c36c2256a5ef7708de30970c19d5ba455f8258f3f5959373",
     "results/r10_effective_ctau_g_br_scan/logs/ctau_4p326221529733112_summary.json": "5f70d61b064539c6924598d9f103cafe2b16812cee595d7c71299a9665ee04b9",
     "results/r10_effective_ctau_g_br_scan/nexpected_3d_ctau_g_br.png": "1a7567dbdaf4a9f2a2f41245b21767b671467e6c0978935b575b8bacf26ecd8b",
-    "results/r10_effective_ctau_g_br_scan/nexpected_3d_interactive.html": "6985252634d7a6efdab82d9e7d97f13da6ad5254a835ab8b95a888682a1c00ce",
+    "results/r10_effective_ctau_g_br_scan/nexpected_3d_interactive.html": "fe9b8f6eeb515f428220742b8895a7cee440208daebaf98e625b1973f98d93d6",
     "results/r10_effective_ctau_g_br_scan/nexpected_ctau_vs_br_g_atlas.png": "523b091869bcf5abbf0aae3e06b5b593de735a158864afd3841d60ed53a92fa0",
     "results/r10_effective_ctau_g_br_scan/nexpected_ctau_vs_g_br_baseline.png": "f93873107fabd3ca9e96fcc4f7727ac28bc2f3bf08f877d6b2b1f0dacdbbc34e",
     "results/r10_effective_ctau_g_br_scan/nexpected_g_vs_br_ctau_baseline.png": "c0337e71ad21bad7c0488829462349f16cd9a949c9502f8e0dcd557e5ba65f0a",
     "results/r10_effective_ctau_g_br_scan/production_vs_g.csv": "22c5326e8c9c69af2a088839e079f74eee0eb7367c92877a1afb72a19bf1a03e",
-    "results/r10_effective_ctau_g_br_scan/result_summary.json": "70df49decd45319193dcfab3aac1dd0f5ab46b827424b58cb96aed1a0c7c356a",
+    "results/r10_effective_ctau_g_br_scan/result_summary.json": "89fc57a7d422299f4ede85c50d0d9fafb5b318ec9aaece8432662aff0b1b746e",
     "schemas/effective_h2_scan_point.schema.json": "b9ddd15410c56360c6b5443c78bda1e964ebd5f5c4d1aefc798895847ce5ab47",
     "scripts/r10_build_effective_grid.py": "73a92be0b6f2f7b782447ec1be4104bc688c964db58014af56f3b0295ac4303a",
-    "scripts/r10_ctau_efficiency_scan.py": "6626263c045b23ed28d4278a8b4134309929d29c00a0f050b39efd82c22a6ac6",
+    "scripts/r10_ctau_efficiency_scan.py": "780b39547cb7ef99f0ee61a83762f6a83b8087babec4fb281416ae77cd57f584",
     "scripts/r10_make_figures.py": "8da8efea1c79929e05b28b3d5f34579ae372dd8b12bde271f20f58f503996504",
     "scripts/r10_production_scan.py": "039212b21164b2e6f41ab945ed337d723b12d37416d7a2fe089f87aff3764a80",
     "scripts/r10_recompute_grid.py": "a264053e8de777c8b9c5dcbab621f76c3c146dd83ebbe07f2a2810dd1927f00e",
-    "scripts/verify_r10_effective_scan.py": "6261b1dd7482ace174d0d1b17820a4297edfc7d1969a1e91a4eb4d3d21f26e1a"
+    "scripts/verify_r10_effective_scan.py": "551c8de98db8c65da2099662f71bde916311a8cd5dbfbc13fd3812c601f3e07a"
   }
 }

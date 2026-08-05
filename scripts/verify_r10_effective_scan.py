@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 """R10 Phase 7: Auditability and manifest verification script.
 
-Computes SHA-256 digests for all R10 inputs, scripts, configs, logs, cards,
-CSVs, JSONs, PNGs, and HTML artifacts, and writes artifact_manifest.json.
-Verifies that all files exist and match their recorded digests.
+In default mode (no arguments), verifies that every file listed in
+results/r10_effective_ctau_g_br_scan/artifact_manifest.json exists and
+matches its recorded SHA-256 digest. Fails with non-zero exit code on missing
+files or mismatches. Does NOT modify artifact_manifest.json unless --write is set.
+
+When --write is passed, regenerates artifact_manifest.json from current repository files.
 """
 
 from __future__ import annotations
 
-import csv
+import argparse
 import hashlib
 import json
 import sys
@@ -59,40 +62,63 @@ def collect_artifacts() -> dict[str, str]:
         files_to_hash.extend(sorted((OUT_DIR / "logs").glob("*.json")))
 
     manifest = {}
+    missing_files = []
     for p in sorted(files_to_hash):
         if p.exists():
             rel_path = str(p.relative_to(REPO_ROOT))
             manifest[rel_path] = sha256_file(p)
         else:
-            print(f"[WARNING] File for manifest missing: {p}", file=sys.stderr)
+            missing_files.append(str(p.relative_to(REPO_ROOT)))
+
+    if missing_files:
+        raise FileNotFoundError(f"Missing required artifact files for manifest generation: {missing_files}")
 
     return manifest
 
 
 def main() -> int:
-    manifest = collect_artifacts()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--write", action="store_true", help="Regenerate artifact_manifest.json")
+    args = parser.parse_args()
 
-    manifest_payload = {
-        "schema": "hep_cross.r10.artifact_manifest.v1",
-        "study_id": "r10_effective_ctau_g_br_scan",
-        "interpretation": "EFFECTIVE_PHENOMENOLOGICAL",
-        "n_files": len(manifest),
-        "artifacts": manifest,
-    }
+    if args.write:
+        manifest = collect_artifacts()
+        manifest_payload = {
+            "schema": "hep_cross.r10.artifact_manifest.v1",
+            "study_id": "r10_effective_ctau_g_br_scan",
+            "interpretation": "EFFECTIVE_PHENOMENOLOGICAL",
+            "n_files": len(manifest),
+            "artifacts": manifest,
+        }
+        MANIFEST_PATH.write_text(json.dumps(manifest_payload, indent=2) + "\n", encoding="utf-8")
+        print(f"[OK] Wrote {MANIFEST_PATH} with {len(manifest)} file hashes.")
+        return 0
 
-    MANIFEST_PATH.write_text(json.dumps(manifest_payload, indent=2) + "\n", encoding="utf-8")
-    print(f"[OK] Wrote {MANIFEST_PATH} with {len(manifest)} file hashes.")
+    # Verification mode: check existing committed manifest strictly
+    if not MANIFEST_PATH.exists():
+        print(f"[FAIL] Manifest file does not exist: {MANIFEST_PATH}", file=sys.stderr)
+        return 1
 
-    # Self-verification check
+    try:
+        manifest_payload = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as err:
+        print(f"[FAIL] Malformed manifest JSON: {err}", file=sys.stderr)
+        return 1
+
+    artifacts = manifest_payload.get("artifacts", {})
+    if not artifacts:
+        print(f"[FAIL] Manifest contains no artifacts", file=sys.stderr)
+        return 1
+
     errors = []
-    for rel_path, expected_hash in manifest.items():
+    for rel_path, expected_hash in artifacts.items():
         full_path = REPO_ROOT / rel_path
         if not full_path.exists():
             errors.append(f"Missing file: {rel_path}")
             continue
         actual_hash = sha256_file(full_path)
         if actual_hash != expected_hash:
-            errors.append(f"Hash mismatch for {rel_path}: {actual_hash} vs {expected_hash}")
+            errors.append(f"Hash mismatch for {rel_path}: actual {actual_hash} vs expected {expected_hash}")
 
     if errors:
         print(f"[FAIL] Manifest verification failed ({len(errors)} errors):", file=sys.stderr)
@@ -100,7 +126,7 @@ def main() -> int:
             print(f"  - {e}", file=sys.stderr)
         return 1
 
-    print("[PASS] verify_r10_effective_scan: all manifest hashes verified successfully.")
+    print(f"[PASS] verify_r10_effective_scan: all {len(artifacts)} manifest hashes verified successfully.")
     return 0
 
 
