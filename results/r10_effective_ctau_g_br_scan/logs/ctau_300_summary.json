@@ -1,0 +1,30 @@
+{
+  "ctau_mm": 300.0,
+  "total_width_GeV": 6.577566013333334e-16,
+  "generated_events": 2000,
+  "run01": {
+    "card": "results/r10_effective_ctau_g_br_scan/cards/ctau_300_run01.cmnd",
+    "card_sha256": "3b3b2886ecec69ed19964db8fd63d153dc591596de1eff59886c97f28d0730dd",
+    "log": "results/r10_effective_ctau_g_br_scan/logs/ctau_300_run01.log",
+    "log_sha256": "f86f41712f3660738537b3a830c84160816875610cc3c74a9b3ceb86b6273591",
+    "trackless_acc": 15.0,
+    "trackless_acc_x_eff": 6.150258
+  },
+  "run02": {
+    "card": "results/r10_effective_ctau_g_br_scan/cards/ctau_300_run02.cmnd",
+    "card_sha256": "713d9be9d3a0b1813f4731a66f23f2c80a2e44bacec98d8fba6603bf61ce5c42",
+    "log": "results/r10_effective_ctau_g_br_scan/logs/ctau_300_run02.log",
+    "log_sha256": "f567c202c54b3f1c975a81a5efdd37a1ffda93f27b5067954988720e79e1b03f",
+    "trackless_acc": 20.0,
+    "trackless_acc_x_eff": 7.593899
+  },
+  "combined": {
+    "selected_trackless_events": 35,
+    "Trackless_Aeff": 0.006872078500000001,
+    "Trackless_Aeff_stat_uncertainty": 0.0011615932766206726,
+    "selected_highpt_events": 4,
+    "HighPt_Aeff": 0.0010178137,
+    "Trackless_status": "VALIDATED",
+    "HighPt_status": "INSUFFICIENT_MC_STATISTICS"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "schema": "hep_cross.r10.effective_scan_config.v1",
+  "study_id": "r10_effective_ctau_g_br_scan",
+  "interpretation": "EFFECTIVE_PHENOMENOLOGICAL",
+  "process": {
+    "production": "pp -> H2 H2",
+    "decay_forced": "H2 -> b b",
+    "final_state": "b b b b",
+    "m_H2_GeV": 150.0,
+    "sqrt_s_TeV": 13.0,
+    "luminosity_fb_inverse": 139.0,
+    "primary_signal_region": "ATLAS DV+jets Trackless"
+  },
+  "official_limits": {
+    "observed_S95": 3.0,
+    "observed_visible_sigma_limit_fb": 0.022
+  },
+  "baseline_anchor": {
+    "m_H2_GeV": 150.0,
+    "ctau_0_mm": 4.326221529733112,
+    "abs_g_0_GeV": 63.59142520075966,
+    "GHphiphi_0_GeV": -63.59142520075966,
+    "BR_bb_0": 0.7567374858085787,
+    "sigma_0_pb": 0.000230291167568,
+    "Trackless_Aeff_0": 0.01573386,
+    "visible_sigma_0_fb": 0.0020749281306360694,
+    "N_expected_0": 0.28841501015841364
+  },
+  "grid": {
+    "g_hH2H2_GeV": [
+      40.0,
+      63.59142520075966,
+      100.0,
+      150.0,
+      205.09272542237372,
+      300.0
+    ],
+    "ctau_mm": [
+      0.3,
+      1.0,
+      3.0,
+      4.326221529733112,
+      10.0,
+      30.0,
+      100.0,
+      300.0
+    ],
+    "BR_H2_to_bb": [
+      0.10,
+      0.25,
+      0.50,
+      0.7567374858085787,
+      1.00
+    ]
+  },
+  "hbar_c_GeV_mm": 1.973269804e-13
+}

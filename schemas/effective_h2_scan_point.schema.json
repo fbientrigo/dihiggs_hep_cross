@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EffectiveH2ScanPoint",
+  "description": "Schema for an effective phenomenological scan point in (ctau, g_hH2H2, BR_bb) space for H2 pair production",
+  "type": "object",
+  "required": [
+    "schema",
+    "point_id",
+    "interpretation",
+    "m_H2_GeV",
+    "ctau_mm",
+    "total_width_GeV",
+    "g_hH2H2_GeV",
+    "GHphiphi_GeV",
+    "BR_H2_to_bb",
+    "forced_sample_decay_mode",
+    "luminosity_fb_inverse",
+    "production_status",
+    "efficiency_status",
+    "normalization_status"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "hep_cross.r10.effective_h2_scan_point.v1"
+    },
+    "point_id": {
+      "type": "string",
+      "pattern": "^eff_ctau[0-9p]+_g[0-9p]+_br[0-9p]+$"
+    },
+    "interpretation": {
+      "type": "string",
+      "const": "EFFECTIVE_PHENOMENOLOGICAL"
+    },
+    "m_H2_GeV": {
+      "type": "number",
+      "const": 150.0
+    },
+    "ctau_mm": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "total_width_GeV": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "g_hH2H2_GeV": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "GHphiphi_GeV": {
+      "type": "number"
+    },
+    "BR_H2_to_bb": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "forced_sample_decay_mode": {
+      "type": "string",
+      "const": "H2_to_bb_100pct"
+    },
+    "luminosity_fb_inverse": {
+      "type": "number",
+      "const": 139.0
+    },
+    "production_status": {
+      "type": "string"
+    },
+    "efficiency_status": {
+      "type": "string"
+    },
+    "normalization_status": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

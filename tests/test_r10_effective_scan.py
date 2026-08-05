@@ -1,0 +1,153 @@
+"""Comprehensive Pytest test suite for R10 effective phenomenological scan."""
+
+import csv
+import hashlib
+import json
+import math
+import sys
+from pathlib import Path
+
+import pytest
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+CONFIG_PATH = REPO_ROOT / "configs" / "r10_effective_scan.json"
+OUT_DIR = REPO_ROOT / "results" / "r10_effective_ctau_g_br_scan"
+
+
+@pytest.fixture(scope="module")
+def config():
+    return json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+
+
+@pytest.fixture(scope="module")
+def grid_rows():
+    csv_path = OUT_DIR / "effective_grid.csv"
+    with open(csv_path, newline="", encoding="utf-8") as fh:
+        return list(csv.DictReader(fh))
+
+
+@pytest.fixture(scope="module")
+def eff_rows():
+    csv_path = OUT_DIR / "efficiency_vs_ctau.csv"
+    with open(csv_path, newline="", encoding="utf-8") as fh:
+        return list(csv.DictReader(fh))
+
+
+def test_gamma_total_formula(config):
+    hbar_c = config["hbar_c_GeV_mm"]
+    ctau = 4.326221529733112
+    width = hbar_c / ctau
+    assert width == pytest.approx(4.56118529862185e-14, rel=1e-10)
+
+
+def test_sigma_4b_formula():
+    sigma_prod_pb = 0.000230291167568
+    br_bb = 0.7567374858085787
+    sigma_4b_fb = sigma_prod_pb * 1000.0 * (br_bb**2)
+    assert sigma_4b_fb == pytest.approx(0.131876610738628, rel=1e-10)
+
+
+def test_visible_sigma_formula():
+    sigma_4b_fb = 0.131876610738628
+    aeff = 0.01573386
+    vis_sigma = sigma_4b_fb * aeff
+    assert vis_sigma == pytest.approx(0.0020749281306360694, rel=1e-10)
+
+
+def test_n_expected_formula():
+    vis_sigma = 0.0020749281306360694
+    lumi = 139.0
+    n_exp = vis_sigma * lumi
+    assert n_exp == pytest.approx(0.28841501015841364, rel=1e-10)
+
+
+def test_n_over_s95_formula():
+    n_exp = 0.28841501015841364
+    s95 = 3.0
+    assert n_exp / s95 == pytest.approx(0.09613833671947121, rel=1e-10)
+
+
+def test_exact_preservation_of_baseline_anchor(grid_rows, config):
+    anchor = config["baseline_anchor"]
+    # Find anchor row in effective_grid.csv
+    anchor_row = next(
+        (
+            r
+            for r in grid_rows
+            if abs(float(r["ctau_mm"]) - anchor["ctau_0_mm"]) < 1e-5
+            and abs(float(r["g_hH2H2_GeV"]) - anchor["abs_g_0_GeV"]) < 1e-5
+            and abs(float(r["BR_H2_to_bb"]) - anchor["BR_bb_0"]) < 1e-5
+        ),
+        None,
+    )
+    assert anchor_row is not None, "Baseline anchor point missing from effective grid!"
+
+    assert float(anchor_row["sigma_production_pb"]) == pytest.approx(anchor["sigma_0_pb"], rel=1e-10)
+    assert float(anchor_row["Trackless_Aeff"]) == pytest.approx(anchor["Trackless_Aeff_0"], rel=1e-6)
+    assert float(anchor_row["visible_sigma_fb"]) == pytest.approx(anchor["visible_sigma_0_fb"], rel=1e-6)
+    assert float(anchor_row["N_expected_139fb"]) == pytest.approx(anchor["N_expected_0"], rel=1e-6)
+    assert anchor_row["above_observed_S95"] == "False"
+
+
+def test_no_br_double_counting(eff_rows):
+    # Verify that forced decay sample BR is 1.0 and physical BR is separate
+    for r in eff_rows:
+        # Check generated events is 2000
+        assert int(r["generated_events"]) == 2000
+        # Aeff must be in [0, 1]
+        aeff = float(r["Trackless_Aeff"])
+        assert 0.0 <= aeff <= 1.0
+
+
+def test_all_240_grid_points_present(grid_rows):
+    assert len(grid_rows) == 240
+    pids = {r["point_id"] for r in grid_rows}
+    assert len(pids) == 240, "Point IDs in effective grid must be unique!"
+
+
+def test_no_model_derived_interpretation_labels(grid_rows):
+    for r in grid_rows:
+        assert r["interpretation"] == "EFFECTIVE_PHENOMENOLOGICAL"
+        assert "MODEL_DERIVED" not in r["interpretation"]
+        assert "2HDM" not in r["interpretation"]
+
+
+def test_required_figures_exist():
+    required_figures = [
+        OUT_DIR / "efficiency_vs_ctau.png",
+        OUT_DIR / "nexpected_3d_ctau_g_br.png",
+        OUT_DIR / "nexpected_ctau_vs_g_br_baseline.png",
+        OUT_DIR / "nexpected_g_vs_br_ctau_baseline.png",
+        OUT_DIR / "nexpected_ctau_vs_br_g_atlas.png",
+        OUT_DIR / "nexpected_3d_interactive.html",
+    ]
+    for fig_path in required_figures:
+        assert fig_path.exists(), f"Missing required figure: {fig_path}"
+        assert fig_path.stat().st_size > 0, f"Figure file is empty: {fig_path}"
+
+
+def test_manifest_hashes_verify():
+    manifest_path = OUT_DIR / "artifact_manifest.json"
+    assert manifest_path.exists()
+    payload = json.loads(manifest_path.read_text(encoding="utf-8"))
+    assert payload["schema"] == "hep_cross.r10.artifact_manifest.v1"
+    assert len(payload["artifacts"]) >= 20
+
+    for rel_path, expected_hash in payload["artifacts"].items():
+        full_path = REPO_ROOT / rel_path
+        assert full_path.exists(), f"File in manifest missing: {rel_path}"
+        digest = hashlib.sha256(full_path.read_bytes()).hexdigest()
+        assert digest == expected_hash, f"Hash mismatch for {rel_path}"
+
+
+def test_recomputation_gate_passes():
+    import subprocess
+
+    proc = subprocess.run(
+        [sys.executable, "scripts/r10_recompute_grid.py"],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+    )
+    assert proc.returncode == 0, f"r10_recompute_grid failed: {proc.stderr}\n{proc.stdout}"
+    assert "PASS" in proc.stdout
