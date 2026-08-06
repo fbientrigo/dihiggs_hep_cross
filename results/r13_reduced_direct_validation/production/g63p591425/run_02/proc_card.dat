@@ -1,0 +1,3 @@
+import model /home/fabi/atlas_dihiggs/_worktrees/r13-reduced-direct-production-validation/results/r13_reduced_direct_validation/production/g63p591425/run_02/ufo/pi_ufo_baseline_v1_release_candidate_hotfix1/model/LLscalar_v3_UFO_runtime
+generate g g > H > h2 h2
+output /home/fabi/atlas_dihiggs/_worktrees/r13-reduced-direct-production-validation/results/r13_reduced_direct_validation/production/g63p591425/run_02/mg5_out -nojpeg

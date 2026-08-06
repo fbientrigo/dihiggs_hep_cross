@@ -1,0 +1,50 @@
+{
+  "g40_run_01": {
+    "valid_events_count": true,
+    "valid_h2_count": true,
+    "valid_mass": true,
+    "valid_pdf": false,
+    "valid_beam_energy": false,
+    "overall_valid": false
+  },
+  "g40_run_02": {
+    "valid_events_count": true,
+    "valid_h2_count": true,
+    "valid_mass": true,
+    "valid_pdf": false,
+    "valid_beam_energy": false,
+    "overall_valid": false
+  },
+  "g63p591425_run_01": {
+    "valid_events_count": true,
+    "valid_h2_count": true,
+    "valid_mass": true,
+    "valid_pdf": false,
+    "valid_beam_energy": false,
+    "overall_valid": false
+  },
+  "g63p591425_run_02": {
+    "valid_events_count": true,
+    "valid_h2_count": true,
+    "valid_mass": true,
+    "valid_pdf": false,
+    "valid_beam_energy": false,
+    "overall_valid": false
+  },
+  "g300_run_01": {
+    "valid_events_count": true,
+    "valid_h2_count": true,
+    "valid_mass": true,
+    "valid_pdf": false,
+    "valid_beam_energy": false,
+    "overall_valid": false
+  },
+  "g300_run_02": {
+    "valid_events_count": true,
+    "valid_h2_count": true,
+    "valid_mass": true,
+    "valid_pdf": false,
+    "valid_beam_energy": false,
+    "overall_valid": false
+  }
+}

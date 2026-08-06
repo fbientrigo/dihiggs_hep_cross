@@ -1,0 +1,6 @@
+nevents = 1000
+iseed = 211
+ebeam1 = 6500.0
+ebeam2 = 6500.0
+lhaid = 230000
+pdlabel = lhapdf
