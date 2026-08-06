@@ -1,0 +1,32 @@
+{
+  "point_id": "mg_pilot_g150",
+  "g_target_GeV": 150.0,
+  "g_effective_GeV": 150.0,
+  "GHphiphi_GeV": -150.0,
+  "seed": 1103,
+  "madgraph_version": "3.5.3",
+  "ufo_path": "results/r11_madgraph_production_pilot/ufo/pi_ufo_baseline_v1_release_candidate_hotfix1/model/LLscalar_v3_UFO_runtime",
+  "ufo_sha256": "9c685714f8840190cb08c34e4b804481564599619c1a3fa9a212256624951d33",
+  "process": "g g > H > h2 h2",
+  "pdf": "nn23lo1",
+  "lhaid": 230000,
+  "scales": {
+    "fixed_ren_scale": false,
+    "fixed_fac_scale": false,
+    "dynamical_scale_choice": -1,
+    "scale_factor": 1.0
+  },
+  "param_card_sha256": "f48b54234e8a0437d7b21f18967c89c115582a5313a965e0e2a92939bd9ba391",
+  "run_card_sha256": "2bb9c70348f329e856b6d6417ce3afd4ade721e580e9a7ea9263e729eeb84b88",
+  "banner_sha256": "ac027984375c82e68ad9d915853d8160322809ed04689ac102ef89fe62ea68f5",
+  "lhe_path": "results/r11_madgraph_production_pilot/g150/unweighted_events.lhe.gz",
+  "lhe_sha256": "944ab202b3852fcba13eb353ce1113a9405ea44e2bccf015a1bd3a829d21a1cc",
+  "log_path": "results/r11_madgraph_production_pilot/g150/run.log",
+  "log_sha256": "fcf769c48adafc4940024c5c194378f8dc41a1754e016c6e4273305273fcc871",
+  "generated_event_count": 1000,
+  "sigma_madgraph_pb": 0.001281,
+  "integration_error_pb": 3.966e-06,
+  "sigma_g2_prediction_pb": 0.001281334981474172,
+  "relative_residual": -0.00026143161547542704,
+  "status": "MADGRAPH_DIRECT_RUN"
+}
