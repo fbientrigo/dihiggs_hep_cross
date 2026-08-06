@@ -1,0 +1,15 @@
+1000 = nevents ! Number of unweighted events requested
+101 = iseed ! rnd seed
+1 = lpp1 ! beam 1 type
+1 = lpp2 ! beam 2 type
+6500.0 = ebeam1 ! beam 1 total energy in GeV
+6500.0 = ebeam2 ! beam 2 total energy in GeV
+nn23lo1 = pdlabel ! PDF set
+230000 = lhaid ! LHAPDF ID
+False = fixed_ren_scale
+False = fixed_fac_scale
+-1 = dynamical_scale_choice
+1.0 = scalefact
+0 = nhel
+4 = maxjetflavor
+True = use_syst

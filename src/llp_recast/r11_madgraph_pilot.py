@@ -314,20 +314,21 @@ def extract_madgraph_xsec(banner_or_log_path: Path) -> tuple[float, float]:
     """Extract cross section (pb) and integration error (pb) from MadGraph banner or output."""
     text = banner_or_log_path.read_text(encoding="utf-8", errors="replace")
 
-    m = re.search(r"#\s*Integrated weight \(pb\)\s*:\s*([\d\.eE\+-]+)", text)
+    m = re.search(r"Cross-section\s*:\s*([\d\.eE\+-]+)\s*\+-\s*([\d\.eE\+-]+)", text, re.I)
     if m:
-        xsec = float(m.group(1))
-        m_err = re.search(r"Cross-section\s*:\s*[\d\.eE\+-]+\s*\+-\s*([\d\.eE\+-]+)", text, re.I)
-        err = float(m_err.group(1)) if m_err else 0.0
-        return xsec, err
+        return float(m.group(1)), float(m.group(2))
 
-    m2 = re.search(r"Cross-section\s*:\s*([\d\.eE\+-]+)\s*\+-\s*([\d\.eE\+-]+)\s*pb", text, re.I)
-    if m2:
-        return float(m2.group(1)), float(m2.group(2))
+    log_path = banner_or_log_path.parent / "madgraph_run.txt"
+    if log_path.exists() and log_path != banner_or_log_path:
+        log_text = log_path.read_text(encoding="utf-8", errors="replace")
+        m_log = re.search(r"Cross-section\s*:\s*([\d\.eE\+-]+)\s*\+-\s*([\d\.eE\+-]+)", log_text, re.I)
+        if m_log:
+            return float(m_log.group(1)), float(m_log.group(2))
 
-    m3 = re.search(r"Cross-section\s*:\s*([\d\.eE\+-]+)\s*\+-\s*([\d\.eE\+-]+)", text, re.I)
-    if m3:
-        return float(m3.group(1)), float(m3.group(2))
+    m_weight = re.search(r"#\s*Integrated weight \(pb\)\s*:\s*([\d\.eE\+-]+)", text)
+    if m_weight:
+        xsec = float(m_weight.group(1))
+        return xsec, 0.0
 
     raise ValueError(f"Could not extract MadGraph cross section from {banner_or_log_path}")
 

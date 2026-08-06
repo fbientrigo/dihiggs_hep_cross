@@ -1,0 +1,401 @@
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/madevent_interface.py:2978: SyntaxWarning: invalid escape sequence '\s'
+  while re.search('^(#|\s|\d)', line):
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/madevent_interface.py:3229: SyntaxWarning: invalid escape sequence '\s'
+  if not start and not re.search('c\s*parameters\s*=\s*{',line, re.I):
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/madevent_interface.py:3238: SyntaxWarning: invalid escape sequence '\}'
+  split_result = re.split('(\}|!|\#)', line,1, re.M)
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/madevent_interface.py:3517: SyntaxWarning: invalid escape sequence '\('
+  text = re.sub('''\(min_events = \d+\)''', '(min_events = %i )' % min_evt, text)
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/madevent_interface.py:3518: SyntaxWarning: invalid escape sequence '\('
+  text = re.sub('''\(max_events = \d+\)''', '(max_events = %i )' % max_evt, text)
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/madevent_interface.py:3622: SyntaxWarning: invalid escape sequence '\s'
+  Gre = re.compile("\s*j=(G[\d\.\w]+)")
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/madevent_interface.py:3989: SyntaxWarning: invalid escape sequence '\s'
+  os.system("sed -i.bak \"s/\s*.true.*=.*GridRun/  .false.  =  GridRun/g\" %s/Cards/grid_card.dat" \
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/madevent_interface.py:4963: SyntaxWarning: invalid escape sequence '\+'
+  a_float_re = '[\+|-]?\d+(\.\d*)?([EeDd][\+|-]?\d+)?'
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/madevent_interface.py:4965: SyntaxWarning: invalid escape sequence '\s'
+  '^\s*Weight_MERGING\s*=\s*(?P<merging>%s)\s*$'%a_float_re,
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/madevent_interface.py:5016: SyntaxWarning: invalid escape sequence '\('
+  pythiare = re.compile("Les Houches User Process\(es\)\s*\d+\s*\|\s*(?P<tried>\d+)\s*(?P<selected>\d+)\s*(?P<generated>\d+)\s*\|\s*(?P<xsec>[\d\.e\-\+]+)\s*(?P<xsec_error>[\d\.e\-\+]+)")
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/madevent_interface.py:5017: SyntaxWarning: invalid escape sequence '\s'
+  pythia_xsec_re = re.compile("Inclusive cross section\s*:\s*(?P<xsec>[\d\.e\-\+]+)\s*(?P<xsec_error>[\d\.e\-\+]+)")
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/madevent_interface.py:5158: SyntaxWarning: invalid escape sequence '\s'
+  pythiare = re.compile("\s*I\s+0 All included subprocesses\s+I\s+(?P<generated>\d+)\s+(?P<tried>\d+)\s+I\s+(?P<xsec>[\d\.D\-+]+)\s+I")
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/madevent_interface.py:5619: SyntaxWarning: invalid escape sequence '\s'
+  Gre = re.compile("\s*j=(G[\d\.\w]+)")
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/madevent_interface.py:5620: SyntaxWarning: invalid escape sequence '\d'
+  origre = re.compile("grid_directory=(G[\d\.\w]+)")
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/madevent_interface.py:5628: SyntaxWarning: invalid escape sequence '\d'
+  Ire = re.compile("for i in ([\d\.\s]*) ; do")
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/madevent_interface.py:6334: SyntaxWarning: invalid escape sequence '\s'
+  pat = re.compile('''^\s*qcut\s*=\s*([\+\-\d.e]*)''', re.M+re.I)
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/madevent_interface.py:6611: SyntaxWarning: invalid escape sequence '\d'
+  particles = re.search("/([\d,-]+)/", line)
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/extended_cmd.py:627: SyntaxWarning: invalid escape sequence '\ '
+  if line and begidx > 2 and line[begidx-2:begidx] == '\ ':
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/extended_cmd.py:629: SyntaxWarning: invalid escape sequence '\ '
+  self.completion_prefix = Ntext.rsplit('\ ', 1)[0] + '\ '
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/extended_cmd.py:629: SyntaxWarning: invalid escape sequence '\ '
+  self.completion_prefix = Ntext.rsplit('\ ', 1)[0] + '\ '
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/extended_cmd.py:632: SyntaxWarning: invalid escape sequence '\ '
+  data = compfunc(Ntext.replace('\ ', ' '), line, Nbegidx, endidx)
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/extended_cmd.py:745: SyntaxWarning: invalid escape sequence '\ '
+  completion = [a.replace(' ','\ ') for a in completion]
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/extended_cmd.py:1256: SyntaxWarning: invalid escape sequence '\s'
+  line,n = re.subn('\s*=\s*','=', line)
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/extended_cmd.py:1314: SyntaxWarning: invalid escape sequence '\ '
+  super(Cmd,self).onecmd('history %s' % self.debug_output.replace(' ', '\ '))
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/extended_cmd.py:2193: SyntaxWarning: invalid escape sequence '\['
+  pat = re.compile('\[(\d*)s to answer\]')
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/extended_cmd.py:2994: SyntaxWarning: invalid escape sequence '\ '
+  """should return four lines:
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/extended_cmd.py:3242: SyntaxWarning: invalid escape sequence '\('
+  f2 = re.sub('%(\((?:name|descrip|add_info)\)-?)(\d+)s',
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/extended_cmd.py:3248: SyntaxWarning: invalid escape sequence '\('
+  f3 = re.sub('%(\((?:name|descrip|add_info)\)-?)(\d+)s',
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/misc.py:70: SyntaxWarning: invalid escape sequence '\w'
+  pattern = re.compile("(?P<name>\w*)\s*=\s*(?P<value>.*)",
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/misc.py:87: SyntaxWarning: invalid escape sequence '\?'
+  path = re.sub('(?P<name>\?|\*|\[|\])', '[\g<name>]', path)
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/misc.py:87: SyntaxWarning: invalid escape sequence '\g'
+  path = re.sub('(?P<name>\?|\*|\[|\])', '[\g<name>]', path)
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/misc.py:617: SyntaxWarning: invalid escape sequence '\s'
+  comp_re = re.compile('^(\s*)FC\s*=\s*(.+)\s*$')
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/misc.py:620: SyntaxWarning: invalid escape sequence '\s'
+  comp_re = re.compile('^(\s*)CXX\s*=\s*(.+)\s*$')
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/misc.py:864: SyntaxWarning: invalid escape sequence '\s'
+  comp = re.compile("^\s*FC\s*=\s*([\w\/\\.\-]+)\s*")
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/misc.py:866: SyntaxWarning: invalid escape sequence '\s'
+  comp = re.compile("^\s*CXX\s*=\s*([\w\/\\.\-]+)\s*")
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/misc.py:1898: SyntaxWarning: invalid escape sequence '\ '
+  "*          *         / .^   ^.         \         *         *\n" + \
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/misc.py:1903: SyntaxWarning: invalid escape sequence '\ '
+  "*            *       \                 /       *           *\n" + \
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/misc.py:1912: SyntaxWarning: invalid escape sequence '\_'
+  "* M::::::M M::::M M::::M M::::::M   | \__ \                *\n" + \
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/misc.py:1916: SyntaxWarning: invalid escape sequence '\|'
+  "* M::::::M     MMMMM     M::::::M   | |_ / _ \| '__|       *\n" + \
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/misc.py:1918: SyntaxWarning: invalid escape sequence '\/'
+  "* M::::::M               M::::::M   |_/\/\___/|_|          *\n" + \
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/common_run_interface.py:730: SyntaxWarning: invalid escape sequence '\s'
+  found = re.search("PARAMETER\s*\(NINCOMING=(\d)\)", nexternal)
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/common_run_interface.py:1169: SyntaxWarning: invalid escape sequence '\s'
+  'block\s+mw_run',
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/common_run_interface.py:1174: SyntaxWarning: invalid escape sequence '\.'
+  'transfer_card\.dat',
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/common_run_interface.py:1178: SyntaxWarning: invalid escape sequence '\s'
+  '@MG5aMC\s*inputs\s*=\s*\*\.(?:hepmc|lhe)', #MA5 --both--
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/common_run_interface.py:1179: SyntaxWarning: invalid escape sequence '\s'
+  '@MG5aMC\s*reconstruction_name', # MA5 hadronique
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/common_run_interface.py:1238: SyntaxWarning: invalid escape sequence '\s'
+  if re.search("(^|;)\s*decay", fulltext, re.M):
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/common_run_interface.py:4314: SyntaxWarning: invalid escape sequence '\$'
+  ['--path=', '--output=', '--min_br=0.\$', '--nlo',
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/common_run_interface.py:4315: SyntaxWarning: invalid escape sequence '\$'
+  '--precision_channel=0.\$', '--body_decay='])
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/common_run_interface.py:5790: SyntaxWarning: invalid escape sequence '\s'
+  p_card, n = re.subn('''^\s*QCUT\s*=\s*[\de\+\-\.]*\s*$''',
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/common_run_interface.py:5804: SyntaxWarning: invalid escape sequence '\s'
+  p_card, n = re.subn('''^\s*SHOWERKT\s*=\s*[default\de\+\-\.]*\s*$''',
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/common_run_interface.py:7075: SyntaxWarning: invalid escape sequence '\+'
+  particle = particle.replace('+','\+').replace('-','\-')
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/common_run_interface.py:7075: SyntaxWarning: invalid escape sequence '\-'
+  particle = particle.replace('+','\+').replace('-','\-')
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/common_run_interface.py:7192: SyntaxWarning: invalid escape sequence '\s'
+  logger.info('    Note: all regular-expression will be prefixed by ^\s*')
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/common_run_interface.py:7313: SyntaxWarning: invalid escape sequence '\s'
+  pattern = '^\s*' + re.search(search_pattern, line).group()[14:-1]
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/common_run_interface.py:7343: SyntaxWarning: invalid escape sequence '\s'
+  pattern = '^\s*' + re.search(search_pattern, line).group()[14:-1]
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/common_run_interface.py:7365: SyntaxWarning: invalid escape sequence '\s'
+  pattern = '^\s*' + re.search(search_pattern, line).group()[13:-1]
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/common_run_interface.py:7382: SyntaxWarning: invalid escape sequence '\s'
+  pattern = '^\s*' + re.search(search_pattern, line).group()[12:-1]
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/banner.py:119: SyntaxWarning: invalid escape sequence '\w'
+  pat_begin=re.compile('<(?P<name>\w*)>')
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/banner.py:120: SyntaxWarning: invalid escape sequence '\w'
+  pat_end=re.compile('</(?P<name>\w*)>')
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/banner.py:1443: SyntaxWarning: invalid escape sequence '\*'
+  split = re.split('(\*|/)',value)
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/banner.py:1481: SyntaxWarning: invalid escape sequence '\*'
+  split = re.split('(\*|/)',value)
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/banner.py:3034: SyntaxWarning: invalid escape sequence '\%'
+  written = written.union(set(re.findall('\%\((\w*)\)s', open(template,'r').read(), re.M)))
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/banner.py:3122: SyntaxWarning: invalid escape sequence '\s'
+  pattern = re.compile('^\s+(?:SUBROUTINE|(?:%(type)s)\s+function)\s+([a-zA-Z]\w*)' \
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/banner.py:3209: SyntaxWarning: invalid escape sequence '\<'
+  for key,val in re.findall("\<(?P<key>[_\-\w]+)\=(?P<value>[^>]*)\>", str(name)):
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:39: SyntaxWarning: invalid escape sequence '\s'
+  "\s*(?P<command>%s)\s*\(\s*(?P<body>.*)\s*\)\s*{\s*"\
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:42: SyntaxWarning: invalid escape sequence '\s'
+  "\s*}\s*(?P<endif>else)?\s*(\((?P<body>.*)\))?\s*(?P<new_block>{)?\s*")
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:194: SyntaxWarning: invalid escape sequence '\s'
+  keyword_pairs = {'^if.+then\s*$': ('^endif', 2),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:195: SyntaxWarning: invalid escape sequence '\s'
+  '^type(?!\s*\()\s*.+\s*$': ('^endtype', 2),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:196: SyntaxWarning: invalid escape sequence '\s'
+  '^do(?!\s+\d+)\s+': ('^enddo\s*$', 2),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:196: SyntaxWarning: invalid escape sequence '\s'
+  '^do(?!\s+\d+)\s+': ('^enddo\s*$', 2),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:197: SyntaxWarning: invalid escape sequence '\s'
+  '^subroutine': ('^end\s*$', 0),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:198: SyntaxWarning: invalid escape sequence '\s'
+  '^module': ('^end\s*$', 0),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:199: SyntaxWarning: invalid escape sequence '\s'
+  'function': ('^end\s*$', 0)}
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:200: SyntaxWarning: invalid escape sequence '\s'
+  single_indents = {'^else\s*$':-2,
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:201: SyntaxWarning: invalid escape sequence '\s'
+  '^else\s*if.+then\s*$':-2}
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:202: SyntaxWarning: invalid escape sequence '\d'
+  number_re = re.compile('^(?P<num>\d+)\s+(?P<rest>.*)')
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:430: SyntaxWarning: invalid escape sequence '\s'
+  pattern = re.compile('^\s+(?:SUBROUTINE|(?:%(type)s)\s+function)\s+([a-zA-Z]\w*)' \
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:496: SyntaxWarning: invalid escape sequence '\s'
+  spacing_patterns = [('\s*\"\s*}', '\"'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:497: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*,\s*', ', '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:498: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*-\s*', ' - '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:499: SyntaxWarning: invalid escape sequence '\s'
+  ('([{(,=])\s*-\s*', '\g<1> -'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:499: SyntaxWarning: invalid escape sequence '\g'
+  ('([{(,=])\s*-\s*', '\g<1> -'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:500: SyntaxWarning: invalid escape sequence '\s'
+  ('(return)\s*-\s*', '\g<1> -'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:500: SyntaxWarning: invalid escape sequence '\g'
+  ('(return)\s*-\s*', '\g<1> -'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:501: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*\+\s*', ' + '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:502: SyntaxWarning: invalid escape sequence '\s'
+  ('([{(,=])\s*\+\s*', '\g<1> +'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:502: SyntaxWarning: invalid escape sequence '\g'
+  ('([{(,=])\s*\+\s*', '\g<1> +'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:503: SyntaxWarning: invalid escape sequence '\('
+  ('\(\s*', '('),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:504: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*\)', ')'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:505: SyntaxWarning: invalid escape sequence '\{'
+  ('\{\s*', '{'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:506: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*\}', '}'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:507: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*=\s*', ' = '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:508: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*>\s*', ' > '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:509: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*<\s*', ' < '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:510: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*!\s*', ' !'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:511: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*/\s*', '/'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:512: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*\*\s*', ' * '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:513: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*-\s+-\s*', '-- '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:514: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*\+\s+\+\s*', '++ '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:515: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*-\s+=\s*', ' -= '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:516: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*\+\s+=\s*', ' += '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:517: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*\*\s+=\s*', ' *= '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:518: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*/=\s*', ' /= '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:519: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*>\s+>\s*', ' >> '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:520: SyntaxWarning: invalid escape sequence '\s'
+  ('<\s*double\s*>>\s*', '<double> > '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:521: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*<\s+<\s*', ' << '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:522: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*-\s+>\s*', '->'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:523: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*=\s+=\s*', ' == '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:524: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*!\s+=\s*', ' != '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:525: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*>\s+=\s*', ' >= '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:526: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*<\s+=\s*', ' <= '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:527: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*&&\s*', ' && '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:528: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*\|\|\s*', ' || '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:529: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*{\s*}', ' {}'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:530: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*;\s*', '; '),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:531: SyntaxWarning: invalid escape sequence '\s'
+  (';\s*\}', ';}'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:532: SyntaxWarning: invalid escape sequence '\s'
+  (';\s*$}', ';'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:533: SyntaxWarning: invalid escape sequence '\s'
+  ('\s*<\s*([a-zA-Z0-9]+?)\s*>', '<\g<1>>'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:533: SyntaxWarning: invalid escape sequence '\g'
+  ('\s*<\s*([a-zA-Z0-9]+?)\s*>', '<\g<1>>'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:534: SyntaxWarning: invalid escape sequence '\s'
+  ('^#include\s*<\s*(.*?)\s*>', '#include <\g<1>>'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:534: SyntaxWarning: invalid escape sequence '\g'
+  ('^#include\s*<\s*(.*?)\s*>', '#include <\g<1>>'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:535: SyntaxWarning: invalid escape sequence '\d'
+  ('(\d+\.{0,1}\d*|\.\d+)\s*[eE]\s*([+-]{0,1})\s*(\d+)',
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:536: SyntaxWarning: invalid escape sequence '\g'
+  '\g<1>e\g<2>\g<3>'),
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/file_writers.py:537: SyntaxWarning: invalid escape sequence '\s'
+  ('\s+',' ')]
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/check_param_card.py:652: SyntaxWarning: invalid escape sequence '\w'
+  scales = list(set(re.findall('mdl__(\w*)__scale', text, re.I)))
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/shower_card.py:291: SyntaxWarning: invalid escape sequence '\s'
+  key_re = re.compile('^(\s*)([\S^#]+)(\s*)=(\s*)([^#]*?)(\s*)(\#.*|$)')
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/cluster.py:938: SyntaxWarning: invalid escape sequence '\d'
+  pat = re.compile("submitted to cluster (\d*)",re.MULTILINE)
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/cluster.py:1027: SyntaxWarning: invalid escape sequence '\d'
+  pat = re.compile("submitted to cluster (\d*)",re.MULTILINE)
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/cluster.py:1590: SyntaxWarning: invalid escape sequence '\d'
+  pat = re.compile("Your job (\d*) \(",re.MULTILINE)
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/cluster.py:1608: SyntaxWarning: invalid escape sequence '\d'
+  pat = re.compile("^(\d+)\s+[\d\.]+\s+[\w\d\.]+\s+[\w\d\.]+\s+(\w+)\s")
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/cluster.py:1638: SyntaxWarning: invalid escape sequence '\d'
+  pat = re.compile("^(\d+)")
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/cluster.py:1738: SyntaxWarning: invalid escape sequence '\d'
+  id = re.findall('Submitted batch job ([\d\.]+)', ' '.join(output_arr))
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/gen_crossxhtml.py:651: SyntaxWarning: invalid escape sequence '\s'
+  pythiare = re.compile("\s*I\s+0 All included subprocesses\s+I\s+(?P<generated>\d+)\s+(?P<tried>\d+)\s+I\s+(?P<xsec>[\d\.D\-+]+)\s+I")
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/gen_crossxhtml.py:1626: SyntaxWarning: invalid escape sequence '\S'
+  pat = re.compile('(http[\S]*)')
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/lhe_parser.py:1544: SyntaxWarning: invalid escape sequence '\s'
+  Event.loweight_pattern = re.compile('''<rscale>\s*(?P<nqcd>\d+)\s+(?P<ren_scale>[\d.e+-]+)\s*</rscale>\s*\n\s*
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/lhe_parser.py:1601: SyntaxWarning: invalid escape sequence '\s'
+  pattern  = re.compile("<scales\s|</scales>")
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/lhe_parser.py:1609: SyntaxWarning: invalid escape sequence '\d'
+  pattern = re.compile("pt_clust_(\d*)=\"([\de+-.]*)\"")
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/lhe_parser.py:1633: SyntaxWarning: invalid escape sequence '\w'
+  pattern2 = re.compile("<(?P<tag>[\w]*)(?:\s*(\w*)=[\"'](.*)[\"']\s*|\s*)>(.*)</(?P=tag)>")
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/gen_ximprove.py:300: SyntaxWarning: invalid escape sequence '\('
+  nb_amp = int(re.findall('PARAMETER \(NGRAPHS=(\d+)\)', mtext)[0])
+/home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/bin/internal/hel_recycle.py:842: SyntaxWarning: invalid escape sequence '\('
+  hel, iamp = re.findall('AMP\((\d+),(\d+)\)', amp_result)[0]
+************************************************************
+*                                                          *
+*                      W E L C O M E to                    *
+*             M A D G R A P H 5 _ a M C @ N L O            *
+*                      M A D E V E N T                     *
+*                                                          *
+*                 *                       *                *
+*                   *        * *        *                  *
+*                     * * * * 5 * * * *                    *
+*                   *        * *        *                  *
+*                 *                       *                *
+*                                                          *
+*         VERSION 3.5.3                                    *
+*                                                          *
+*    The MadGraph5_aMC@NLO Development Team - Find us at   *
+*    https://server06.fynu.ucl.ac.be/projects/madgraph     *
+*                                                          *
+*               Type 'help' for in-line help.              *
+*                                                          *
+************************************************************
+INFO: load configuration from /home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/Cards/me5_configuration.txt  
+INFO: load configuration from /home/fabi/.local/mg5amcnlo/3.5.3/input/mg5_configuration.txt  
+INFO: load configuration from /home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/Cards/me5_configuration.txt  
+Using default text editor "vi". Set another one in ./input/mg5_configuration.txt
+No valid eps viewer found. Please set in ./input/mg5_configuration.txt
+No valid web browser found. Please set in ./input/mg5_configuration.txt
+generate_events -f g40_run_01
+[1;31mERROR: The width of particle 9000006 is too small for an s-channel resonance (4.561185e-14). If you have this particle in an s-channel, this is likely to create numerical instabilities . [0m
+[1;34mrun_card missed argument run_tag. Takes default: tag_1[0m
+[1;34mrun_card missed argument time_of_flight. Takes default: -1.0[0m
+[1;34mrun_card missed argument custom_fcts. Takes default: [][0m
+[1;34mrun_card missed argument pt_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument pt_max_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument eta_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument eta_max_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument mxx_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument mxx_only_part_antipart. Takes default: {'default': False}[0m
+Generating 1000 events with run name g40_run_01
+survey  g40_run_01 
+[1;34mrun_card missed argument run_tag. Takes default: tag_1[0m
+[1;34mrun_card missed argument time_of_flight. Takes default: -1.0[0m
+[1;34mrun_card missed argument custom_fcts. Takes default: [][0m
+[1;34mrun_card missed argument pt_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument pt_max_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument eta_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument eta_max_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument mxx_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument mxx_only_part_antipart. Takes default: {'default': False}[0m
+INFO: compile directory 
+[1;34mNot able to open file /home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/crossx.html since no program configured.Please set one in ./input/mg5_configuration.txt[0m
+[1;34mrun_card missed argument run_tag. Takes default: tag_1[0m
+[1;34mrun_card missed argument time_of_flight. Takes default: -1.0[0m
+[1;34mrun_card missed argument custom_fcts. Takes default: [][0m
+[1;34mrun_card missed argument pt_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument pt_max_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument eta_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument eta_max_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument mxx_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument mxx_only_part_antipart. Takes default: {'default': False}[0m
+run_card missed argument gridpack. Takes default: False
+run_card missed argument scale. Takes default: 91.188
+run_card missed argument dsqrt_q2fact1. Takes default: 91.188
+run_card missed argument dsqrt_q2fact2. Takes default: 91.188
+run_card missed argument bwcutoff. Takes default: 15.0
+run_card missed argument sde_strategy. Takes default: 1
+compile Source Directory
+Using random number seed offset = 101
+INFO: Running Survey 
+Creating Jobs
+Working on SubProcesses
+INFO: Compiling for process 1/1. 
+INFO:     P1_gg_h2h2  
+  0%|          | 0/684 [00:00<?, ?it/s]100%|██████████| 684/684 [00:00<00:00, 113426.80it/s]
+INFO:     P1_gg_h2h2  
+INFO:  Idle: 1,  Running: 0,  Completed: 0 [ current time: 02h36 ] 
+INFO:  Idle: 0,  Running: 0,  Completed: 1 [  0.5s  ] 
+INFO:  Idle: 0,  Running: 0,  Completed: 1 [  0.5s  ] 
+INFO: End survey 
+refine 1000
+Creating Jobs
+INFO: Refine results to 1000 
+INFO: Generating 1000.0 unweighted events. 
+sum of cpu time of last step: 0 second
+INFO: Effective Luminosity 13107734.655758118 pb^-1 
+INFO: need to improve 1 channels 
+- Current estimate of cross-section: 9.1549e-05 +- 4.8997e-07
+    P1_gg_h2h2 
+INFO:  Idle: 1,  Running: 1,  Completed: 0 [ current time: 02h36 ] 
+INFO:  Idle: 0,  Running: 0,  Completed: 2 [  0.73s  ] 
+INFO: Combining runs 
+sum of cpu time of last step: 2 seconds
+INFO: finish refine 
+refine 1000 --treshold=0.9
+No need for second refine due to stability of cross-section
+INFO: Combining Events 
+[1;34mrun_card missed argument run_tag. Takes default: tag_1[0m
+[1;34mrun_card missed argument time_of_flight. Takes default: -1.0[0m
+[1;34mrun_card missed argument custom_fcts. Takes default: [][0m
+[1;34mrun_card missed argument pt_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument pt_max_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument eta_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument eta_max_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument mxx_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument mxx_only_part_antipart. Takes default: {'default': False}[0m
+combination of events done in 0.5026795864105225 s 
+  === Results Summary for run: g40_run_01 tag: tag_1 ===
+
+     Cross-section :   9.095e-05 +- 2.963e-07 pb
+     Nb of events :  1000
+ 
+INFO: No version of lhapdf. Can not run systematics computation 
+store_events
+INFO: Storing parton level results 
+INFO: End Parton 
+reweight -from_cards
+decay_events -from_cards
+INFO: storing files of previous run 
+INFO: Done 
+quit
+INFO:  
+GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.Notifications was not provided by any .service files

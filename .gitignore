@@ -33,3 +33,9 @@ results/r11_madgraph_production_pilot/proc_output/
 results/r11_madgraph_production_pilot/ufo/
 results/r11_madgraph_production_pilot/scratch/
 
+# MadGraph production R12 temporary build trees
+results/r12_madgraph_per_g_production/proc_output/
+results/r12_madgraph_per_g_production/ufo/
+results/r12_madgraph_per_g_production/scratch/
+
+

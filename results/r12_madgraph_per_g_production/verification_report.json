@@ -1,0 +1,67 @@
+{
+  "status": "PASSED",
+  "total_runs_checked": 12,
+  "passed_runs": 12,
+  "results": [
+    {
+      "point_id": "mg_r12_g40_run_01",
+      "valid": true,
+      "reason": "Valid"
+    },
+    {
+      "point_id": "mg_r12_g40_run_02",
+      "valid": true,
+      "reason": "Valid"
+    },
+    {
+      "point_id": "mg_r12_g63p591425_run_01",
+      "valid": true,
+      "reason": "Valid"
+    },
+    {
+      "point_id": "mg_r12_g63p591425_run_02",
+      "valid": true,
+      "reason": "Valid"
+    },
+    {
+      "point_id": "mg_r12_g100_run_01",
+      "valid": true,
+      "reason": "Valid"
+    },
+    {
+      "point_id": "mg_r12_g100_run_02",
+      "valid": true,
+      "reason": "Valid"
+    },
+    {
+      "point_id": "mg_r12_g150_run_01",
+      "valid": true,
+      "reason": "Valid"
+    },
+    {
+      "point_id": "mg_r12_g150_run_02",
+      "valid": true,
+      "reason": "Valid"
+    },
+    {
+      "point_id": "mg_r12_g205p092725_run_01",
+      "valid": true,
+      "reason": "Valid"
+    },
+    {
+      "point_id": "mg_r12_g205p092725_run_02",
+      "valid": true,
+      "reason": "Valid"
+    },
+    {
+      "point_id": "mg_r12_g300_run_01",
+      "valid": true,
+      "reason": "Valid"
+    },
+    {
+      "point_id": "mg_r12_g300_run_02",
+      "valid": true,
+      "reason": "Valid"
+    }
+  ]
+}

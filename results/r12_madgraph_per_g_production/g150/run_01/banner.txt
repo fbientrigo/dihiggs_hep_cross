@@ -1,0 +1,268 @@
+<LesHouchesEvents version="3.0">
+<header>
+<!--
+#*********************************************************************
+#                                                                    *
+#                        MadGraph5_aMC@NLO                           *
+#                                                                    *
+#                           Going Beyond                             *
+#                                                                    *
+#                   http://madgraph.hep.uiuc.edu                     *
+#                   http://madgraph.phys.ucl.ac.be                   *
+#                   http://amcatnlo.cern.ch                          *
+#                                                                    *
+#                     The MadGraph5_aMC@NLO team                     *
+#                                                                    *
+#....................................................................*
+#                                                                    *
+# This file contains all the information necessary to reproduce      *
+# the events generated:                                              *
+#                                                                    *
+# 1. software version                                                *
+# 2. proc_card          : code generation info including model       *
+# 3. param_card         : model primary parameters in the LH format  *
+# 4. run_card           : running parameters (collider and cuts)     *
+# 5. pythia_card        : present only if pythia has been run        *
+# 6. pgs_card           : present only if pgs has been run           *
+# 7. delphes_cards      : present only if delphes has been run       *
+#                                                                    *
+#                                                                    *
+#*********************************************************************
+-->
+<MGVersion>
+#3.5.3
+</MGVersion>
+<MG5ProcCard>
+<![CDATA[
+#************************************************************
+#*                     MadGraph5_aMC@NLO                    *
+#*                                                          *
+#*                *                       *                 *
+#*                  *        * *        *                   *
+#*                    * * * * 5 * * * *                     *
+#*                  *        * *        *                   *
+#*                *                       *                 *
+#*                                                          *
+#*                                                          *
+#*         VERSION 3.5.3                 2023-12-23         *
+[1;31m#*                                                          *[1;0m
+[1;31m#*          WARNING: UNKNOWN DEVELOPMENT VERSION.           *[1;0m
+[1;31m#*            WARNING: DO NOT USE FOR PRODUCTION            *[1;0m
+[1;31m#*                                                          *[1;0m
+#*                                                          *
+#*    The MadGraph5_aMC@NLO Development Team - Find us at   *
+#*    https://server06.fynu.ucl.ac.be/projects/madgraph     *
+#*                                                          *
+#************************************************************
+#*                                                          *
+#*               Command File for MadGraph5_aMC@NLO         *
+#*                                                          *
+#*     run as ./bin/mg5_aMC  filename                       *
+#*                                                          *
+#************************************************************
+set group_subprocesses Auto
+set ignore_six_quark_processes False
+set low_mem_multicore_nlo_generation False
+set complex_mass_scheme False
+set include_lepton_initiated_processes False
+set gauge unitary
+set loop_optimized_output True
+set loop_color_flows False
+set max_npoint_for_channel 0
+set default_unset_couplings 99
+set max_t_for_channel 99
+set zerowidth_tchannel True
+set nlo_mixed_expansion True
+import model /home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-pr\
+oduction/results/r12_madgraph_per_g_production/ufo/pi_ufo_baseline_v1_\
+release_candidate_hotfix1/model/LLscalar_v3_UFO_runtime
+define p = g u c d s u~ c~ d~ s~
+define j = g u c d s u~ c~ d~ s~
+define l+ = e+ mu+
+define l- = e- mu-
+define vl = ve vm vt
+define vl~ = ve~ vm~ vt~
+generate g g > H > h2 h2
+output /home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-producti\
+on/results/r12_madgraph_per_g_production/proc_output -f
+]]>
+</MG5ProcCard>
+<MGProcCard>
+#*********************************************************************
+#                        MadGraph/MadEvent                           *
+#                   http://madgraph.hep.uiuc.edu                     *
+#                                                                    *
+#                          proc_card.dat                             *
+#*********************************************************************
+#                                                                    *
+#            This Files is generated by MADGRAPH 5                   *
+#                                                                    *
+# WARNING: This Files is generated for MADEVENT (compatibility issue)*
+#          This files is NOT a valid MG4 proc_card.dat               *
+#          Running this in MG4 will NEVER reproduce the result of MG5*
+#                                                                    *
+#*********************************************************************
+#*********************************************************************
+# Process(es) requested : mg2 input                                  *
+#*********************************************************************
+# Begin PROCESS # This is TAG. Do not modify this line
+g g > H > h2 h2           #Process
+# Be carefull the coupling are here in MG5 convention
+          
+end_coup           # End the couplings input
+
+done               # this tells MG there are no more procs
+# End PROCESS  # This is TAG. Do not modify this line
+#*********************************************************************
+# Model information                                                  *
+#*********************************************************************
+# Begin MODEL  # This is TAG. Do not modify this line
+LLscalar_v3_UFO_runtime
+# End   MODEL  # This is TAG. Do not modify this line
+#*********************************************************************
+# Start multiparticle definitions                                    *
+#*********************************************************************
+# Begin MULTIPARTICLES # This is TAG. Do not modify this line
+
+# End  MULTIPARTICLES # This is TAG. Do not modify this line
+</MGProcCard>
+<MGRunCard>
+1000	= nevents ! Number of unweighted events requested
+ 101 = iseed ! rnd seed
+  1	= lpp1 ! beam 1 type
+  1	= lpp2 ! beam 2 type
+  6500.0	= ebeam1 ! beam 1 total energy in GeV
+  6500.0	= ebeam2 ! beam 2 total energy in GeV
+  nn23lo1	= pdlabel ! PDF set
+  230000	= lhaid ! LHAPDF ID
+  False	= fixed_ren_scale 
+  False	= fixed_fac_scale 
+  -1	= dynamical_scale_choice 
+  1.0	= scalefact 
+  0	= nhel 
+  4	= maxjetflavor 
+  True	= use_syst
+</MGRunCard>
+<slha>
+######################################################################
+## PARAM_CARD AUTOMATICALY GENERATED BY MG5 FOLLOWING UFO MODEL   ####
+######################################################################
+##                                                                  ##
+##  Width set on Auto will be computed following the information    ##
+##        present in the decay.py files of the model.               ##
+##        See  arXiv:1402.1178 for more details.                    ##
+##                                                                  ##
+######################################################################
+
+###################################
+## INFORMATION FOR CKMBLOCK
+###################################
+Block ckmblock 
+    1 2.277360e-01 # cabi 
+
+###################################
+## INFORMATION FOR FRBLOCK
+###################################
+Block frblock 
+    2 4.326222e-03 # ctauh2 
+    3 -1.50000000000000000e+02 # GHphiphi [GeV] = -g_target
+
+###################################
+## INFORMATION FOR MASS
+###################################
+Block mass 
+    1 5.040000e-03 # MD 
+    2 2.550000e-03 # MU 
+    3 1.010000e-01 # MS 
+    4 1.270000e+00 # MC 
+    5 4.700000e+00 # MB 
+    6 1.720000e+02 # MT 
+   11 5.110000e-04 # Me 
+   13 1.056600e-01 # MMU 
+   15 1.777000e+00 # MTA 
+   23 9.118760e+01 # MZ 
+   25 1.251300e+02 # MH 
+  9000005 1.200000e+02 # MP 
+  9000006 1.500000e+02 # Mh2 
+## Dependent parameters, given by model restrictions.
+## Those values should be edited following the 
+## analytical expression. MG5 ignores those values 
+## but they are important for interfacing the output of MG5
+## to external program such as Pythia.
+  12 0.000000e+00 # ve : 0.0 
+  14 0.000000e+00 # vm : 0.0 
+  16 0.000000e+00 # vt : 0.0 
+  21 0.000000e+00 # g : 0.0 
+  22 0.000000e+00 # a : 0.0 
+  24 7.982436e+01 # w+ : cmath.sqrt(MZ__exp__2/2. + cmath.sqrt(MZ__exp__4/4. - (aEW*cmath.pi*MZ__exp__2)/(Gf*sqrt__2))) 
+
+###################################
+## INFORMATION FOR SMINPUTS
+###################################
+Block sminputs 
+    1 1.279000e+02 # aEWM1 
+    2 1.166370e-05 # Gf 
+    3 1.184000e-01 # aS (Note that Parameter not used if you use a PDF set) 
+
+###################################
+## INFORMATION FOR YUKAWA
+###################################
+Block yukawa 
+    1 5.040000e-03 # ymdo 
+    2 2.550000e-03 # ymup 
+    3 1.010000e-01 # yms 
+    4 1.270000e+00 # ymc 
+    5 4.700000e+00 # ymb 
+    6 1.720000e+02 # ymt 
+   11 5.110000e-04 # yme 
+   13 1.056600e-01 # ymm 
+   15 1.777000e+00 # ymtau 
+
+###################################
+## INFORMATION FOR DECAY
+###################################
+DECAY   6 1.508336e+00 # WT 
+DECAY  23 2.495200e+00 # WZ 
+DECAY  24 2.085000e+00 # WW 
+DECAY  25 4.070000e-03 # WH 
+DECAY 9000005 5.753088e-03 # WH1 
+## Dependent parameters, given by model restrictions.
+## Those values should be edited following the 
+## analytical expression. MG5 ignores those values 
+## but they are important for interfacing the output of MG5
+## to external program such as Pythia.
+DECAY  1 0.000000e+00 # d : 0.0 
+DECAY  2 0.000000e+00 # u : 0.0 
+DECAY  3 0.000000e+00 # s : 0.0 
+DECAY  4 0.000000e+00 # c : 0.0 
+DECAY  5 0.000000e+00 # b : 0.0 
+DECAY  11 0.000000e+00 # e- : 0.0 
+DECAY  12 0.000000e+00 # ve : 0.0 
+DECAY  13 0.000000e+00 # mu- : 0.0 
+DECAY  14 0.000000e+00 # vm : 0.0 
+DECAY  15 0.000000e+00 # ta- : 0.0 
+DECAY  16 0.000000e+00 # vt : 0.0 
+DECAY  21 0.000000e+00 # g : 0.0 
+DECAY  22 0.000000e+00 # a : 0.0 
+DECAY  9000006 4.561185e-14 # h2 : 1.9732698e-16/ctauh2 
+#===========================================================
+# QUANTUM NUMBERS OF NEW STATE(S) (NON SM PDG CODE)
+#===========================================================
+
+Block QNUMBERS 9000005  # h1 
+        1 0  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 0  # Particle/Antiparticle distinction (0=own anti)
+Block QNUMBERS 9000006  # h2 
+        1 0  # 3 times electric charge
+        2 1  # number of spin states (2S+1)
+        3 1  # colour rep (1: singlet, 3: triplet, 8: octet)
+        4 0  # Particle/Antiparticle distinction (0=own anti)
+</slha>
+<MGGenerationInfo>
+#  Number of Events        :       1000
+#  Integrated weight (pb)  :       0.001279
+</MGGenerationInfo>
+</header>
+</LesHouchesEvents>

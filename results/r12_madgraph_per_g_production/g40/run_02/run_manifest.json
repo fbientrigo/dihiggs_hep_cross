@@ -1,0 +1,12 @@
+{
+  "point_id": "mg_r12_g40_run_02",
+  "g_hH2H2_GeV": 40.0,
+  "GHphiphi_GeV": -40.0,
+  "run_name": "run_02",
+  "seed": 107,
+  "sigma_pb": 9.0547e-05,
+  "sigma_error_pb": 9.9153e-07,
+  "banner_sha256": "2d06aa9e502de12503d603db679c1b7991935ebae1152ca32bd6f6c227733fd2",
+  "lhe_sha256": "b2c55dd5e081839c79ca3702452828c4a1b754e6d25637b16e9a9824ac75d8b0",
+  "event_count": 1000
+}

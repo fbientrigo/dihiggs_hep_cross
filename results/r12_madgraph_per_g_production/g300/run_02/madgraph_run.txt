@@ -1,0 +1,121 @@
+************************************************************
+*                                                          *
+*                      W E L C O M E to                    *
+*             M A D G R A P H 5 _ a M C @ N L O            *
+*                      M A D E V E N T                     *
+*                                                          *
+*                 *                       *                *
+*                   *        * *        *                  *
+*                     * * * * 5 * * * *                    *
+*                   *        * *        *                  *
+*                 *                       *                *
+*                                                          *
+*         VERSION 3.5.3                                    *
+*                                                          *
+*    The MadGraph5_aMC@NLO Development Team - Find us at   *
+*    https://server06.fynu.ucl.ac.be/projects/madgraph     *
+*                                                          *
+*               Type 'help' for in-line help.              *
+*                                                          *
+************************************************************
+INFO: load configuration from /home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/Cards/me5_configuration.txt  
+INFO: load configuration from /home/fabi/.local/mg5amcnlo/3.5.3/input/mg5_configuration.txt  
+INFO: load configuration from /home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/Cards/me5_configuration.txt  
+Using default text editor "vi". Set another one in ./input/mg5_configuration.txt
+No valid eps viewer found. Please set in ./input/mg5_configuration.txt
+No valid web browser found. Please set in ./input/mg5_configuration.txt
+generate_events -f g300_run_02
+[1;31mERROR: The width of particle 9000006 is too small for an s-channel resonance (4.561185e-14). If you have this particle in an s-channel, this is likely to create numerical instabilities . [0m
+[1;34mrun_card missed argument run_tag. Takes default: tag_1[0m
+[1;34mrun_card missed argument time_of_flight. Takes default: -1.0[0m
+[1;34mrun_card missed argument custom_fcts. Takes default: [][0m
+[1;34mrun_card missed argument pt_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument pt_max_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument eta_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument eta_max_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument mxx_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument mxx_only_part_antipart. Takes default: {'default': False}[0m
+Generating 1000 events with run name g300_run_02
+survey  g300_run_02 
+[1;34mrun_card missed argument run_tag. Takes default: tag_1[0m
+[1;34mrun_card missed argument time_of_flight. Takes default: -1.0[0m
+[1;34mrun_card missed argument custom_fcts. Takes default: [][0m
+[1;34mrun_card missed argument pt_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument pt_max_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument eta_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument eta_max_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument mxx_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument mxx_only_part_antipart. Takes default: {'default': False}[0m
+INFO: compile directory 
+[1;34mNot able to open file /home/fabi/atlas_dihiggs/_worktrees/r12-six-g-madgraph-production/results/r12_madgraph_per_g_production/proc_output/crossx.html since no program configured.Please set one in ./input/mg5_configuration.txt[0m
+[1;34mrun_card missed argument run_tag. Takes default: tag_1[0m
+[1;34mrun_card missed argument time_of_flight. Takes default: -1.0[0m
+[1;34mrun_card missed argument custom_fcts. Takes default: [][0m
+[1;34mrun_card missed argument pt_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument pt_max_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument eta_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument eta_max_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument mxx_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument mxx_only_part_antipart. Takes default: {'default': False}[0m
+run_card missed argument gridpack. Takes default: False
+run_card missed argument scale. Takes default: 91.188
+run_card missed argument dsqrt_q2fact1. Takes default: 91.188
+run_card missed argument dsqrt_q2fact2. Takes default: 91.188
+run_card missed argument bwcutoff. Takes default: 15.0
+run_card missed argument sde_strategy. Takes default: 1
+compile Source Directory
+Using random number seed offset = 107
+INFO: Running Survey 
+Creating Jobs
+Working on SubProcesses
+INFO: Compiling for process 1/1. 
+INFO:     P1_gg_h2h2  
+INFO:     P1_gg_h2h2  
+INFO:  Idle: 1,  Running: 0,  Completed: 0 [ current time: 02h52 ] 
+INFO:  Idle: 0,  Running: 0,  Completed: 1 [  0.49s  ] 
+INFO:  Idle: 0,  Running: 0,  Completed: 1 [  0.49s  ] 
+INFO: End survey 
+refine 1000
+Creating Jobs
+INFO: Refine results to 1000 
+INFO: Generating 1000.0 unweighted events. 
+sum of cpu time of last step: 0 second
+INFO: Effective Luminosity 235608.26199638733 pb^-1 
+INFO: need to improve 1 channels 
+- Current estimate of cross-section: 0.0050932 +- 5.5773e-05
+    P1_gg_h2h2 
+INFO:  Idle: 1,  Running: 1,  Completed: 0 [ current time: 02h52 ] 
+INFO:  Idle: 0,  Running: 1,  Completed: 1 [  0.67s  ] 
+INFO:  Idle: 0,  Running: 0,  Completed: 2 [  1.4s  ] 
+INFO: Combining runs 
+sum of cpu time of last step: 2 seconds
+INFO: finish refine 
+refine 1000 --treshold=0.9
+No need for second refine due to stability of cross-section
+INFO: Combining Events 
+[1;34mrun_card missed argument run_tag. Takes default: tag_1[0m
+[1;34mrun_card missed argument time_of_flight. Takes default: -1.0[0m
+[1;34mrun_card missed argument custom_fcts. Takes default: [][0m
+[1;34mrun_card missed argument pt_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument pt_max_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument eta_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument eta_max_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument mxx_min_pdg. Takes default: {}[0m
+[1;34mrun_card missed argument mxx_only_part_antipart. Takes default: {'default': False}[0m
+combination of events done in 0.49426698684692383 s 
+  === Results Summary for run: g300_run_02 tag: tag_1 ===
+
+     Cross-section :   0.005131 +- 1.265e-05 pb
+     Nb of events :  1000
+ 
+INFO: No version of lhapdf. Can not run systematics computation 
+store_events
+INFO: Storing parton level results 
+INFO: End Parton 
+reweight -from_cards
+decay_events -from_cards
+INFO: storing files of previous run 
+INFO: Done 
+quit
+INFO:  
+GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.Notifications was not provided by any .service files
