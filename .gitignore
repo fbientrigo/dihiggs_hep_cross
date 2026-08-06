@@ -27,3 +27,9 @@ data/2hdmc_scans/*
 .DS_Store
 .vscode/
 .idea/
+
+# MadGraph production pilot temporary build trees
+results/r11_madgraph_production_pilot/proc_output/
+results/r11_madgraph_production_pilot/ufo/
+results/r11_madgraph_production_pilot/scratch/
+

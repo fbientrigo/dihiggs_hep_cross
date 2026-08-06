@@ -76,6 +76,13 @@ def main(args: list[str] | None = None) -> int:
                 g_val = float(r["g_hH2H2_GeV"])
                 mg_data_by_g[round(g_val, 6)] = r
 
+        missing_g = [g for g in g_values if round(g, 6) not in mg_data_by_g]
+        if missing_g:
+            raise ValueError(
+                f"MadGraph mode requires complete coverage of all configured coupling points. "
+                f"Missing values: {missing_g}"
+            )
+
     out_dir.mkdir(parents=True, exist_ok=True)
     out_csv = out_dir / "production_vs_g.csv"
 
@@ -104,7 +111,7 @@ def main(args: list[str] | None = None) -> int:
         struct_sigma = sigma_0 * expected_kappa_sq
 
         g_key = round(g, 6)
-        if eval_mode == "madgraph" and g_key in mg_data_by_g:
+        if eval_mode == "madgraph":
             mg_row = mg_data_by_g[g_key]
             sigma_mg = float(mg_row["sigma_madgraph_pb"])
             err_mg = float(mg_row["integration_error_pb"])
@@ -145,7 +152,6 @@ def main(args: list[str] | None = None) -> int:
                 "production_mechanism": "ggF",
             }
         rows.append(row)
-
 
     with open(out_csv, "w", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(fh, fieldnames=fieldnames, lineterminator="\n")

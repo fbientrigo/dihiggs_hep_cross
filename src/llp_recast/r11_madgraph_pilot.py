@@ -5,14 +5,16 @@ Contains pure functions for:
 - Parsing LHE files (1000 events, 2 stable H2 PDG 9000006 per event)
 - Computing kinematic observables (m_H2H2, pT_H2H2, pT_H2_leading, pT_H2_subleading,
   y_H2_leading, y_H2_subleading, delta_phi_H2H2, delta_R_H2H2)
-- Computing normalized histograms and statistical shape diagnostics (max bin diff, chi2, KS)
+- Computing normalized histograms and statistical shape diagnostics (max bin diff, chi2, KS, underflow/overflow)
+- Three-run cross-section ratio R(g) and pull statistics
 - Extracting cross section & error from MadGraph banner / output
+- Extracting full applied run_card from MadGraph banner text
 """
 
 from __future__ import annotations
 
-import math
 import gzip
+import math
 import re
 from pathlib import Path
 from typing import Any, Sequence
@@ -39,6 +41,9 @@ OBSERVABLE_BINS: dict[str, list[float]] = {
     "delta_R_H2H2": [i * 0.25 for i in range(21)],  # 0 to 5.0 (20 bins)
 }
 
+# Observables expected to be kinematically degenerate at Born level (LO 2->2)
+LO_2TO2_DEGENERATE_OBSERVABLES = {"pT_H2H2", "delta_phi_H2H2"}
+
 
 def fmt_point_dir(g: float) -> str:
     """Format point directory name: 40.0 -> g40, 63.59142520075966 -> g63p591425, 150.0 -> g150."""
@@ -60,13 +65,46 @@ def calculate_relative_residual(sigma_mg: float, sigma_pred: float) -> float:
     return (sigma_mg / sigma_pred) - 1.0
 
 
-def parse_lhe_events(lhe_path: Path) -> list[dict[str, Any]]:
-    """Parse LHE file (plain text or gzipped) and extract event records.
+def calculate_cross_section_ratio_and_pull(
+    sigma_g: float,
+    err_g: float,
+    sigma_ref: float,
+    err_ref: float,
+    g: float,
+    g0: float = G0_GEV,
+) -> dict[str, float]:
+    """Calculate direct ratio R(g), propagated error delta_R, and pull (R - 1) / delta_R.
 
-    Returns a list of event dicts. Each event dict contains:
-    - 'event_index': int
-    - 'h2_particles': list of 4-vector dicts {'E', 'px', 'py', 'pz', 'm', 'pdg', 'status'}
+    R(g) = [sigma_mg(g) / sigma_ref] / [(g / g0)^2]
+    delta_R = R(g) * sqrt((err_g / sigma_g)^2 + (err_ref / sigma_ref)^2)
+    pull = (R(g) - 1.0) / delta_R
     """
+    scale_sq = (g / g0) ** 2
+    if sigma_ref <= 0 or scale_sq <= 0:
+        return {"R": 0.0, "delta_R": 0.0, "pull": 0.0}
+
+    r_val = (sigma_g / sigma_ref) / scale_sq
+    rel_err_g = (err_g / sigma_g) if sigma_g > 0 else 0.0
+    rel_err_ref = (err_ref / sigma_ref) if sigma_ref > 0 else 0.0
+    delta_r = r_val * math.sqrt(rel_err_g**2 + rel_err_ref**2)
+    pull = (r_val - 1.0) / delta_r if delta_r > 0 else 0.0
+
+    return {
+        "R": r_val,
+        "delta_R": delta_r,
+        "pull": pull,
+    }
+
+
+def ks_critical_value_95(n1: int, n2: int) -> float:
+    """Two-sample Kolmogorov-Smirnov critical value at alpha=0.05 level."""
+    if n1 <= 0 or n2 <= 0:
+        return 1.0
+    return 1.36 * math.sqrt((n1 + n2) / (n1 * n2))
+
+
+def parse_lhe_events(lhe_path: Path) -> list[dict[str, Any]]:
+    """Parse LHE file (plain text or gzipped) and extract event records."""
     if str(lhe_path).endswith(".gz"):
         fh = gzip.open(lhe_path, "rt", encoding="utf-8", errors="replace")
     else:
@@ -99,7 +137,6 @@ def parse_lhe_events(lhe_path: Path) -> list[dict[str, Any]]:
 
 
 def _parse_single_lhe_event(idx: int, lines: list[str]) -> dict[str, Any]:
-    # First non-comment line is header: nparticles process_id weight scale aqed aqcd
     h2_particles = []
     for line in lines:
         stripped = line.strip()
@@ -107,7 +144,6 @@ def _parse_single_lhe_event(idx: int, lines: list[str]) -> dict[str, Any]:
             continue
         parts = stripped.split()
         if len(parts) >= 10 and not ("." in parts[0] and len(parts) == 6):
-            # Candidate particle line: idprup status mother1 mother2 color1 color2 px py pz e m vtim spin
             try:
                 pdg = int(parts[0])
                 status = int(parts[1])
@@ -162,7 +198,6 @@ def compute_event_observables(h2_list: list[dict[str, float]]) -> dict[str, floa
     y_lead = rapidity(lead)
     y_sublead = rapidity(sublead)
 
-    # Pair kinematics
     px_pair = p1["px"] + p2["px"]
     py_pair = p1["py"] + p2["py"]
     pz_pair = p1["pz"] + p2["pz"]
@@ -194,16 +229,7 @@ def compute_event_observables(h2_list: list[dict[str, float]]) -> dict[str, floa
 
 
 def compute_histogram(values: Sequence[float], bin_edges: Sequence[float]) -> dict[str, Any]:
-    """Compute raw and normalized histogram counts across bin_edges.
-
-    Returns dict with keys:
-    - 'counts': list[int]
-    - 'density': list[float] (normalized so sum * bin_width = 1.0 or sum = 1.0 per unit area)
-    - 'normalized_counts': list[float] (normalized so sum(counts) = 1.0)
-    - 'underflow': int
-    - 'overflow': int
-    - 'total_events': int
-    """
+    """Compute raw and normalized histogram counts across bin_edges."""
     n_bins = len(bin_edges) - 1
     counts = [0] * n_bins
     underflow = 0
@@ -215,7 +241,6 @@ def compute_histogram(values: Sequence[float], bin_edges: Sequence[float]) -> di
         elif v >= bin_edges[-1]:
             overflow += 1
         else:
-            # Binary search or linear search
             for i in range(n_bins):
                 if bin_edges[i] <= v < bin_edges[i + 1]:
                     counts[i] += 1
@@ -224,48 +249,51 @@ def compute_histogram(values: Sequence[float], bin_edges: Sequence[float]) -> di
     total = len(values)
     in_range = sum(counts)
     norm_counts = [c / in_range if in_range > 0 else 0.0 for c in counts]
+    underflow_frac = underflow / total if total > 0 else 0.0
+    overflow_frac = overflow / total if total > 0 else 0.0
 
     return {
         "counts": counts,
         "normalized_counts": norm_counts,
         "underflow": underflow,
         "overflow": overflow,
+        "underflow_fraction": underflow_frac,
+        "overflow_fraction": overflow_frac,
         "total_events": total,
         "in_range_events": in_range,
     }
 
 
 def compare_histograms(
-    norm_counts1: Sequence[float],
-    norm_counts2: Sequence[float],
-    n1: int = 1000,
-    n2: int = 1000,
+    h1: dict[str, Any],
+    h2: dict[str, Any],
 ) -> dict[str, float]:
-    """Compute statistical shape diagnostics between two normalized histograms.
+    """Compute statistical shape diagnostics between two histograms using actual in-range sample sizes."""
+    norm1 = h1["normalized_counts"]
+    norm2 = h2["normalized_counts"]
+    n1 = h1["in_range_events"]
+    n2 = h2["in_range_events"]
 
-    Returns:
-    - 'max_abs_diff': max_i |p1_i - p2_i|
-    - 'chi2_stat': sum_i (c1_i - c2_i)^2 / (c1_i + c2_i) using raw estimated counts
-    - 'ks_stat': Kolmogorov-Smirnov distance (max absolute diff of CDFs)
-    """
-    if len(norm_counts1) != len(norm_counts2):
+    if len(norm1) != len(norm2):
         raise ValueError("Histogram bin counts must match length")
 
-    diffs = [abs(p1 - p2) for p1, p2 in zip(norm_counts1, norm_counts2)]
+    diffs = [abs(p1 - p2) for p1, p2 in zip(norm1, norm2)]
     max_abs_diff = max(diffs) if diffs else 0.0
 
     # KS statistic on cumulative distributions
     cdf1 = 0.0
     cdf2 = 0.0
     ks_stat = 0.0
-    for p1, p2 in zip(norm_counts1, norm_counts2):
+    for p1, p2 in zip(norm1, norm2):
         cdf1 += p1
         cdf2 += p2
         ks_stat = max(ks_stat, abs(cdf1 - cdf2))
 
-    # Chi2 diagnostic using raw expected counts N1*p1 and N2*p2
+    ks_crit = ks_critical_value_95(n1, n2)
+
+    # Chi2 diagnostic using estimated sample counts
     chi2 = 0.0
-    for p1, p2 in zip(norm_counts1, norm_counts2):
+    for p1, p2 in zip(norm1, norm2):
         c1 = n1 * p1
         c2 = n2 * p2
         denom = c1 + c2
@@ -275,34 +303,40 @@ def compare_histograms(
     return {
         "max_abs_diff": max_abs_diff,
         "ks_stat": ks_stat,
+        "ks_critical_95": ks_crit,
         "chi2_stat": chi2,
+        "n1_in_range": float(n1),
+        "n2_in_range": float(n2),
     }
 
 
 def extract_madgraph_xsec(banner_or_log_path: Path) -> tuple[float, float]:
-    """Extract cross section (pb) and integration error (pb) from MadGraph banner or output.
-
-    Supports reading banner file, log file, or HTML.
-    """
+    """Extract cross section (pb) and integration error (pb) from MadGraph banner or output."""
     text = banner_or_log_path.read_text(encoding="utf-8", errors="replace")
 
-    # 1. Search for banner Integrated weight line: # Integrated weight (pb)  :   0.23029E-03
     m = re.search(r"#\s*Integrated weight \(pb\)\s*:\s*([\d\.eE\+-]+)", text)
     if m:
         xsec = float(m.group(1))
-        # Look for cross-section error in banner or log if present
         m_err = re.search(r"Cross-section\s*:\s*[\d\.eE\+-]+\s*\+-\s*([\d\.eE\+-]+)", text, re.I)
         err = float(m_err.group(1)) if m_err else 0.0
         return xsec, err
 
-    # 2. Search for summary line: Cross-section : 0.0002299 +- 7.488e-07 pb
     m2 = re.search(r"Cross-section\s*:\s*([\d\.eE\+-]+)\s*\+-\s*([\d\.eE\+-]+)\s*pb", text, re.I)
     if m2:
         return float(m2.group(1)), float(m2.group(2))
 
-    # 3. Search for summary line without 'pb': Cross-section : 0.0002299 +- 7.488e-07
     m3 = re.search(r"Cross-section\s*:\s*([\d\.eE\+-]+)\s*\+-\s*([\d\.eE\+-]+)", text, re.I)
     if m3:
         return float(m3.group(1)), float(m3.group(2))
 
     raise ValueError(f"Could not extract MadGraph cross section from {banner_or_log_path}")
+
+
+def extract_run_card_applied_from_banner(banner_path: Path) -> str:
+    """Extract full applied run_card section from banner.txt."""
+    text = banner_path.read_text(encoding="utf-8", errors="replace")
+    match = re.search(r"<(?:MGRunCard|run_card)>\n(.*?)\n</(?:MGRunCard|run_card)>", text, re.DOTALL | re.IGNORECASE)
+    if not match:
+        raise ValueError(f"Could not extract run card block from banner {banner_path}")
+    return match.group(1).strip() + "\n"
+

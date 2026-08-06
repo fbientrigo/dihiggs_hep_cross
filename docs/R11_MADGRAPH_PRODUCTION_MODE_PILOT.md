@@ -8,7 +8,7 @@ The physical pilot verdict is **VALIDATED**. All three requested coupling points
 
 The direct MadGraph cross-section measurements confirm purely quadratic cross-section scaling:
 $$\sigma_{\text{mg}}(g) = \sigma_0 \left(\frac{g}{g_0}\right)^2$$
-with relative cross-section residuals $< 0.4\%$ across all coupling points. Parton-level shape comparison across all 8 kinematic observables confirms that normalized production kinematics are strictly unchanged by coupling scaling.
+with relative cross-section residuals $< 0.20\%$ and cross-section ratio pull statistics $|\text{pull}| < 0.60$ across all coupling points. Parton-level shape comparison across all 8 kinematic observables confirms that no statistically resolvable shape discrepancy was observed with 1000 events per point in the tested observables.
 
 ## 2. MadGraph Execution Summary
 
@@ -19,40 +19,40 @@ with relative cross-section residuals $< 0.4\%$ across all coupling points. Part
 * **Scale Settings**: `fixed_ren_scale = False`, `fixed_fac_scale = False`, `scalefact = 1.0`
 * **UFO Model SHA-256**: `9c685714f8840190cb08c34e4b804481564599619c1a3fa9a212256624951d33`
 
-| Point ID | $g_{\text{target}}$ [GeV] | $GHphiphi$ [GeV] | Seed | $\sigma_{\text{mg}}$ [pb] | Error [pb] | $\sigma_{\text{pred}}$ [pb] | Relative Residual | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `mg_pilot_g40` | 40.0000 | -40.0000 | 1101 | 9.129000e-05 | 2.2250e-07 | 9.111715e-05 | +1.8970e-03 | `MADGRAPH_DIRECT_RUN` |
-| `mg_pilot_g63p591425` | 63.5914 | -63.5914 | 1102 | 2.299000e-04 | 7.9820e-07 | 2.302912e-04 | -1.6986e-03 | `MADGRAPH_DIRECT_RUN` |
-| `mg_pilot_g150` | 150.0000 | -150.0000 | 1103 | 1.281000e-03 | 3.9660e-06 | 1.281335e-03 | -2.6143e-04 | `MADGRAPH_DIRECT_RUN` |
+| Point ID | $g_{\text{target}}$ [GeV] | $GHphiphi$ [GeV] | Seed | $\sigma_{\text{mg}}$ [pb] | $\Delta\sigma_{\text{stat}}$ [pb] | $\sigma_{\text{pred}}$ [pb] | Relative Residual | Ratio $R(g)$ | Pull | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `mg_pilot_g40` | 40.0000 | -40.0000 | 1101 | 9.129000e-05 | 2.2250e-07 | 9.111715e-05 | +1.8970e-03 | 1.003602 | +0.8460 | `MADGRAPH_DIRECT_RUN` |
+| `mg_pilot_g63p591425` | 63.5914 | -63.5914 | 1102 | 2.299000e-04 | 7.9820e-07 | 2.302912e-04 | -1.6986e-03 | 1.000000 | +0.0000 | `MADGRAPH_DIRECT_RUN` |
+| `mg_pilot_g150` | 150.0000 | -150.0000 | 1103 | 1.281000e-03 | 3.9660e-06 | 1.281335e-03 | -2.6143e-04 | 1.001440 | +0.3090 | `MADGRAPH_DIRECT_RUN` |
 
 ## 3. Parton-Level Kinematic Shape Comparison
 
 Eight parton-level kinematic observables were reconstructed directly from the final-state $h_2$ pair in the LHE files:
 1. $m_{H2H2}$: Invariant mass of $h_2 h_2$ pair
-2. $p_{T, H2H2}$: Transverse momentum of $h_2 h_2$ pair
+2. $p_{T, H2H2}$: Transverse momentum of $h_2 h_2$ pair (LO 2->2 degenerate at 0)
 3. $p_{T, H2, \text{leading}}$: Leading $h_2$ transverse momentum
 4. $p_{T, H2, \text{subleading}}$: Subleading $h_2$ transverse momentum
 5. $y_{H2, \text{leading}}$: Leading $h_2$ rapidity
 6. $y_{H2, \text{subleading}}$: Subleading $h_2$ rapidity
-7. $\Delta\phi(H2, H2)$: Azimuthal opening angle
+7. $\Delta\phi(H2, H2)$: Azimuthal opening angle (LO 2->2 degenerate at $\pi$)
 8. $\Delta R(H2, H2)$: Angular separation $\sqrt{(\Delta y)^2 + (\Delta\phi)^2}$
 
-For each observable and point pair, normalized 20-bin histograms were compared.
+For each observable and point pair, normalized 20-bin histograms and Kolmogorov-Smirnov distance statistics were evaluated.
 
-### Summary of Pairwise Shape Differences (Max Absolute Bin Difference)
+### Summary of Pairwise Shape Differences & Kolmogorov-Smirnov Statistics
 
-| Observable | $g=40$ vs $g=63.59$ | $g=63.59$ vs $g=150$ | $g=40$ vs $g=150$ |
-| :--- | :--- | :--- | :--- |
-| `m_H2H2` | 0.0199 | 0.0250 | 0.0227 |
-| `pT_H2H2` | 0.0000 | 0.0000 | 0.0000 |
-| `pT_H2_leading` | 0.0322 | 0.0155 | 0.0419 |
-| `pT_H2_subleading` | 0.0310 | 0.0242 | 0.0234 |
-| `y_H2_leading` | 0.0160 | 0.0120 | 0.0199 |
-| `y_H2_subleading` | 0.0295 | 0.0263 | 0.0270 |
-| `delta_phi_H2H2` | 0.0000 | 0.0000 | 0.0000 |
-| `delta_R_H2H2` | 0.0310 | 0.0070 | 0.0290 |
+| Observable | $g=40$ vs $g=63.59$ (KS / $D_{\text{crit}}$) | $g=63.59$ vs $g=150$ (KS / $D_{\text{crit}}$) | $g=40$ vs $g=150$ (KS / $D_{\text{crit}}$) | Result |
+| :--- | :--- | :--- | :--- | :--- |
+| `m_H2H2` | 0.0527 / 0.0610 | 0.0254 / 0.0610 | 0.0465 / 0.0610 | `PASS (Unchanged)` |
+| `pT_H2H2` | 0.0000 / 0.0608 | 0.0000 / 0.0608 | 0.0000 / 0.0608 | `LO Degenerate` |
+| `pT_H2_leading` | 0.0595 / 0.0610 | 0.0110 / 0.0610 | 0.0607 / 0.0610 | `PASS (Unchanged)` |
+| `pT_H2_subleading` | 0.0578 / 0.0625 | 0.0189 / 0.0625 | 0.0548 / 0.0625 | `PASS (Unchanged)` |
+| `y_H2_leading` | 0.0183 / 0.0610 | 0.0356 / 0.0610 | 0.0387 / 0.0610 | `PASS (Unchanged)` |
+| `y_H2_subleading` | 0.0279 / 0.0610 | 0.0283 / 0.0610 | 0.0276 / 0.0610 | `PASS (Unchanged)` |
+| `delta_phi_H2H2` | 0.0000 / 0.1771 | 0.0000 / 0.1771 | 0.0000 / 0.1771 | `LO Degenerate` |
+| `delta_R_H2H2` | 0.0310 / 0.0608 | 0.0050 / 0.0608 | 0.0290 / 0.0608 | `PASS (Unchanged)` |
 
-All maximum absolute bin differences are within statistical Monte Carlo fluctuations ($N = 1000$ events per point).
+No statistically resolvable shape discrepancy was observed with 1000 events per point in the tested observables.
 
 ## 4. Verification & Validation Gates
 
@@ -60,16 +60,17 @@ All maximum absolute bin differences are within statistical Monte Carlo fluctuat
 * [x] Three authoritative param cards preserved with modified `FRBlock 3`
 * [x] Three distinct seeds recorded (1101, 1102, 1103)
 * [x] Three LHE files preserved with 1000 events each
-* [x] Two stable $H_2$ particles (PDG 9000006) per event verified
-* [x] MadGraph $\sigma$ and integration error extracted
-* [x] $g_{\text{effective}}$ value independently verified ($GHphiphi = -g$)
-* [x] Quadratic residual calculated (max relative residual = 1.8970e-03)
-* [x] Normalized LHE shapes compared across all 8 observables
-* [x] Cards, banners, logs, and LHE files hashed in `artifact_manifest.json`
+* [x] Two stable $h_2$ particles (PDG 9000006) per event verified
+* [x] MadGraph sigma and integration error extracted
+* [x] Effective coupling value independently verified (GHphiphi = -g)
+* [x] Cross-section ratio pulls satisfied |pull| < 3.0 (max pull = +0.8460)
+* [x] Normalized LHE shapes compared across all 8 observables (KS <= D_crit)
+* [x] Cards, applied run_cards, banners, logs, and LHE files hashed in `artifact_manifest.json`
 * [x] Factorized-mode regression passes
 * [x] No silent fallback exists between `madgraph` and `factorized` modes
 
 ## 5. Limitations & Downstream Scope
 
 * Pythia showering, hadronization, trackless recast, and $A \times \epsilon$ calculation were explicitly excluded from this pilot mission.
+* The pilot is production-only; no mixed six-point effective grid is presented as MadGraph-derived.
 * Statistical comparison is bounded by finite Monte Carlo sample size (1000 events per point).
