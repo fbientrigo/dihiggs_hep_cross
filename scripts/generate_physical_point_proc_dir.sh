@@ -4,11 +4,33 @@
 # pre-existing generated output to be copied from another machine.
 #
 # Resolution order (same convention as scripts/portable_paths.py):
-#   DIHIGGS_ROOT             workspace root containing main_dihiggs/ufos/hep_cross/...
-#   MG5_HOME                 MadGraph5_aMC@NLO install directory
-#   DIHIGGS_MG5_PROC_DIR     target process directory (defaults under hep_cross/results)
+#   DIHIGGS_ROOT                       workspace root containing main_dihiggs/ufos/hep_cross/...
+#   MG5_HOME                           MadGraph5_aMC@NLO install directory
+#   DIHIGGS_MG5_PROC_DIR                target process directory (defaults under hep_cross/results)
+#   DIHIGGS_PHYSICAL_POINT_UFO_DIR     explicit override for the UFO model directory
 #
 # Usage: scripts/generate_physical_point_proc_dir.sh [--force]
+#
+# UFO source, in priority order:
+#   1. $DIHIGGS_PHYSICAL_POINT_UFO_DIR, if set.
+#   2. hep_cross/results/r14_direct_g_production/ufo/.../LLscalar_v3_UFO_runtime
+#      -- the exact UFO revision validated for this milestone (frozen benchmark
+#      closure sigma_production_fb ~= 0.230291 fb). It is a small
+#      (~388K) CANONICAL_SMALL_ARTIFACT transferred via the migration
+#      bundle (migration/ARTIFACT_MANIFEST.json), not reproducible from
+#      the ufos repo alone -- see caveat below.
+#   3. ufos/CURRENT_PACK_A (the ufos repo's frozen release zip), as a
+#      last-resort fallback ONLY.
+#
+# KNOWN CAVEAT: as of this writing, ufos/CURRENT_PACK_A
+# (pi_ufo_baseline_v1_frozen_hotfix1.zip) does NOT expose GHphiphi as an
+# external FRBlock parameter (verified: its parameters.py has no GHphiphi
+# entry, only ctauh2). The UFO actually used to validate this milestone
+# does expose it (nature='external', lhablock='FRBlock', lhacode=[3]).
+# Falling back to option 3 will generate a process directory that silently
+# ignores the requested g_hH2H2 coupling and will NOT reproduce the frozen
+# benchmark cross section. This is a discrepancy in the ufos repo's
+# current release, not something this script can fix -- prefer option 2.
 
 set -euo pipefail
 
@@ -56,20 +78,40 @@ if [[ -d "$PROC_DIR" && $FORCE -eq 0 ]]; then
   exit 0
 fi
 
-CANONICAL_UFO_ZIP="$WORKSPACE_ROOT/ufos/CURRENT_PACK_A"
-if [[ ! -e "$CANONICAL_UFO_ZIP" ]]; then
-  echo "ERROR: canonical UFO not found at $CANONICAL_UFO_ZIP (expected ufos repo checkout)." >&2
-  exit 1
-fi
+VALIDATED_UFO_DIR="$WORKSPACE_ROOT/hep_cross/results/r14_direct_g_production/ufo/pi_ufo_baseline_v1_release_candidate_hotfix1/model/LLscalar_v3_UFO_runtime"
+UFO_MODEL_DIR=""
+CLEANUP_DIR=""
 
-UFO_EXTRACT_DIR="$(mktemp -d)"
-trap 'rm -rf "$UFO_EXTRACT_DIR"' EXIT
-unzip -q "$CANONICAL_UFO_ZIP" -d "$UFO_EXTRACT_DIR"
-UFO_MODEL_DIR="$(find "$UFO_EXTRACT_DIR" -maxdepth 3 -type d -name "LLscalar_v3_UFO_runtime" | head -1)"
-if [[ -z "$UFO_MODEL_DIR" ]]; then
-  echo "ERROR: LLscalar_v3_UFO_runtime model not found inside $CANONICAL_UFO_ZIP" >&2
-  exit 1
+if [[ -n "${DIHIGGS_PHYSICAL_POINT_UFO_DIR:-}" ]]; then
+  UFO_MODEL_DIR="$DIHIGGS_PHYSICAL_POINT_UFO_DIR"
+  echo "[GENERATE] Using explicit UFO override: $UFO_MODEL_DIR"
+elif [[ -d "$VALIDATED_UFO_DIR" ]]; then
+  UFO_MODEL_DIR="$VALIDATED_UFO_DIR"
+  echo "[GENERATE] Using validated UFO (frozen benchmark-tested revision): $UFO_MODEL_DIR"
+else
+  CANONICAL_UFO_ZIP="$WORKSPACE_ROOT/ufos/CURRENT_PACK_A"
+  if [[ ! -e "$CANONICAL_UFO_ZIP" ]]; then
+    echo "ERROR: no UFO source found. Checked:" >&2
+    echo "  - \$DIHIGGS_PHYSICAL_POINT_UFO_DIR (unset)" >&2
+    echo "  - $VALIDATED_UFO_DIR (missing -- see migration/ARTIFACT_MANIFEST.json)" >&2
+    echo "  - $CANONICAL_UFO_ZIP (missing)" >&2
+    exit 1
+  fi
+  echo "[GENERATE] WARNING: validated UFO not found at $VALIDATED_UFO_DIR." >&2
+  echo "[GENERATE] WARNING: falling back to ufos/CURRENT_PACK_A, which is KNOWN to be" >&2
+  echo "[GENERATE] WARNING: missing the external GHphiphi FRBlock parameter. The" >&2
+  echo "[GENERATE] WARNING: resulting process will NOT reproduce the frozen benchmark" >&2
+  echo "[GENERATE] WARNING: closure (sigma_production_fb ~= 0.230291 fb). Extract the" >&2
+  echo "[GENERATE] WARNING: validated UFO from the migration bundle instead." >&2
+  CLEANUP_DIR="$(mktemp -d)"
+  unzip -q "$CANONICAL_UFO_ZIP" -d "$CLEANUP_DIR"
+  UFO_MODEL_DIR="$(find "$CLEANUP_DIR" -maxdepth 3 -type d -name "LLscalar_v3_UFO_runtime" | head -1)"
+  if [[ -z "$UFO_MODEL_DIR" ]]; then
+    echo "ERROR: LLscalar_v3_UFO_runtime model not found inside $CANONICAL_UFO_ZIP" >&2
+    exit 1
+  fi
 fi
+trap '[[ -n "$CLEANUP_DIR" ]] && rm -rf "$CLEANUP_DIR"' EXIT
 
 if [[ -d "$PROC_DIR" && $FORCE -eq 1 ]]; then
   rm -rf "$PROC_DIR"
@@ -77,7 +119,7 @@ fi
 mkdir -p "$(dirname "$PROC_DIR")"
 
 PROC_CARD="$(mktemp)"
-trap 'rm -rf "$UFO_EXTRACT_DIR" "$PROC_CARD"' EXIT
+trap '[[ -n "$CLEANUP_DIR" ]] && rm -rf "$CLEANUP_DIR"; rm -f "$PROC_CARD"' EXIT
 cat > "$PROC_CARD" <<EOF
 import model $UFO_MODEL_DIR
 generate g g > H > h2 h2
