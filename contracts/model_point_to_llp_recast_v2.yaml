@@ -1,0 +1,160 @@
+name: model_point_to_llp_recast_v2
+produced_by: the dihiggs high-mass H2 2HDM point factory (DihiggsPointV2Evaluator,
+  schema dihiggs.high_mass_point.v1) plus downstream MadGraph/Pythia enrichment
+consumed_by: src/llp_recast (v2-aware paths only; v1 consumers are unaffected)
+required_columns:
+- schema_version
+- point_id
+- model_variant
+- m_h_GeV
+- m_H2_GeV
+- m_A_GeV
+- m_Hp_GeV
+- Delta_heavy_GeV
+- g_hH2H2_GeV
+- total_width_GeV
+- ctau_physical_mm
+- ctau_response_mm
+- BR_bb
+- BR_cc
+- BR_tt
+- BR_tautau
+- BR_WW
+- BR_ZZ
+- BR_gg
+- BR_gammagamma
+- BR_Zgamma
+- BR_hh
+- production_process
+- production_owner
+- decay_owner
+- response_decay_channel
+- H2_to_AZ_open
+- H2_to_HpW_open
+- H2_to_AA_open
+- H2_to_HpHm_open
+- theory_status
+- experimental_status
+- sigma_production_fb
+- sigma_source
+- sigma_provenance
+- producer_commit
+- config_hash
+- input_hash
+aliases: {}
+invariants:
+- name: ctau_physical_mm == hbar_c / total_width_GeV
+  kind: ctau_ratio
+  output: ctau_physical_mm
+  numerator: 1.973269804e-13
+  denominator: total_width_GeV
+  columns:
+  - ctau_physical_mm
+  - total_width_GeV
+  rel_tol: 1.0e-06
+- name: sum(10-channel BR) <= 1
+  kind: sum_le_one
+  columns:
+  - BR_bb
+  - BR_cc
+  - BR_tt
+  - BR_tautau
+  - BR_WW
+  - BR_ZZ
+  - BR_gg
+  - BR_gammagamma
+  - BR_Zgamma
+  - BR_hh
+  abs_tol: 1.0e-06
+- name: model_variant in {FACTORIZED_G_ONLY, PHYSICAL_DECAYS_NO_HEAVY_CASCADES}
+  kind: enum
+  column: model_variant
+  allowed:
+  - FACTORIZED_G_ONLY
+  - PHYSICAL_DECAYS_NO_HEAVY_CASCADES
+  columns:
+  - model_variant
+- name: sigma_source in allowed enum
+  kind: enum
+  column: sigma_source
+  allowed:
+  - DIRECT_MADGRAPH_POINT
+  - G_SQUARED_SCALING_ESTIMATE
+  - OTHER_ESTIMATE
+  columns:
+  - sigma_source
+- name: production_process == 'pp -> H2 H2' (only value this contract version accepts)
+  kind: enum
+  column: production_process
+  allowed:
+  - pp -> H2 H2
+  columns:
+  - production_process
+- name: production_owner in allowed enum
+  kind: enum
+  column: production_owner
+  allowed:
+  - CANONICAL_EVALUATOR
+  - DOWNSTREAM_MADGRAPH
+  columns:
+  - production_owner
+- name: decay_owner in allowed enum
+  kind: enum
+  column: decay_owner
+  allowed:
+  - CANONICAL_EVALUATOR
+  - PYTHIA_FORCED_RESPONSE_STUDY
+  columns:
+  - decay_owner
+- name: theory_status in allowed enum
+  kind: enum
+  column: theory_status
+  allowed:
+  - FAIL
+  - PASS
+  - UNCHECKED
+  columns:
+  - theory_status
+- name: experimental_status in allowed enum
+  kind: enum
+  column: experimental_status
+  allowed:
+  - FAIL
+  - NOT_APPLICABLE
+  - PASS
+  - UNCHECKED
+  columns:
+  - experimental_status
+- name: 'hierarchy: m_h_GeV < m_H2_GeV < m_A_GeV == m_Hp_GeV; Delta_heavy_GeV == m_A_GeV
+    - m_H2_GeV'
+  kind: hierarchy
+  columns:
+  - m_h_GeV
+  - m_H2_GeV
+  - m_A_GeV
+  - m_Hp_GeV
+  - Delta_heavy_GeV
+  mass_equal_abs_tol: 1.0e-06
+  delta_abs_tol: 1.0e-06
+- name: cascade-open flags false for PHYSICAL_DECAYS_NO_HEAVY_CASCADES
+  kind: cascade_forbidden_for_variant_b
+  columns:
+  - model_variant
+  - H2_to_AZ_open
+  - H2_to_HpW_open
+  - H2_to_AA_open
+  - H2_to_HpHm_open
+- name: ctau_response_mm == ctau_physical_mm for PHYSICAL_DECAYS_NO_HEAVY_CASCADES
+  kind: response_ctau_equals_physical_for_variant_b
+  columns:
+  - model_variant
+  - ctau_physical_mm
+  - ctau_response_mm
+  rel_tol: 1.0e-09
+- name: decay_owner=PYTHIA_FORCED_RESPONSE_STUDY only valid for FACTORIZED_G_ONLY
+    with a named response_decay_channel
+  kind: decay_owner_consistency
+  columns:
+  - decay_owner
+  - model_variant
+  - response_decay_channel
