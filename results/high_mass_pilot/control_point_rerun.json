@@ -1,0 +1,32 @@
+{
+  "point_id": "H2scan_mH150_tb300000",
+  "mH2_GeV": 150.0,
+  "tan_beta": 300000.0,
+  "lambda6": 1e-10,
+  "M2_GeV2": 22499.9999995,
+  "g_hH2H2_GeV": 63.59142520075966,
+  "ctau_mm": 4.326221529733112,
+  "BR_bb": 0.7567374858085787,
+  "sigma_production_fb": 0.22647489999999998,
+  "sigma_production_unc_fb": 0.0016014193755860768,
+  "madgraph_status": "VALID",
+  "madgraph_run_id_or_path": "run_H2scan_mH150_tb300000_s101;run_H2scan_mH150_tb300000_s107",
+  "banner_sha256": "fb388ad089dac686e372c698bd7952f015fedd009a374016623e033e5f45cee6;1c49cff487082597eec07435383c4604de134f6641f32c81e869e3e25fbba6bd",
+  "provenance": {
+    "nevents": 10000,
+    "seeds": [
+      101,
+      107
+    ],
+    "run_xsecs_fb": [
+      0.22647509999999998,
+      0.2264747
+    ],
+    "run_uncs_fb": [
+      0.002264751,
+      0.002264747
+    ],
+    "proc_dir": "/home/fabian/atlas_dihiggs/hep_cross/results/r14_direct_g_production/proc_output"
+  },
+  "wall_time_seconds": 286.4
+}
