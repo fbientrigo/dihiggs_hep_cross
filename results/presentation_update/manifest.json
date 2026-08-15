@@ -1,0 +1,378 @@
+{
+  "schema": "dihiggs.presentation_update.manifest.v1",
+  "timestamp_utc": "2026-08-10T21:33:15Z",
+  "hostname": "debsat",
+  "mission": "Test g^2-scaling approximation for direct MadGraph sigma(pp->H2H2) around validated 2HDM benchmark; probe whether nearby physical points change event kinematics enough to revisit A x epsilon(ctau).",
+  "repositories": [
+    {
+      "path": "dihiggs",
+      "commit": "9f8019690c44bb68d46a3b60f5ac2ac349d445f2",
+      "branch": "main",
+      "dirty": false
+    },
+    {
+      "path": "dihiggs_boundary",
+      "commit": "97e4cca8ad6f964f75f3dcb5a8e682c967dfe917",
+      "branch": "main",
+      "dirty": true,
+      "dirty_detail": "untracked build artifacts only (lib/2HDMC-1.8.0/Calc*, lib/higgstools-v1.2/installation/, llm_wiki doc) -- not touched this session"
+    },
+    {
+      "path": "dihiggs_hep_cross",
+      "commit": "59f4ec69a30d9cdb361bdfef63ea20af7ba41ce1",
+      "branch": "main",
+      "dirty": true,
+      "dirty_detail": "scripts/run_physical_point_madgraph.py modified this session (subprocess timeout 120s->600s, see notes); results/presentation_update/ (this deliverable, new); results/canonical_benchmark_* and src/*.egg-info pre-existing untracked"
+    },
+    {
+      "path": "dihiggs_llp_recast",
+      "commit": "0cd325c497ba8c6665dd0248130f8f79c0c39336",
+      "branch": "main",
+      "dirty": false
+    },
+    {
+      "path": "dihiggs_ufo",
+      "commit": "36aa77e937e923201156d5978d46037ad92c4735",
+      "branch": "main",
+      "dirty": false
+    }
+  ],
+  "benchmark_source": {
+    "canonical_point_json": "dihiggs_hep_cross/results/canonical_benchmark_point.json",
+    "canonical_param_card": "dihiggs_hep_cross/results/canonical_benchmark_cards/H2scan_mH150_tb300000_param_card.dat",
+    "original_scan_script": "dihiggs/benchmarks/run_first_h2_bounded_scan.py",
+    "original_scan_manifest": "dihiggs/benchmarks/first_h2_bounded_scan_manifest.json",
+    "original_evaluator": "Lambda1EvaluatorV2 (schema dihiggs.lambda1.v2, lambda1_target=1.0)"
+  },
+  "evaluator_used_this_session": {
+    "producer": "DihiggsPointV2Evaluator",
+    "schema": "dihiggs.point.v2",
+    "binary": "dihiggs/dihiggs/app/DihiggsPointV2Evaluator",
+    "verification": "Fed M2=22499.9999995, mH=150, tan_beta=300000, mA=mHp=450, sin_ba=1, lambda6=1e-10, lambda7=0, yukawa_type=1 (matching canonical_benchmark_point.json); reproduced g_hH2H2=63.5914 GeV, ctau=4.3262 mm, BR_bb=0.7567 to 5-6 significant figures."
+  },
+  "ufo_identity": "dihiggs_hep_cross/results/r14_direct_g_production/ufo/model/LLscalar_v3_UFO_runtime",
+  "madgraph_version": "3.5.3",
+  "madgraph_proc_dir": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output",
+  "madgraph_process": "generate g g > H > h2 h2",
+  "pythia_version": null,
+  "pythia_available": false,
+  "infrastructure_notes": [
+    "results/r14_direct_g_production/proc_output/lib/libmodel.a contained a stale archive member for Source/MODEL/rw_para.o (missing setpara_ symbol) left over from an interrupted prior-session build (loose .o dated 2026-08-09 19:14 vs archive/siblings dated 2026-08-09 02:54). Fixed via a clean rebuild of Source/MODEL only ('make clean && make' in that directory) -- no orchestration code touched.",
+    "scripts/run_physical_point_madgraph.py subprocess timeout for './bin/generate_events' raised from 120s to 600s: the off-shell gg->h*->h2h2 process needs a longer phase-space Survey than the wrapper's original timeout allowed, even with cached compilation (~2-5 min/run observed). One-line operational parameter change, disclosed here; no physics/orchestration logic changed.",
+    "Pythia8 is NOT installed on this host (no functional Pythia8 dev library found; a stub/incomplete header exists only in an ephemeral pytest fixture directory). This blocks: (a) the existing displaced-vertex Pythia driver (artifacts/h2_first_physical/pythia_full/pythia_full_driver.cc) used for the validated L3D_mm/Rxy_mm/Trackless A_eff(ctau) machinery, and (b) any shower+jet-clustering-level observables (leading-jet pT, HT). Kinematic comparison in this deliverable is therefore LHE parton-level only (pT(H2), boost(H2), DeltaR(H2,H2)); jet_pt and HT plots were not produced. Installing Pythia8 was judged out of scope for this controlled experiment per the mission's compute/infrastructure policy."
+  ],
+  "point_ids": [
+    "H2scan_mH150_tb300000",
+    "H2scan_mH130_tb300000",
+    "H2scan_mH170_tb300000",
+    "H2scan_mH150_tb240000",
+    "H2scan_mH150_tb360000"
+  ],
+  "points": [
+    {
+      "point_id": "H2scan_mH150_tb300000",
+      "role": "benchmark",
+      "physical_parameters": {
+        "mh_GeV": 125.13,
+        "mH_GeV": 150.0,
+        "mA_GeV": 450.0,
+        "mHp_GeV": 450.0,
+        "M2_GeV2": 22499.9999995,
+        "m12_sq_GeV2": 0.07499999999964685,
+        "tan_beta": 300000.0,
+        "sin_beta_minus_alpha": 1.0,
+        "lambda6": 1e-10,
+        "lambda7": 0.0,
+        "yukawa_type": "Type I"
+      },
+      "evaluator": {
+        "producer": "DihiggsPointV2Evaluator",
+        "schema": "dihiggs.point.v2",
+        "construction_ok": 1,
+        "theory_ok_v1": 1,
+        "width_ok": 1
+      },
+      "derived": {
+        "g_hH2H2_GeV": 63.5914252007625,
+        "total_width_GeV": 4.561185258155126e-14,
+        "ctau_mm": 4.326221568115243,
+        "BR_bb": 0.7567374925223394
+      },
+      "madgraph": {
+        "status": "VALID",
+        "nevents_per_seed": 10000,
+        "sigma_production_fb_mean": 0.22647489999999998,
+        "sigma_production_unc_fb": 0.0016014193755860768,
+        "param_card_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/presentation_update/cards/H2scan_mH150_tb300000_param_card.dat",
+        "param_card_sha256": "06bc719b4225bc27f30f044f0c3ecc46e3b10af428469ce7b4ffa77951b179f5",
+        "proc_dir": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output",
+        "runs": [
+          {
+            "seed": 101,
+            "run_tag": "run_H2scan_mH150_tb300000_s101",
+            "sigma_fb": 0.22647509999999998,
+            "sigma_unc_fb": 0.002264751,
+            "banner_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH150_tb300000_s101/run_H2scan_mH150_tb300000_s101_tag_1_banner.txt",
+            "banner_sha256": "fb388ad089dac686e372c698bd7952f015fedd009a374016623e033e5f45cee6",
+            "lhe_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH150_tb300000_s101/unweighted_events.lhe.gz",
+            "lhe_sha256": "35f47f55289919eed0a234b6ba6f8729d6728c10cd4363cba035fbc4cfdb0144"
+          },
+          {
+            "seed": 107,
+            "run_tag": "run_H2scan_mH150_tb300000_s107",
+            "sigma_fb": 0.2264747,
+            "sigma_unc_fb": 0.002264747,
+            "banner_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH150_tb300000_s107/run_H2scan_mH150_tb300000_s107_tag_1_banner.txt",
+            "banner_sha256": "1c49cff487082597eec07435383c4604de134f6641f32c81e869e3e25fbba6bd",
+            "lhe_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH150_tb300000_s107/unweighted_events.lhe.gz",
+            "lhe_sha256": "a81e6bbeb2da9965b928db5529b5909054fea04526f228ee9dde73bc273da7f3"
+          }
+        ]
+      }
+    },
+    {
+      "point_id": "H2scan_mH130_tb300000",
+      "role": "mH_down",
+      "physical_parameters": {
+        "mh_GeV": 125.13,
+        "mH_GeV": 130.0,
+        "mA_GeV": 430.0,
+        "mHp_GeV": 430.0,
+        "M2_GeV2": 16899.999999500335,
+        "m12_sq_GeV2": 0.056333333332654376,
+        "tan_beta": 300000.0,
+        "sin_beta_minus_alpha": 1.0,
+        "lambda6": 1e-10,
+        "lambda7": 0.0,
+        "yukawa_type": "Type I"
+      },
+      "evaluator": {
+        "producer": "DihiggsPointV2Evaluator",
+        "schema": "dihiggs.point.v2",
+        "construction_ok": 1,
+        "theory_ok_v1": 1,
+        "width_ok": 1
+      },
+      "derived": {
+        "g_hH2H2_GeV": 63.591425200341746,
+        "total_width_GeV": 3.905502443107996e-14,
+        "ctau_mm": 5.052537625426944,
+        "BR_bb": 0.78580596369334
+      },
+      "madgraph": {
+        "status": "VALID",
+        "nevents_per_seed": 10000,
+        "sigma_production_fb_mean": 0.38735975,
+        "sigma_production_unc_fb": 0.00273904725240023,
+        "param_card_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/presentation_update/cards/H2scan_mH130_tb300000_param_card.dat",
+        "param_card_sha256": "e6a10c1c6888f5c7cc50484fe2035fdac94a84554901776ed2bcb41839f6a375",
+        "proc_dir": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output",
+        "runs": [
+          {
+            "seed": 101,
+            "run_tag": "run_H2scan_mH130_tb300000_s101",
+            "sigma_fb": 0.3872145,
+            "sigma_unc_fb": 0.0038721449999999996,
+            "banner_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH130_tb300000_s101/run_H2scan_mH130_tb300000_s101_tag_1_banner.txt",
+            "banner_sha256": "452f10972581bec9a340c0cedb5bcc9a29015d2a994849f54194995292efd36e",
+            "lhe_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH130_tb300000_s101/unweighted_events.lhe.gz",
+            "lhe_sha256": "5997e4f3a527703ae0be9eef5dae40086240c96f19789cd849e8f878c0e9dbd6"
+          },
+          {
+            "seed": 107,
+            "run_tag": "run_H2scan_mH130_tb300000_s107",
+            "sigma_fb": 0.387505,
+            "sigma_unc_fb": 0.00387505,
+            "banner_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH130_tb300000_s107/run_H2scan_mH130_tb300000_s107_tag_1_banner.txt",
+            "banner_sha256": "663a899f1e89c82fd2ffb7b9cc01c14f96622e4c622cb01d56d8167538a37e89",
+            "lhe_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH130_tb300000_s107/unweighted_events.lhe.gz",
+            "lhe_sha256": "da3a2c9614ab1c055fc78d51f3e62b064ca194c87162f73db441912f1946fd8b"
+          }
+        ]
+      }
+    },
+    {
+      "point_id": "H2scan_mH170_tb300000",
+      "role": "mH_up",
+      "physical_parameters": {
+        "mh_GeV": 125.13,
+        "mH_GeV": 170.0,
+        "mA_GeV": 470.0,
+        "mHp_GeV": 470.0,
+        "M2_GeV2": 28899.999999500335,
+        "m12_sq_GeV2": 0.09633333333335492,
+        "tan_beta": 300000.0,
+        "sin_beta_minus_alpha": 1.0,
+        "lambda6": 1e-10,
+        "lambda7": 0.0,
+        "yukawa_type": "Type I"
+      },
+      "evaluator": {
+        "producer": "DihiggsPointV2Evaluator",
+        "schema": "dihiggs.point.v2",
+        "construction_ok": 1,
+        "theory_ok_v1": 1,
+        "width_ok": 1
+      },
+      "derived": {
+        "g_hH2H2_GeV": 63.5914252012376,
+        "total_width_GeV": 5.2772204882714754e-14,
+        "ctau_mm": 3.739221827826894,
+        "BR_bb": 0.724982729037251
+      },
+      "madgraph": {
+        "status": "VALID",
+        "nevents_per_seed": 10000,
+        "sigma_production_fb_mean": 0.1347223,
+        "sigma_production_unc_fb": 0.000952630572923733,
+        "param_card_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/presentation_update/cards/H2scan_mH170_tb300000_param_card.dat",
+        "param_card_sha256": "4600a121d9cc21d44e68aa9c448c9384351dc5a7a03ed92abb2fd6de9d1b9b33",
+        "proc_dir": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output",
+        "runs": [
+          {
+            "seed": 101,
+            "run_tag": "run_H2scan_mH170_tb300000_s101",
+            "sigma_fb": 0.134677,
+            "sigma_unc_fb": 0.0013467699999999997,
+            "banner_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH170_tb300000_s101/run_H2scan_mH170_tb300000_s101_tag_1_banner.txt",
+            "banner_sha256": "3c905d09d35f051fa39dc2d4fe96374edfe4404f04a148622b70d140be0fc7b6",
+            "lhe_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH170_tb300000_s101/unweighted_events.lhe.gz",
+            "lhe_sha256": "b7092f7bfb775760a30b7fce08ba1035adcdc4f7904907c656bee9a3afbf872c"
+          },
+          {
+            "seed": 107,
+            "run_tag": "run_H2scan_mH170_tb300000_s107",
+            "sigma_fb": 0.13476760000000002,
+            "sigma_unc_fb": 0.001347676,
+            "banner_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH170_tb300000_s107/run_H2scan_mH170_tb300000_s107_tag_1_banner.txt",
+            "banner_sha256": "99d4cc8788aca4a8f936c01427ccb6f179cf94615e0764d4cc4a8729d2c25418",
+            "lhe_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH170_tb300000_s107/unweighted_events.lhe.gz",
+            "lhe_sha256": "39027dba4e5fa2a537671596bbf784ac32aaa49dc31db1a98bb07dcb94085fa0"
+          }
+        ]
+      }
+    },
+    {
+      "point_id": "H2scan_mH150_tb240000",
+      "role": "tb_down",
+      "physical_parameters": {
+        "mh_GeV": 125.13,
+        "mH_GeV": 150.0,
+        "mA_GeV": 450.0,
+        "mHp_GeV": 450.0,
+        "M2_GeV2": 22499.9999995,
+        "m12_sq_GeV2": 0.09374999999632551,
+        "tan_beta": 240000.0,
+        "sin_beta_minus_alpha": 1.0,
+        "lambda6": 1e-10,
+        "lambda7": 0.0,
+        "yukawa_type": "Type I"
+      },
+      "evaluator": {
+        "producer": "DihiggsPointV2Evaluator",
+        "schema": "dihiggs.point.v2",
+        "construction_ok": 1,
+        "theory_ok_v1": 1,
+        "width_ok": 1
+      },
+      "derived": {
+        "g_hH2H2_GeV": 63.59142520066018,
+        "total_width_GeV": 7.126901847418586e-14,
+        "ctau_mm": 2.768762424748044,
+        "BR_bb": 0.7567334176801805
+      },
+      "madgraph": {
+        "status": "VALID",
+        "nevents_per_seed": 10000,
+        "sigma_production_fb_mean": 0.22647489999999998,
+        "sigma_production_unc_fb": 0.0016014193755860768,
+        "param_card_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/presentation_update/cards/H2scan_mH150_tb240000_param_card.dat",
+        "param_card_sha256": "83363e1af0ace65485c5789aecc7bdb327019d04914909d4b7c17c5006cc6bd2",
+        "proc_dir": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output",
+        "runs": [
+          {
+            "seed": 101,
+            "run_tag": "run_H2scan_mH150_tb240000_s101",
+            "sigma_fb": 0.22647509999999998,
+            "sigma_unc_fb": 0.002264751,
+            "banner_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH150_tb240000_s101/run_H2scan_mH150_tb240000_s101_tag_1_banner.txt",
+            "banner_sha256": "c5ab3d05b5ef17644e2c3ab08cfb64bc7f6edf2f53e22666391842779b90f8c2",
+            "lhe_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH150_tb240000_s101/unweighted_events.lhe.gz",
+            "lhe_sha256": "1b8a14b1457ef07b14671953243750a2c37fb247f9bc593854bcd07a9f0e0019"
+          },
+          {
+            "seed": 107,
+            "run_tag": "run_H2scan_mH150_tb240000_s107",
+            "sigma_fb": 0.2264747,
+            "sigma_unc_fb": 0.002264747,
+            "banner_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH150_tb240000_s107/run_H2scan_mH150_tb240000_s107_tag_1_banner.txt",
+            "banner_sha256": "538832eb5f49ca651ece1922f03902668890b26c3bc9561bc86701eae6fc61dd",
+            "lhe_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH150_tb240000_s107/unweighted_events.lhe.gz",
+            "lhe_sha256": "1f42bae498b2e430eefac0dee168fb51c5d64bf97343d860dc5b30821dbb8d8a"
+          }
+        ]
+      }
+    },
+    {
+      "point_id": "H2scan_mH150_tb360000",
+      "role": "tb_up",
+      "physical_parameters": {
+        "mh_GeV": 125.13,
+        "mH_GeV": 150.0,
+        "mA_GeV": 450.0,
+        "mHp_GeV": 450.0,
+        "M2_GeV2": 22499.9999995,
+        "m12_sq_GeV2": 0.06250000000007679,
+        "tan_beta": 360000.0,
+        "sin_beta_minus_alpha": 1.0,
+        "lambda6": 1e-10,
+        "lambda7": 0.0,
+        "yukawa_type": "Type I"
+      },
+      "evaluator": {
+        "producer": "DihiggsPointV2Evaluator",
+        "schema": "dihiggs.point.v2",
+        "construction_ok": 1,
+        "theory_ok_v1": 1,
+        "width_ok": 1
+      },
+      "derived": {
+        "g_hH2H2_GeV": 63.591425200864364,
+        "total_width_GeV": 3.167482522784409e-14,
+        "ctau_mm": 6.2297732972662985,
+        "BR_bb": 0.7567411677451383
+      },
+      "madgraph": {
+        "status": "VALID",
+        "nevents_per_seed": 10000,
+        "sigma_production_fb_mean": 0.22647489999999998,
+        "sigma_production_unc_fb": 0.0016014193755860768,
+        "param_card_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/presentation_update/cards/H2scan_mH150_tb360000_param_card.dat",
+        "param_card_sha256": "14a9b5af25e9b96f7311894b55ff9e6cef5731f981f079054b9016b60b0a88d8",
+        "proc_dir": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output",
+        "runs": [
+          {
+            "seed": 101,
+            "run_tag": "run_H2scan_mH150_tb360000_s101",
+            "sigma_fb": 0.22647509999999998,
+            "sigma_unc_fb": 0.002264751,
+            "banner_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH150_tb360000_s101/run_H2scan_mH150_tb360000_s101_tag_1_banner.txt",
+            "banner_sha256": "2836daff6b0186f030d7f79b1cc95c71de3f9722445ff775513bcd39c7c6ee76",
+            "lhe_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH150_tb360000_s101/unweighted_events.lhe.gz",
+            "lhe_sha256": "ad07451b242336b30f49bb6e0bfc41e400fc4407e1845964e65b6b9b05b1ce0d"
+          },
+          {
+            "seed": 107,
+            "run_tag": "run_H2scan_mH150_tb360000_s107",
+            "sigma_fb": 0.2264747,
+            "sigma_unc_fb": 0.002264747,
+            "banner_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH150_tb360000_s107/run_H2scan_mH150_tb360000_s107_tag_1_banner.txt",
+            "banner_sha256": "d16289236b404e41654e8bd6178adb30a83946cc297199c6470f420d925ec80f",
+            "lhe_path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross/results/r14_direct_g_production/proc_output/Events/run_H2scan_mH150_tb360000_s107/unweighted_events.lhe.gz",
+            "lhe_sha256": "15ae69a1d8ce7a112cbed184da6c2ef9bd61ba143e153e4ca43fbd4c7f620ce8"
+          }
+        ]
+      }
+    }
+  ]
+}
