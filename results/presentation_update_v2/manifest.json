@@ -1,0 +1,94 @@
+{
+  "schema": "dihiggs.presentation_update_v2.manifest.v1",
+  "generated_at": "2026-08-10T20:56:00-04:00",
+  "host": "debsat",
+  "mission": "Resolve whether a physically valid fixed-mH=150 GeV 2HDM direction can vary g_hH2H2 enough for a meaningful direct-MadGraph-vs-g2 test.",
+  "outcome": "RESULT_C_negative_established",
+  "repositories": [
+    {"name": "dihiggs", "path": "/home/fabian/atlas_dihiggs/dihiggs", "commit": "9f8019690c44bb68d46a3b60f5ac2ac349d445f2", "branch": "main", "dirty": false},
+    {"name": "dihiggs_boundary", "path": "/home/fabian/atlas_dihiggs/dihiggs_boundary", "commit": "97e4cca8ad6f964f75f3dcb5a8e682c967dfe917", "branch": "main", "dirty": true, "dirty_detail": "untracked pre-existing 2HDMC/higgstools build artifacts, not touched this session"},
+    {"name": "dihiggs_hep_cross", "path": "/home/fabian/atlas_dihiggs/dihiggs_hep_cross", "commit": "59f4ec69a30d9cdb361bdfef63ea20af7ba41ce1", "branch": "main", "dirty": true, "dirty_detail": "prior-session disclosed 1-line timeout edit to scripts/run_physical_point_madgraph.py, plus results/presentation_update/ and results/presentation_update_v2/ outputs; unchanged this session"},
+    {"name": "dihiggs_llp_recast", "path": "/home/fabian/atlas_dihiggs/dihiggs_llp_recast", "commit": "0cd325c497ba8c6665dd0248130f8f79c0c39336", "branch": "main", "dirty": false},
+    {"name": "dihiggs_ufo", "path": "/home/fabian/atlas_dihiggs/dihiggs_ufo", "commit": "36aa77e937e923201156d5978d46037ad92c4735", "branch": "main", "dirty": false}
+  ],
+  "evaluator_used": {
+    "binary": "/home/fabian/atlas_dihiggs/dihiggs/dihiggs/app/DihiggsPointV2Evaluator",
+    "schema": "dihiggs.point.v2",
+    "source": "dihiggs/dihiggs/src/DihiggsPointV2Evaluator.cpp",
+    "api": "THDM::set_param_phys+THDM::get_param_gen+THDM::get_coupling_hhh+2HDMC::DecayTable",
+    "usage_note": "Called once per physical point (n-mH=1, n-M2=1 grids) via subprocess; no source modification.",
+    "verification": "Benchmark point (mH=150, tan_beta=3e5, M2=22499.9999995) reproduced theory_ok_v1=1, g_hH2H2=63.59142520075966 GeV, matching results/presentation_update/points.csv benchmark row."
+  },
+  "model_contract": {
+    "mh_GeV": 125.13, "mA_GeV": 450.0, "mHp_GeV": 450.0,
+    "sin_beta_minus_alpha": 1.0, "yukawa_type": 1,
+    "lambda6_benchmark": 1e-10, "lambda7": 0.0,
+    "mH_GeV_this_campaign": 150.0,
+    "note": "M2 != m12_sq; m12_sq = M2*sin(beta)*cos(beta). mH held fixed at the benchmark value throughout this campaign (Region I: mH < 2*mh)."
+  },
+  "no_madgraph_run_this_session": true,
+  "no_madgraph_run_reason": "Phase A stop condition triggered: both tested fixed-mass axes (M2/tan_beta, lambda6) produced g_hH2H2 variation 6-13 orders of magnitude below the ~0.7% MadGraph MC-statistical floor. Per mission Section 7, an expensive MadGraph campaign was not forced.",
+  "phases_executed": [
+    {
+      "phase": "A.1",
+      "description": "Fixed mH=150 GeV, logarithmic tan_beta scan (1e4-1e6 primary + 3e6/9e6 diagnostic, ceiling 1e7 not exceeded). At each tan_beta: Newton-corrected M2 center (lambda1_reconstructed=1, analytic slope -tan_beta^2/v^2, oracle = evaluator's own output, no cross-evaluator mixing) then bisected theory_ok_v1 window edges in M2.",
+      "script": "phaseA_manifold.py (new, scratch, not committed)",
+      "n_evaluator_calls": "~800 (13 tan_beta points x ~60 bisection/Newton calls each)",
+      "output_csv": "fixed_mass_manifold.csv",
+      "log": "logs/phaseA_manifold_run.log",
+      "key_finding": "Theory-valid M2 window: 2.5e-3 GeV^2 (tan_beta=1e4) down to 2.8e-6 GeV^2 (tan_beta=3e5). Max |delta_g/g| in window: 2.5e-7 down to 2.7e-10."
+    },
+    {
+      "phase": "A.2",
+      "description": "lambda6 axis sweep at fixed mH=150, tan_beta=3e5, M2=manifold center (22499.999999500335). Benchmark value 1e-10 plus decades both signs to |lambda6|=10 ceiling; theory-valid boundary bisected.",
+      "script": "phaseA_lambda6.py (new, scratch, not committed)",
+      "output_csv": "lambda6_axis.csv",
+      "log": "logs/phaseA_lambda6_run.log",
+      "key_finding": "Theory-valid lambda6 window: [-7.086098e-06, +2.222324e-06] (bisected). g_hH2H2 varies by ~1.07e-14 relative across the entire accepted range -- indistinguishable from evaluator floating-point noise."
+    },
+    {
+      "phase": "C",
+      "description": "Consolidation of the previous campaign's mH=130/150/170 result (no rerun) into a compact PI-facing table.",
+      "source_files": [
+        "../presentation_update/cross_section_comparison.csv",
+        "../presentation_update/tables/kinematic_summary.csv"
+      ],
+      "output_csv": "mass_dependence_summary.csv"
+    },
+    {
+      "phase": "D",
+      "description": "Bounded probe of the existing environment for a functional Pythia8/shower route (no build-from-source).",
+      "output": "pythia_probe.md",
+      "result": "BLOCKED_PYTHIA"
+    }
+  ],
+  "phase_b_skipped": true,
+  "phase_b_skip_justification": "Per Section 7/8 stop-gate: fewer than 3 useful theory-valid points spanning a meaningful range in |g_hH2H2| exist at fixed mH=150 (max spread found: 1e-7 to 1e-14 relative, far below the 'few percent' threshold). fixed_mass_g2_test.csv and sigma_normalized_vs_g2_fixed_mass.{png,pdf} were therefore not produced.",
+  "recast_gate": {
+    "outcome": "B_suggestive_shape_effect",
+    "note": "Unchanged from the prior campaign (results/presentation_update/README.md section 5): mH axis changes both normalization and H2 boost shape simultaneously; candidates mH=130/170 already have MadGraph events on disk. Still blocked on Pythia8 (see pythia_probe.md)."
+  },
+  "file_hashes_sha256": {
+    "fixed_mass_manifold.csv": "30531676261e93520d6b406efb9daac8d332c518282716fb108fadca20d9af02",
+    "lambda6_axis.csv": "14a3cd356f5f7470a81a3c6ec90794ea23cb7325fdc0d39bbc3730f1e3933cd2",
+    "mass_dependence_summary.csv": "a4a02b3ef22178d137e48376d299c86da6de51bda715ee280e82e4d35ee76879",
+    "pythia_probe.md": "5f5741c57b410638195e9393ec618e7afdea2f1823632070cd95a2553ad53672",
+    "PI_BRIEF.md": "b6f712645a995127c7c39cd96e37156763d1c25e598f48c98629d4fe92af5c35",
+    "logs/phaseA_lambda6_run.log": "7c6c8611fcd1d5cebc34c03c4e50daa836ae0eca5e4602f3ce382e3ed7ef5217",
+    "logs/phaseA_manifold_run.log": "9cb0964a50b21c3a39d3568bbb71530c8ee5f914385e2fec331e7b91d5b04dd4"
+  },
+  "toolchain": {
+    "gxx": "g++ (Debian 14.2.0-19) 14.2.0",
+    "python": "3.13.5"
+  },
+  "reused_vs_new": {
+    "reused_unmodified": [
+      "DihiggsPointV2Evaluator binary and source (dihiggs)",
+      "results/presentation_update/cross_section_comparison.csv and tables/kinematic_summary.csv (Phase C source data, no rerun)"
+    ],
+    "new_this_session": [
+      "phaseA_manifold.py -- fixed-mH Newton-tuned M2 center + theory_ok_v1 window bisection (scratch, not committed to any repo)",
+      "phaseA_lambda6.py -- lambda6 axis theory-valid window bisection (scratch, not committed to any repo)"
+    ]
+  }
+}
