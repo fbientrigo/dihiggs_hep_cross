@@ -2,7 +2,7 @@
 """Combine physical MadGraph production cross section with canonical Trackless Aeff.
 
 Implements the canonical signal combination:
-    sigma_production_fb, ctau_mm, BR_bb
+    sigma_production_fb, ctau_response_mm, BR_bb
              |
              v
         Trackless Aeff(ctau)  [log-linear interpolation]
@@ -92,14 +92,19 @@ def process_physical_llp_signals(
         reader = csv.DictReader(f)
         rows_in = list(reader)
 
+    required = {"sigma_production_fb", "sigma_source", "sigma_provenance", "ctau_response_mm", "BR_bb"}
+    missing = sorted(required - set(rows_in[0])) if rows_in else sorted(required)
+    if missing:
+        raise ValueError("canonical model-point input missing required fields: " + ", ".join(missing))
+
     rows_out = []
     for r in rows_in:
         out = dict(r)
         try:
-            sigma_prod = float(r.get("sigma_production_fb", "nan"))
-            ctau = float(r.get("ctau_mm", "nan"))
-            br_bb = float(r.get("BR_bb", r.get("br_bb", "nan")))
-        except ValueError:
+            sigma_prod = float(r["sigma_production_fb"])
+            ctau = float(r["ctau_response_mm"])
+            br_bb = float(r["BR_bb"])
+        except (TypeError, ValueError):
             sigma_prod, ctau, br_bb = float("nan"), float("nan"), float("nan")
 
         if math.isfinite(sigma_prod) and math.isfinite(ctau) and math.isfinite(br_bb) and sigma_prod > 0:

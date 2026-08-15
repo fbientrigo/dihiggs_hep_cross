@@ -4,10 +4,12 @@ This is the default production workflow for the next 2HDM LLP scan.
 
 ## Goal
 
-For every accepted physical `dihiggs.point.v2` row, obtain the production cross section from MadGraph rather than inferring it from a single coupling rescaling.
+For every accepted physical point, package the row through the canonical
+named model-point handoff, then obtain the production cross section from
+MadGraph rather than inferring it from a single coupling rescaling.
 
 ```text
-dihiggs.point.v2
+canonical model-point handoff
   -> point-specific UFO/parameter mapping
   -> MadGraph
   -> sigma_production_fb + sigma_production_unc_fb
@@ -22,7 +24,8 @@ For each physical point:
 1. preserve the stable `point_id`;
 2. write the point-specific parameter card from the canonical model row;
 3. run the frozen production process with the declared UFO, PDF, scales and collider energy;
-4. record the LO cross section and MadGraph integration uncertainty;
+4. record the LO cross section and MadGraph integration uncertainty, with
+   `sigma_source=DIRECT_MADGRAPH_POINT` and non-empty `sigma_provenance`;
 5. join the result back onto the same row as `sigma_production_fb` and `sigma_production_unc_fb`.
 
 No Pythia or recast run is required merely to obtain the production cross section.
@@ -63,12 +66,16 @@ The downstream signal calculation receives, per point:
 
 ```text
 point_id
-m_H2_GeV
+model_variant
+m_h_GeV, m_H2_GeV, m_A_GeV, m_Hp_GeV, Delta_heavy_GeV
 g_hH2H2_GeV
-ctau_mm_H2
-br_bb_H2
+total_width_GeV
+ctau_physical_mm
+ctau_response_mm
+BR_bb
 sigma_production_fb
-sigma_production_unc_fb
+sigma_source
+sigma_provenance
 ```
 
 and combines the production result with a separately versioned Trackless `Aeff(ctau)` response.
@@ -76,7 +83,7 @@ and combines the production result with a separately versioned Trackless `Aeff(c
 For the current H2 -> bb pair signal:
 
 ```text
-sigma_4b      = sigma_production_fb * br_bb_H2^2
+sigma_4b      = sigma_production_fb * BR_bb^2
 sigma_visible = sigma_4b * Trackless_Aeff
 N_expected    = luminosity * sigma_visible
 ```

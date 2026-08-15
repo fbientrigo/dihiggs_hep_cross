@@ -34,4 +34,4 @@ jobs:
           PYTHONPATH: src
         run: |
           python -m llp_recast.data_contract --emit
-          git diff --exit-code -- contracts/model_point_to_llp_recast_v1.yaml
+          git diff --exit-code -- contracts/model_point_to_llp_recast.yaml

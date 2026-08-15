@@ -1,134 +1,169 @@
-# Contract — 2HDM (or other extended-Higgs) model point -> LLP recast input
+# Contract — `model_point_to_llp_recast`
 
-This document specifies how a future 2HDM (or other BSM scalar-pair) scan
-point must be packaged before it can enter the recast layer in
-`src/llp_recast/` and downstream boundary/signal tools. It exists so that
-model-specific physics (2HDMC, UFO, MadGraph) stays decoupled from generic
-geometry/efficiency math.
+Status: implemented, canonical, and sole active model-point handoff.
 
-## Required columns per model point
+Code: `src/llp_recast/data_contract.py`. Machine-readable mirror (written by
+that module's `emit()`, never hand-edited):
+`contracts/model_point_to_llp_recast.yaml`. Tests:
+`tests/test_data_contract.py`.
 
-| Column | Meaning | Notes |
-|---|---|---|
-| `model` | model tag, e.g. `2HDM_typeI` | free text, must be stable across a scan |
-| `point_id` | unique id within the scan | must stay stable across 2HDMC, cards, MadGraph and recast artifacts |
-| `m_scalar_GeV` | mass of the long-lived scalar | this is the scalar mass used downstream |
-| `total_width_GeV` | total decay width of the scalar | from 2HDMC or the canonical width producer |
-| `ctau_mm` | proper decay length | must equal `HBAR_C_GEV_MM / total_width_GeV`; do not supply an independently-guessed value |
-| `sigma_production_fb` | production cross section for the relevant process | direct MadGraph result for this physical point |
-| `sigma_production_unc_fb` | MadGraph integration uncertainty | integration/statistical uncertainty only; keep scale/PDF theory uncertainties separate |
-| `BR_bb`, `BR_WW`, `BR_ZZ`, `BR_gg`, `BR_tautau` | exclusive branching ratios | must be internally consistent with the same physical point |
-| `BR_hadronic_proxy` | hadronic-final-state proxy BR used by legacy recast tooling | compute from actual BRs; do not tune it to hit a target yield |
-| `beta_gamma_source` | how `beta_gamma` was obtained | one of `assumed_flat`, `mg5_pythia_truth`, `analytic_kinematics` |
-| `recast_channel_hint` | which ATLAS DV+jets SR this point is expected to land in | e.g. `trackless_sr`, `highpt_sr`, or `unknown` |
+The former v1 contract is archived for interpreting old evidence only. It is
+not imported, emitted, or accepted as a runtime input.
 
-## Production policy for new physical scans
+## Why
 
-For a scan in which full 2HDM points change, production is evaluated with
-MadGraph **per physical point**:
+`docs/DOWNSTREAM_INTERFACE_GAP_REPORT.md` (produced by a read-only inspection
+of this repo from the `dihiggs` side) found v1 cannot represent a high-mass
+2HDM H2 point from the `dihiggs` high-mass point factory
+(`docs/HIGH_MASS_H2_CONTRACT.md`, `docs/contracts/high_mass_point_schema.yaml`,
+`docs/contracts/cascade_contract.yaml` in that repo) without losing
+information: no heavy-state masses, no `model_variant`, a single `ctau_mm`
+that conflates physical and detector-response lifetime, a 5-of-10-channel BR
+list, no cascade-state flags, no production-process identity, and no
+provenance distinguishing a canonical MadGraph cross section from a scaling
+estimate.
 
-```text
-canonical dihiggs.point.v2 row
-  -> validated UFO / parameter mapping
-  -> MadGraph process
-  -> sigma_production_fb + sigma_production_unc_fb
-  -> join back to the same point_id
+## Minimum required-column list
+
+```
+schema_version, point_id, model_variant,
+m_h_GeV, m_H2_GeV, m_A_GeV, m_Hp_GeV, Delta_heavy_GeV,
+g_hH2H2_GeV,
+total_width_GeV, ctau_physical_mm, ctau_response_mm, lifetime_mode,
+BR_bb, BR_cc, BR_tt, BR_tautau, BR_WW, BR_ZZ, BR_gg, BR_gammagamma, BR_Zgamma, BR_hh,
+production_process, production_owner, decay_owner, response_decay_channel,
+H2_to_AZ_open, H2_to_HpW_open, H2_to_AA_open, H2_to_HpHm_open,
+theory_status, experimental_status,
+sigma_production_fb, sigma_source, sigma_provenance,
+producer_commit, config_hash, input_hash
 ```
 
-Do not make `sigma = sigma0 * (g/g0)^2` the default production law for a
-multi-parameter physical scan. When the point changes, additional couplings,
-widths, interference contributions, coupling orders or normalized kinematics
-may also change. MadGraph is sufficiently light for the intended workflow that
-direct evaluation is the safer default.
+39 columns. This is a straight cross-check pass of the mission's field list
+against the gap report's findings; every field above is independently
+confirmed as a genuine gap by the report (see the report's table for the
+field-by-field justification).
 
-A quadratic coupling relation may still be tested and documented as a
-**controlled diagnostic** when exactly one relevant coupling is varied and the
-rest of the production amplitude is demonstrated to be fixed. Historical R9/R10
-or reduced coupling scans remain useful evidence in that restricted context;
-they are not a substitute for per-point production in a general 2HDM scan.
+## Design decisions
 
-## MadGraph provenance required upstream
+### 1. `sigma_production_fb` provenance (`sigma_source`, `sigma_provenance`)
 
-The production artifact for each point must preserve, directly or by a linked
-run manifest:
+The canonical evaluator (`DihiggsPointV2Evaluator`) never emits a MadGraph
+cross section (`HIGH_MASS_H2_CONTRACT.md` section 8); `sigma_production_fb`
+is always a downstream enrichment. v1 had no way to say *how* trustworthy
+that number is. The canonical contract adds:
 
-```text
-point_id
-UFO name/version/checksum
-MadGraph version
-process definition
-sqrt(s)
-PDF set
-renormalization/factorization-scale setup
-param-card checksum
-run-card checksum
-seed
-number of generated/accepted events
-sigma_LO
-integration uncertainty
-K factor or other rescaling in a separate field
-banner/log/LHE paths or checksums
-```
+- `sigma_source`: checked enum, `{DIRECT_MADGRAPH_POINT,
+  G_SQUARED_SCALING_ESTIMATE, OTHER_ESTIMATE}`. Only
+  `DIRECT_MADGRAPH_POINT` is treated as canonical/physically trustworthy by
+  `is_canonical_sigma_source()`.
+- `sigma_provenance`: free-text/dict field for human-readable production
+  context (run id, config, etc.). **Not** consulted for the
+  canonical/non-canonical decision — only `sigma_source` gates that. This
+  keeps the "is this number trustworthy" question structural (one enum
+  check) rather than something a caller has to infer by parsing free text.
+- Rows with a non-canonical `sigma_source` are **accepted**, not rejected —
+  carrying a scaling estimate is legitimate — but
+  `ValidationReport.non_canonical_sigma_rows` records them and `describe()`
+  prints an explicit `[info]` line, so a caller cannot silently treat a
+  scaling estimate as canonical just because the column is populated.
 
-The downstream boundary layer consumes `sigma_production_fb` and
-`sigma_production_unc_fb`; it should not duplicate or reinterpret the production
-calculation.
+### 2. Physical vs. response lifetime (`ctau_physical_mm`, `ctau_response_mm`, `lifetime_mode`)
 
-## `BR_hadronic_proxy` consistency rule
+Two distinct required columns, never aliases of each other.
 
-`BR_hadronic_proxy` must be computed from the exclusive BRs you already have
-(e.g. `BR_bb + BR_gg + (hadronic fraction of BR_WW) + (hadronic fraction of
-BR_ZZ)`), not asserted independently. If you only have a subset of exclusive
-BRs, say so explicitly in a `br_source` free-text column rather than silently
-filling the rest with placeholder logic.
+- `ctau_physical_mm` must equal `hbar_c_GeV_mm / total_width_GeV` for
+  **every** row, regardless of variant (`rel_tol=1e-6`; v1 used `1e-4` as a
+  loose legacy tolerance, the upstream `high_mass_point_schema.yaml` uses
+  `1e-9`; `1e-6` is a deliberate middle point — tight enough to catch a
+  wrong/independently-guessed lifetime, loose enough to tolerate CSV
+  string round-tripping of a value that started as a full-precision float).
+- `lifetime_mode=PHYSICAL_PREDICTION` requires
+  `ctau_response_mm == ctau_physical_mm` within `rel_tol=1e-9`.
+- `lifetime_mode=DETECTOR_RESPONSE_EXPERIMENT` explicitly permits a
+  Variant-A response scan to differ from the physical prediction. It is not
+  valid for Variant B, which always uses the physical lifetime.
+- Both lifetime columns remain required and positive; a missing response
+  value is an error, never a silent copy of the physical value.
 
-For the active H2 -> bb Trackless interpretation, the physical normalization is
-instead kept explicitly as `BR_bb^2`, because the recast sample forces both H2
-decays to bb.
+### 3. `model_variant`
 
-## Forbidden / ambiguous mappings
+Checked enum: `FACTORIZED_G_ONLY`, `PHYSICAL_DECAYS_NO_HEAVY_CASCADES`. Any
+other value is a hard rejection (missing/invalid variant is exactly the kind
+of "silently ambiguous" record v1 could produce and v2 must not).
 
-- **`paper lambda_eff != 2HDM lambda6 / lambda7`.** The paper's effective hSS
-  coupling is defined for its specific scalar-mixing setup. Do not plug a
-  2HDM `lambda6`/`lambda7` value into `PaperScalarPoint.lambda_eff` and
-  assume it means the same thing — a model-matching calculation is required.
-- **`paper sin_theta != 2HDM sin(beta - alpha)`.** The paper's `sin_theta`
-  controls scalar mixing and hence the LLP lifetime in its model. `sin(beta -
-  alpha)` in a 2HDM controls SM-Higgs-coupling alignment. They are different
-  physical objects; do not substitute one for the other when setting
-  `ctau_mm`.
-- **`sigma_production_fb` must be a direct production result for new physical
-  scans.** Do not infer it from total width, lifetime or a generic `g/g0`
-  rescaling. A one-coupling scaling law is allowed only as an explicitly scoped
-  validation diagnostic.
-- **BRs must be computed consistently.** `BR_hadronic_proxy` and `BR_bb` must
-  trace back to actual same-point widths/branching ratios, never hand-picked to
-  hit a target yield.
+### 4. Cascade-open flags
 
-## How this flows into the recast / boundary layer
+`H2_to_AZ_open, H2_to_HpW_open, H2_to_AA_open, H2_to_HpHm_open` are required
+columns on every row (per `cascade_contract.yaml`, computed as a diagnostic
+regardless of variant). The validator only enforces them false
+(`false`/`False`/`0`, case-insensitive on the leading token) for
+`PHYSICAL_DECAYS_NO_HEAVY_CASCADES` rows; `FACTORIZED_G_ONLY` rows may carry
+any value in these columns without failing validation, since that variant
+does not claim a complete physical H2 decay model.
 
-```text
-2HDM scan point
-  -> m_scalar_GeV, ctau_mm
-  -> sigma_production_fb               [MadGraph, same point_id]
-  -> BR_bb or other physical BRs        [canonical model point]
-  -> Trackless Aeff                     [separate recast calibration]
-  -> expected visible yield
-```
+### 5. BR invariants — full 10-channel list
 
-For the active pair-produced H2 -> bb signal:
+`BR_bb, BR_cc, BR_tt, BR_tautau, BR_WW, BR_ZZ, BR_gg, BR_gammagamma,
+BR_Zgamma, BR_hh` are all required columns and all participate in the
+`sum <= 1` invariant (`abs_tol=1e-6`). v1's sum invariant only covered
+`BR_bb, BR_WW, BR_ZZ, BR_gg, BR_tautau` — `BR_cc`, `BR_tt`,
+`BR_gammagamma`, `BR_Zgamma`, `BR_hh` were entirely absent, confirmed as a
+gap by the report (`BR_tt` in particular is the exact channel Gate A closed
+upstream; `BR_hh` opens well inside the high-mass factory's target range).
 
-```text
-sigma_4b      = sigma_production_fb * BR_bb^2
-sigma_visible = sigma_4b * Trackless_Aeff
-N_expected    = luminosity * sigma_visible
-```
+### 6. Mass hierarchy
 
-Production, decay and acceptance remain separate quantities with separate
-scientific ownership.
+`m_h_GeV < m_H2_GeV < m_A_GeV` (strict, no tolerance — these are meant to be
+well-separated scan coordinates), `m_A_GeV == m_Hp_GeV`
+(`abs_tol=1e-6 GeV`), `Delta_heavy_GeV == m_A_GeV - m_H2_GeV`
+(`abs_tol=1e-6 GeV`). Tolerances are absolute (not relative) because these
+are typically clean scan-grid coordinates, not the output of a numerically
+sensitive calculation; documented here per the mission spec's "exact, or
+document your tolerance" instruction.
 
-`PaperScalarPoint` in `src/llp_recast/paper_model.py` intentionally does not
-have a `from_2hdm_point()` constructor yet — building one before a real
-model-matching calculation exists would silently launder an unvalidated
-`lambda_eff`/`sin_theta` mapping into the recast. Add it only once that matching
-is worked out.
+### 7. Production process identity
+
+`production_process` is a checked enum with exactly one currently-accepted
+value: `"pp -> H2 H2"` (`HIGH_MASS_H2_CONTRACT.md` sections 1 and 4: heavy
+A/Hp production and cascade feed-down are explicitly out of scope until a
+later contract revision). A future `v3` contract would extend this enum,
+not this one.
+
+### 8. Decay/production ownership provenance
+
+`production_owner` (`CANONICAL_EVALUATOR` | `DOWNSTREAM_MADGRAPH`) and
+`decay_owner` (`CANONICAL_EVALUATOR` | `PYTHIA_FORCED_RESPONSE_STUDY`)
+record which pipeline stage is responsible for the production-level and
+decay-level numbers in a row — this is what closes the gap report's "Decay
+ownership" finding (v1 had no way to distinguish a physical `BR_bb` from a
+sample forced 100% to `bb` for a response study). `response_decay_channel`
+names the forced channel (or `"NONE"` when nothing was forced). The
+validator enforces: `decay_owner == PYTHIA_FORCED_RESPONSE_STUDY` is only
+valid on `FACTORIZED_G_ONLY` rows (Variant B never forces a decay,
+`HIGH_MASS_H2_CONTRACT.md` section 4) and always requires a real, non-empty
+`response_decay_channel`.
+
+These two fields' exact enum values and the cross-field invariant between
+them are **not** literally specified by the mission's field list or the gap
+report (both only say the field names must exist) — they are this task's
+own design to make "decay ownership" a checkable, not just storable,
+property. Flagged as a judgment call for the orchestrating session.
+
+### 9. `theory_status` / `experimental_status`
+
+Checked enums (`{PASS, FAIL, UNCHECKED}` and `{PASS, FAIL, UNCHECKED,
+NOT_APPLICABLE}` respectively), collapsing the upstream schema's several
+boolean theory-validity flags (`construction_ok`, `theory_ok`, etc.) and the
+as-yet-unpopulated `experimental_ok` into a single tri/quad-state summary
+column per axis, consistent with the upstream contract's "rejected points
+are retained, not dropped" philosophy (`NOT_APPLICABLE` covers a row that
+has not yet been enriched by a `dihiggs_boundary` handoff, mirroring
+upstream's `experimental_ok = nan`). This collapsing (versus carrying the
+full upstream flag set verbatim) is this task's own design choice, not
+dictated by the mission's field list.
+
+## Historical artifacts
+
+The archived v1 contract and mapping under `docs/archive/` are retained only
+to interpret frozen historical outputs. New producers and consumers must use
+the canonical named fields above; no compatibility adapter is provided.

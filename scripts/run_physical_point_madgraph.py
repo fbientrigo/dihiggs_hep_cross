@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Minimal physical-point MadGraph production cross-section runner.
 
-Takes one canonical physical 2HDM point (dihiggs.point.v2 schema) or a batch of
-points, generates point-specific param_card/run_card inputs, executes MadGraph
+Takes one canonical named physical 2HDM point or a batch of points, generates
+point-specific param_card/run_card inputs, executes MadGraph
 on the physical process pp -> H2 H2 (g g > H > h2 h2), and extracts the exact
 production cross section sigma_production_fb and uncertainty sigma_production_unc_fb.
 
@@ -61,23 +61,23 @@ def format_slha_float(value: float) -> str:
 def generate_param_card_text(
     template_text: str,
     *,
-    mh_GeV: float = 125.13,
-    mH2_GeV: float = 150.0,
-    g_hH2H2_GeV: float = 63.59142520075966,
-    ctau_mm: float = 4.326221529733112,
-    total_width_GeV: Optional[float] = None,
+    m_h_GeV: float,
+    m_H2_GeV: float,
+    g_hH2H2_GeV: float,
+    ctau_physical_mm: float,
+    total_width_GeV: float,
 ) -> str:
     """Generate exact point-specific param_card.dat content from default template."""
-    ctau_m = ctau_mm / 1000.0
+    ctau_m = ctau_physical_mm / 1000.0
     gh_phiphi = -abs(g_hH2H2_GeV)  # UFO convention: GHphiphi = -g_hH2H2
 
-    if total_width_GeV is None or not math.isfinite(total_width_GeV) or total_width_GeV <= 0:
-        total_width_GeV = 1.973269804e-16 / ctau_m if ctau_m > 0 else 4.561185e-14
+    if not math.isfinite(total_width_GeV) or total_width_GeV <= 0:
+        raise ValueError("total_width_GeV must be finite and positive")
 
     text = template_text
     # Replace mass block
-    text = re.sub(r"(\b25\s+)\S+", rf"\g<1>{format_slha_float(mh_GeV)}", text)
-    text = re.sub(r"(\b9000006\s+)\S+", rf"\g<1>{format_slha_float(mH2_GeV)}", text)
+    text = re.sub(r"(\b25\s+)\S+", rf"\g<1>{format_slha_float(m_h_GeV)}", text)
+    text = re.sub(r"(\b9000006\s+)\S+", rf"\g<1>{format_slha_float(m_H2_GeV)}", text)
     # Replace frblock
     text = re.sub(r"(\b2\s+)\S+(?=\s+#\s*ctauh2)", rf"\g<1>{format_slha_float(ctau_m)}", text, flags=re.I)
     text = re.sub(r"(\b3\s+)\S+(?=\s+#\s*GHphiphi)", rf"\g<1>{format_slha_float(gh_phiphi)}", text, flags=re.I)
@@ -146,27 +146,47 @@ def run_single_physical_point_madgraph(
     seeds: List[int] = DEFAULT_SEEDS,
 ) -> Dict[str, Any]:
     """Execute MadGraph for one physical 2HDM point and return exact result dict."""
-    point_id = str(point.get("point_id", "unknown_point")).strip()
-    mh = float(point.get("mh_input_GeV", point.get("mh", 125.13)))
-    mH2 = float(point.get("mH_input_GeV", point.get("mH", point.get("mH2_GeV", 150.0))))
-    g_hH2H2 = float(point.get("g_hH2H2_GeV", point.get("g", 63.59142520075966)))
-    ctau = float(point.get("ctau_mm", point.get("ctau", 4.326221529733112)))
-    br_bb = float(point.get("br_bb", point.get("BR_bb", 0.7567374858085787)))
-    
-    tan_beta = float(point.get("tan_beta_input", point.get("tan_beta", 300000.0)))
-    lambda6 = float(point.get("lambda6_input", point.get("lambda6", 1e-10)))
-    M2 = float(point.get("M2_input_GeV2", point.get("M2_GeV2", 22499.9999995)))
-    total_width = float(point.get("total_width_GeV", point.get("width_GeV", 4.56118529862185e-14)))
+    required = (
+        "point_id", "model_variant", "m_h_GeV", "m_H2_GeV",
+        "g_hH2H2_GeV", "total_width_GeV", "ctau_physical_mm",
+        "ctau_response_mm", "lifetime_mode", "BR_bb",
+    )
+    missing = [key for key in required if point.get(key) in (None, "")]
+    if missing:
+        raise ValueError("canonical point missing required fields: " + ", ".join(missing))
+    if point["model_variant"] not in {"FACTORIZED_G_ONLY", "PHYSICAL_DECAYS_NO_HEAVY_CASCADES"}:
+        raise ValueError(f"unknown model_variant: {point['model_variant']!r}")
+    if point["lifetime_mode"] not in {"PHYSICAL_PREDICTION", "DETECTOR_RESPONSE_EXPERIMENT"}:
+        raise ValueError(f"unknown lifetime_mode: {point['lifetime_mode']!r}")
+
+    point_id = str(point["point_id"]).strip()
+    mh = float(point["m_h_GeV"])
+    mH2 = float(point["m_H2_GeV"])
+    g_hH2H2 = float(point["g_hH2H2_GeV"])
+    ctau = float(point["ctau_physical_mm"])
+    ctau_response = float(point["ctau_response_mm"])
+    br_bb = float(point["BR_bb"])
+    tan_beta = float(point.get("tan_beta", "nan"))
+    lambda6 = float(point.get("lambda6", "nan"))
+    M2 = float(point.get("M2_GeV2", "nan"))
+    total_width = float(point["total_width_GeV"])
+    if point["lifetime_mode"] == "PHYSICAL_PREDICTION" and not math.isclose(ctau, ctau_response, rel_tol=1e-9):
+        raise ValueError("PHYSICAL_PREDICTION requires ctau_response_mm == ctau_physical_mm")
 
     if not math.isfinite(g_hH2H2) or g_hH2H2 <= 0:
         return {
+            **point,
             "point_id": point_id,
-            "mH2_GeV": mH2,
+            "model_variant": point["model_variant"],
+            "lifetime_mode": point["lifetime_mode"],
+            "m_H2_GeV": mH2,
+            "m_h_GeV": mh,
             "tan_beta": tan_beta,
             "lambda6": lambda6,
             "M2_GeV2": M2,
             "g_hH2H2_GeV": g_hH2H2,
-            "ctau_mm": ctau,
+            "ctau_physical_mm": ctau,
+            "ctau_response_mm": ctau_response,
             "BR_bb": br_bb,
             "sigma_production_fb": float("nan"),
             "sigma_production_unc_fb": float("nan"),
@@ -183,10 +203,10 @@ def run_single_physical_point_madgraph(
 
     param_card_content = generate_param_card_text(
         template_text,
-        mh_GeV=mh,
-        mH2_GeV=mH2,
+        m_h_GeV=mh,
+        m_H2_GeV=mH2,
         g_hH2H2_GeV=g_hH2H2,
-        ctau_mm=ctau,
+        ctau_physical_mm=ctau,
         total_width_GeV=total_width,
     )
 
@@ -263,13 +283,18 @@ def run_single_physical_point_madgraph(
                 if not banner_file.exists():
                     # Failure
                     return {
+                        **point,
                         "point_id": point_id,
-                        "mH2_GeV": mH2,
+                        "model_variant": point["model_variant"],
+                        "lifetime_mode": point["lifetime_mode"],
+                        "m_H2_GeV": mH2,
+                        "m_h_GeV": mh,
                         "tan_beta": tan_beta,
                         "lambda6": lambda6,
                         "M2_GeV2": M2,
                         "g_hH2H2_GeV": g_hH2H2,
-                        "ctau_mm": ctau,
+                        "ctau_physical_mm": ctau,
+                        "ctau_response_mm": ctau_response,
                         "BR_bb": br_bb,
                         "sigma_production_fb": float("nan"),
                         "sigma_production_unc_fb": float("nan"),
@@ -298,15 +323,27 @@ def run_single_physical_point_madgraph(
     sigma_production_unc_fb = mean_unc_pb * FB_PER_PB
 
     return {
+        **point,
         "point_id": point_id,
-        "mH2_GeV": mH2,
+        "model_variant": point["model_variant"],
+        "lifetime_mode": point["lifetime_mode"],
+        "m_H2_GeV": mH2,
+        "m_h_GeV": mh,
         "tan_beta": tan_beta,
         "lambda6": lambda6,
         "M2_GeV2": M2,
         "g_hH2H2_GeV": g_hH2H2,
-        "ctau_mm": ctau,
+        "ctau_physical_mm": ctau,
+        "ctau_response_mm": ctau_response,
         "BR_bb": br_bb,
         "sigma_production_fb": sigma_production_fb,
+        "sigma_source": "DIRECT_MADGRAPH_POINT",
+        "sigma_provenance": {
+            "runner": "run_physical_point_madgraph.py",
+            "run_ids": run_tags,
+            "banner_sha256": banners,
+            "proc_dir": str(proc_dir),
+        },
         "sigma_production_unc_fb": sigma_production_unc_fb,
         "madgraph_status": "VALID",
         "madgraph_run_id_or_path": ";".join(run_tags),
@@ -381,12 +418,18 @@ def main() -> int:
         # CSV output
         fieldnames = [
             "point_id",
-            "mH2_GeV",
+            "m_H2_GeV",
+            "m_h_GeV",
             "tan_beta",
             "lambda6",
             "M2_GeV2",
             "g_hH2H2_GeV",
-            "ctau_mm",
+            "ctau_physical_mm",
+            "ctau_response_mm",
+            "model_variant",
+            "lifetime_mode",
+            "sigma_source",
+            "sigma_provenance",
             "BR_bb",
             "sigma_production_fb",
             "sigma_production_unc_fb",

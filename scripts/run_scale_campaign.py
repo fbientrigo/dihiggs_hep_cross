@@ -9,6 +9,7 @@ and generates publication-ready diagnostic plots using matplotlib.
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 import math
 import os
@@ -46,6 +47,66 @@ RESULTS_DIR = REPO_ROOT / "results"
 REPORTS_DIR = REPO_ROOT / "reports" / "figures"
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def canonicalize_evaluator_row(row: Dict[str, Any]) -> Dict[str, Any]:
+    """Package one evaluator row into the canonical named production handoff.
+
+    This is the producer boundary: downstream MadGraph and recast code never
+    reads evaluator abbreviations such as ``mH_input_GeV`` or ``ctau_mm``.
+    Missing physical channels or provenance are errors, not defaults.
+    """
+    required = [
+        "point_id", "producer_commit",
+        "mh_input_GeV", "mH_input_GeV", "mA_input_GeV", "mHp_input_GeV",
+        "g_hH2H2_GeV", "total_width_GeV", "ctau_mm",
+        "br_bb", "br_cc", "br_tt", "br_tautau", "br_WW", "br_ZZ",
+        "br_gg", "br_gammagamma", "br_Zgamma", "br_hh",
+    ]
+    missing = [key for key in required if row.get(key) in (None, "", "nan")]
+    if missing:
+        raise ValueError("evaluator row cannot form canonical point; missing: " + ", ".join(missing))
+    m_h = float(row["mh_input_GeV"])
+    m_h2 = float(row["mH_input_GeV"])
+    m_a = float(row["mA_input_GeV"])
+    m_hp = float(row["mHp_input_GeV"])
+    return {
+        "schema_version": "model_point_to_llp_recast.canonical.v1",
+        "point_id": row["point_id"],
+        "model_variant": "PHYSICAL_DECAYS_NO_HEAVY_CASCADES",
+        "m_h_GeV": row["mh_input_GeV"],
+        "m_H2_GeV": row["mH_input_GeV"],
+        "m_A_GeV": row["mA_input_GeV"],
+        "m_Hp_GeV": row["mHp_input_GeV"],
+        "Delta_heavy_GeV": str(m_a - m_h2),
+        "g_hH2H2_GeV": row["g_hH2H2_GeV"],
+        "total_width_GeV": row["total_width_GeV"],
+        "ctau_physical_mm": row["ctau_mm"],
+        "ctau_response_mm": row["ctau_mm"],
+        "lifetime_mode": "PHYSICAL_PREDICTION",
+        **{f"BR_{name}": row[f"br_{name}"] for name in ("bb", "cc", "tt", "tautau", "WW", "ZZ", "gg", "gammagamma", "Zgamma", "hh")},
+        "production_process": "pp -> H2 H2",
+        "production_owner": "DOWNSTREAM_MADGRAPH",
+        "decay_owner": "CANONICAL_EVALUATOR",
+        "response_decay_channel": "NONE",
+        "H2_to_AZ_open": str(m_h2 > m_a + 91.15349),
+        "H2_to_HpW_open": str(m_h2 > m_hp + 80.36951),
+        "H2_to_AA_open": str(m_h2 > 2 * m_a),
+        "H2_to_HpHm_open": str(m_h2 > 2 * m_hp),
+        "theory_status": "PASS" if str(row.get("theory_ok_v1")) in {"1", "1.0", "1.00000000000000000e+00"} else "FAIL",
+        "experimental_status": "NOT_APPLICABLE",
+        "sigma_provenance": "pending point-specific MadGraph enrichment",
+        "producer_commit": row["producer_commit"],
+        "config_hash": "sha256:" + hashlib.sha256(
+            json.dumps({"campaign_id": row.get("campaign_id"), "run_id": row.get("run_id")}, sort_keys=True).encode()
+        ).hexdigest(),
+        "input_hash": "sha256:" + hashlib.sha256(
+            json.dumps(row, sort_keys=True).encode()
+        ).hexdigest(),
+        "tan_beta": row.get("tan_beta_input"),
+        "lambda6": row.get("lambda6_input"),
+        "M2_GeV2": row.get("M2_input_GeV2"),
+    }
 
 
 def generate_physical_point_grid() -> List[Dict[str, Any]]:
@@ -87,7 +148,7 @@ def generate_physical_point_grid() -> List[Dict[str, Any]]:
                                 pid = r.get("point_id")
                                 if pid and pid not in seen_ids and r.get("construction_ok") == "1" and r.get("rejection_stage") == "accepted":
                                     seen_ids.add(pid)
-                                    points.append(r)
+                                    points.append(canonicalize_evaluator_row(r))
     finally:
         if os.path.exists(tmp_csv):
             os.remove(tmp_csv)
@@ -104,13 +165,13 @@ def run_scaled_campaign(points: List[Dict[str, Any]]) -> pd.DataFrame:
     print(f"[SCALE] Evaluating {len(points)} physical points...", flush=True)
     for i, pt in enumerate(points):
         pid = pt["point_id"]
-        tb = float(pt.get("tan_beta_input", pt.get("tan_beta", 300000.0)))
-        g = float(pt.get("g_hH2H2_GeV", 63.591425))
-        ctau = float(pt.get("ctau_mm", 4.32622))
-        br_bb = float(pt.get("br_bb", 0.756737))
-        mH2 = float(pt.get("mH_input_GeV", 150.0))
-        l6 = float(pt.get("lambda6_input", 1e-10))
-        M2 = float(pt.get("M2_input_GeV2", 22500.0))
+        tb = float(pt["tan_beta"])
+        g = float(pt["g_hH2H2_GeV"])
+        ctau = float(pt["ctau_response_mm"])
+        br_bb = float(pt["BR_bb"])
+        mH2 = float(pt["m_H2_GeV"])
+        l6 = float(pt["lambda6"])
+        M2 = float(pt["M2_GeV2"])
 
         print(f"[{i+1}/{len(points)}] {pid} (tan_beta={tb}, g={g:.2f}, ctau={ctau:.2e} mm) ... ", end="", flush=True)
 
@@ -141,13 +202,15 @@ def run_scaled_campaign(points: List[Dict[str, Any]]) -> pd.DataFrame:
         print(f"{status_mg} | sigma={sigma_prod:.4f} fb | Aeff={aeff:.4e} | N={n_expected:.4f}", flush=True)
 
         results.append({
+            **res,
             "point_id": pid,
-            "mH2_GeV": mH2,
+            "m_H2_GeV": mH2,
             "tan_beta": tb,
             "lambda6": l6,
             "M2_GeV2": M2,
             "g_hH2H2_GeV": g,
-            "ctau_mm": ctau,
+            "ctau_physical_mm": pt["ctau_physical_mm"],
+            "ctau_response_mm": ctau,
             "BR_bb": br_bb,
             "sigma_production_fb": sigma_prod,
             "sigma_production_unc_fb": unc_prod,

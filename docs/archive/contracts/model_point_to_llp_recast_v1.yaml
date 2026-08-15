@@ -1,6 +1,8 @@
 name: model_point_to_llp_recast_v1
-produced_by: a BSM scalar-pair scan (e.g. dihiggs / dihiggs_boundary)
-consumed_by: src/llp_recast, scripts/03_paper_s_benchmark_proxy.py
+status: frozen_historical_artifact
+note: >
+  Historical v1 contract retained only so frozen outputs can be interpreted.
+  It is not an active runtime interface and has no importer or validator.
 required_columns:
 - model
 - point_id

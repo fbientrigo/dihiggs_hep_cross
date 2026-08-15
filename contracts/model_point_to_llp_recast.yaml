@@ -1,7 +1,7 @@
-name: model_point_to_llp_recast_v2
+name: model_point_to_llp_recast
 produced_by: the dihiggs high-mass H2 2HDM point factory (DihiggsPointV2Evaluator,
   schema dihiggs.high_mass_point.v1) plus downstream MadGraph/Pythia enrichment
-consumed_by: src/llp_recast (v2-aware paths only; v1 consumers are unaffected)
+consumed_by: src/llp_recast and canonical MadGraph/recast handoff paths
 required_columns:
 - schema_version
 - point_id
@@ -15,6 +15,7 @@ required_columns:
 - total_width_GeV
 - ctau_physical_mm
 - ctau_response_mm
+- lifetime_mode
 - BR_bb
 - BR_cc
 - BR_tt
@@ -43,6 +44,70 @@ required_columns:
 - input_hash
 aliases: {}
 invariants:
+- name: required semantic fields are populated
+  kind: nonempty
+  columns:
+  - schema_version
+  - point_id
+  - model_variant
+  - lifetime_mode
+  - production_process
+  - production_owner
+  - decay_owner
+  - response_decay_channel
+  - theory_status
+  - experimental_status
+  - sigma_source
+  - sigma_provenance
+  - producer_commit
+  - config_hash
+  - input_hash
+- name: schema_version is canonical
+  kind: enum
+  column: schema_version
+  allowed:
+  - model_point_to_llp_recast.canonical.v1
+  columns:
+  - schema_version
+- name: positive masses, width, and lifetimes
+  kind: positive_numbers
+  columns:
+  - m_h_GeV
+  - m_H2_GeV
+  - m_A_GeV
+  - m_Hp_GeV
+  - Delta_heavy_GeV
+  - total_width_GeV
+  - ctau_physical_mm
+  - ctau_response_mm
+- name: g_hH2H2_GeV is finite
+  kind: finite_numbers
+  columns:
+  - g_hH2H2_GeV
+- name: sigma_production_fb is finite and non-negative
+  kind: nonnegative_numbers
+  columns:
+  - sigma_production_fb
+- name: branching fractions are in [0, 1]
+  kind: fraction_range
+  columns:
+  - BR_bb
+  - BR_cc
+  - BR_tt
+  - BR_tautau
+  - BR_WW
+  - BR_ZZ
+  - BR_gg
+  - BR_gammagamma
+  - BR_Zgamma
+  - BR_hh
+- name: cascade-state flags are explicit booleans
+  kind: boolean_flags
+  columns:
+  - H2_to_AZ_open
+  - H2_to_HpW_open
+  - H2_to_AA_open
+  - H2_to_HpHm_open
 - name: ctau_physical_mm == hbar_c / total_width_GeV
   kind: ctau_ratio
   output: ctau_physical_mm
@@ -74,6 +139,14 @@ invariants:
   - PHYSICAL_DECAYS_NO_HEAVY_CASCADES
   columns:
   - model_variant
+- name: lifetime_mode in {PHYSICAL_PREDICTION, DETECTOR_RESPONSE_EXPERIMENT}
+  kind: enum
+  column: lifetime_mode
+  allowed:
+  - DETECTOR_RESPONSE_EXPERIMENT
+  - PHYSICAL_PREDICTION
+  columns:
+  - lifetime_mode
 - name: sigma_source in allowed enum
   kind: enum
   column: sigma_source
@@ -144,10 +217,11 @@ invariants:
   - H2_to_HpW_open
   - H2_to_AA_open
   - H2_to_HpHm_open
-- name: ctau_response_mm == ctau_physical_mm for PHYSICAL_DECAYS_NO_HEAVY_CASCADES
-  kind: response_ctau_equals_physical_for_variant_b
+- name: lifetime mode and response lifetime are semantically consistent
+  kind: lifetime_mode_consistency
   columns:
   - model_variant
+  - lifetime_mode
   - ctau_physical_mm
   - ctau_response_mm
   rel_tol: 1.0e-09
