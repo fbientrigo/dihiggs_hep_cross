@@ -247,7 +247,7 @@ def run_single_physical_point_madgraph(
                     cwd=str(proc_dir),
                     capture_output=True,
                     text=True,
-                    timeout=120,
+                    timeout=600,
                 )
 
                 # Clean RunWeb lock after completion
