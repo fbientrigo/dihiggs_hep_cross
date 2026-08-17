@@ -26,6 +26,9 @@ import pandas as pd
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "scripts"))
+sys.path.insert(0, str(REPO_ROOT / "src"))
+
+from llp_recast import constants
 
 from compute_physical_llp_signal import (
     CANONICAL_EFFICIENCY_CSV,
@@ -48,6 +51,11 @@ RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
+# Canonical SM-like Higgs mass for this NEW scan (not a frozen benchmark):
+# conventions/physics_conventions.yaml, sm_like_higgs.m_h_GeV.
+M_H_GEV_TEXT = constants.M_H_GEV_TEXT
+
+
 def generate_physical_point_grid() -> List[Dict[str, Any]]:
     """Generate 25-40 diverse physical 2HDM points from DihiggsPointV2Evaluator."""
     points: List[Dict[str, Any]] = []
@@ -68,7 +76,7 @@ def generate_physical_point_grid() -> List[Dict[str, Any]]:
                         str(EVALUATOR_BIN),
                         "--campaign-id", "scale_scan",
                         "--run-id", f"tb_{tb}_l6_{l6}_M2_{M2}",
-                        "--mh", "125.13",
+                        "--mh", M_H_GEV_TEXT,
                         "--mH-min", "150.0", "--mH-max", "150.0", "--n-mH", "1",
                         "--mA", "450.0", "--mHp", "450.0",
                         "--yukawa-type", "1",

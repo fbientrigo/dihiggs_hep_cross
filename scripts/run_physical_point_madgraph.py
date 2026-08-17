@@ -58,10 +58,37 @@ def format_slha_float(value: float) -> str:
     return f"{value:1.6e}" if math.isfinite(value) else "0.000000e+00"
 
 
+# Field names the SM-like Higgs mass travels under, newest first:
+# dihiggs.high_mass_point.v1 -> m_h_GeV, dihiggs.point.v2 -> mh_input_GeV,
+# dihiggs_boundary evaluate_point CSV -> mh.
+M_H_FIELD_ALIASES = ("m_h_GeV", "mh_input_GeV", "mh")
+
+
+def resolve_m_h_GeV(point: Dict[str, Any]) -> float:
+    """Read the SM-like Higgs mass off the canonical point.
+
+    Deliberately has NO default. This repo used to fall back to a hard-coded
+    125.13, which meant a point produced under a different mass convention was
+    silently rewritten to this repo's assumption when its param_card was
+    generated. The mass convention has exactly one owner
+    (conventions/physics_conventions.yaml) and travels on the point; a point
+    that does not carry it is a contract violation, not a defaulting case.
+    """
+    for key in M_H_FIELD_ALIASES:
+        if key in point and point[key] is not None and str(point[key]).strip() != "":
+            return float(point[key])
+    raise KeyError(
+        "point %r carries no SM-like Higgs mass; expected one of %s. "
+        "The mass convention is not defaulted here -- it must come from the "
+        "point (see conventions/physics_conventions.yaml)."
+        % (point.get("point_id", "<unknown>"), ", ".join(M_H_FIELD_ALIASES))
+    )
+
+
 def generate_param_card_text(
     template_text: str,
     *,
-    mh_GeV: float = 125.13,
+    mh_GeV: float,
     mH2_GeV: float = 150.0,
     g_hH2H2_GeV: float = 63.59142520075966,
     ctau_mm: float = 4.326221529733112,
@@ -147,7 +174,7 @@ def run_single_physical_point_madgraph(
 ) -> Dict[str, Any]:
     """Execute MadGraph for one physical 2HDM point and return exact result dict."""
     point_id = str(point.get("point_id", "unknown_point")).strip()
-    mh = float(point.get("mh_input_GeV", point.get("mh", 125.13)))
+    mh = resolve_m_h_GeV(point)
     mH2 = float(point.get("mH_input_GeV", point.get("mH", point.get("mH2_GeV", 150.0))))
     g_hH2H2 = float(point.get("g_hH2H2_GeV", point.get("g", 63.59142520075966)))
     ctau = float(point.get("ctau_mm", point.get("ctau", 4.326221529733112)))

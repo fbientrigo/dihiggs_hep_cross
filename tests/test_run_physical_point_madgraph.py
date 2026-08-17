@@ -31,6 +31,9 @@ Block decay
 """
     rendered = generate_param_card_text(
         template,
+        # HISTORICAL 150 GeV benchmark: pinned to the superseded mh=125.13 it was
+        # validated at, not the canonical 125.20. mh_GeV now has no default, so
+        # this value is necessarily explicit.
         mh_GeV=125.13,
         mH2_GeV=150.0,
         g_hH2H2_GeV=63.5914252,
@@ -58,6 +61,7 @@ def test_run_card_generation():
 def test_benchmark_closure_execution(tmp_path):
     point = {
         "point_id": "H2scan_mH150_tb300000",
+        # HISTORICAL benchmark convention; see scripts/r9_run_model_scan.py.
         "mh_input_GeV": 125.13,
         "mH_input_GeV": 150.0,
         "g_hH2H2_GeV": 63.59142520075966,
@@ -77,3 +81,37 @@ def test_benchmark_closure_execution(tmp_path):
     assert math.isclose(sigma_fb, 0.230291, rel_tol=0.03)
     assert res["sigma_production_unc_fb"] > 0.0
     assert (tmp_path / "cards" / "H2scan_mH150_tb300000_param_card.dat").exists()
+
+
+# --- mass-convention contract ------------------------------------------------
+
+def test_resolver_reads_m_h_from_the_point():
+    """m_h_GeV / mh_input_GeV / mh, newest name first."""
+    from run_physical_point_madgraph import resolve_m_h_GeV
+
+    assert resolve_m_h_GeV({"m_h_GeV": "125.20"}) == 125.20
+    assert resolve_m_h_GeV({"mh_input_GeV": 125.13}) == 125.13
+    assert resolve_m_h_GeV({"mh": 125.09}) == 125.09
+    # Newest alias wins when several are present.
+    assert resolve_m_h_GeV({"m_h_GeV": "125.20", "mh": 125.09}) == 125.20
+
+
+def test_resolver_refuses_to_default_a_missing_mass():
+    """Regression: this used to silently fall back to a hard-coded 125.13, which
+    rewrote a point produced under a different convention to this repo's
+    assumption. The convention travels on the point; a point without it is a
+    contract violation, not a defaulting case."""
+    from run_physical_point_madgraph import resolve_m_h_GeV
+
+    with pytest.raises(KeyError) as excinfo:
+        resolve_m_h_GeV({"point_id": "p_no_mass", "mH_input_GeV": 150.0})
+    assert "p_no_mass" in str(excinfo.value)
+
+
+def test_param_card_mass_25_comes_from_the_point():
+    """The SLHA Block MASS entry 25 must track the point, not a module default."""
+    from run_physical_point_madgraph import generate_param_card_text
+
+    template = "Block MASS\n    25 1.000000e+02 # MH\n    9000006 2.000000e+02 # Mh2\n"
+    assert "25 1.252000e+02" in generate_param_card_text(template, mh_GeV=125.20)
+    assert "25 1.251300e+02" in generate_param_card_text(template, mh_GeV=125.13)

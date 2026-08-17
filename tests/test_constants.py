@@ -38,3 +38,16 @@ def test_recast_math_uses_shared_constant():
     assert recast_math.ctau_mm_from_width_gev(width) == (
         constants.HBAR_C_GEV_MM / width
     )
+
+
+def test_canonical_mh_matches_conventions_file():
+    """The SM-like Higgs mass has exactly one owner; constants must serve the
+    file's value, not its pinned fallback."""
+    yaml = pytest.importorskip("yaml")
+    with open(CONVENTIONS) as fh:
+        conv = yaml.safe_load(fh)
+    assert conv["sm_like_higgs"]["m_h_GeV"] == constants.M_H_GEV_TEXT
+    assert constants.M_H_GEV_TEXT == constants._M_H_GEV_TEXT_PINNED
+    # Decimal string, not float: f"{125.20:.17e}" is 1.25200000000000003e+02,
+    # which is not the byte form SLHA/UFO cards need.
+    assert isinstance(conv["sm_like_higgs"]["m_h_GeV"], str)
