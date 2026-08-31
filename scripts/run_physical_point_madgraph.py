@@ -102,9 +102,19 @@ def generate_param_card_text(
         total_width_GeV = 1.973269804e-16 / ctau_m if ctau_m > 0 else 4.561185e-14
 
     text = template_text
-    # Replace mass block
-    text = re.sub(r"(\b25\s+)\S+", rf"\g<1>{format_slha_float(mh_GeV)}", text)
-    text = re.sub(r"(\b9000006\s+)\S+", rf"\g<1>{format_slha_float(mH2_GeV)}", text)
+    # Replace mass block. Anchored to start-of-line so this cannot also match
+    # the unrelated "DECAY  25  <width>" line further down the card: the old
+    # unanchored `\b25\s+` pattern matched both, silently overwriting the SM
+    # Higgs total width with the SM Higgs mass value (see
+    # results/pilot_cards/*_param_card.dat for pre-fix corrupted output, e.g.
+    # "DECAY  25 1.251300e+02 # WH" -- 125.13 GeV is not a valid decay width).
+    # Two independent campaign scripts (mission_runs/20260825_h2_event_yields_v1
+    # /scripts/run_200gev_pilot.py and mission_runs/20260826_h2_table_v2_requalification
+    # /work/run_madgraph_v2.py) worked around this externally by monkeypatching
+    # this function to restore the template's original DECAY 25 line; fixing
+    # it here retires both workarounds.
+    text = re.sub(r"^(\s*25\s+)\S+", rf"\g<1>{format_slha_float(mh_GeV)}", text, flags=re.M)
+    text = re.sub(r"^(\s*9000006\s+)\S+", rf"\g<1>{format_slha_float(mH2_GeV)}", text, flags=re.M)
     # Replace frblock
     text = re.sub(r"(\b2\s+)\S+(?=\s+#\s*ctauh2)", rf"\g<1>{format_slha_float(ctau_m)}", text, flags=re.I)
     text = re.sub(r"(\b3\s+)\S+(?=\s+#\s*GHphiphi)", rf"\g<1>{format_slha_float(gh_phiphi)}", text, flags=re.I)

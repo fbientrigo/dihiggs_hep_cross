@@ -115,3 +115,30 @@ def test_param_card_mass_25_comes_from_the_point():
     template = "Block MASS\n    25 1.000000e+02 # MH\n    9000006 2.000000e+02 # Mh2\n"
     assert "25 1.252000e+02" in generate_param_card_text(template, mh_GeV=125.20)
     assert "25 1.251300e+02" in generate_param_card_text(template, mh_GeV=125.13)
+
+
+def test_param_card_does_not_clobber_decay_25_width():
+    """Regression: the unanchored MASS-block substitution for pdgid 25 used to
+    also match the unrelated "DECAY  25  <width>" line (both start with the
+    token "25"), silently overwriting the SM Higgs total width with the SM
+    Higgs mass value. Confirmed in real pre-fix output:
+    results/pilot_cards/*_param_card.dat contains "DECAY  25 1.251300e+02 # WH"
+    -- 125.13 GeV is not a valid decay width. Two campaign scripts
+    (mission_runs/20260825_h2_event_yields_v1/scripts/run_200gev_pilot.py and
+    mission_runs/20260826_h2_table_v2_requalification/work/run_madgraph_v2.py)
+    had to monkeypatch this function externally to restore the value; this
+    test guards the upstream fix so neither workaround is needed again."""
+    from run_physical_point_madgraph import generate_param_card_text
+
+    template = (
+        "Block MASS\n"
+        "    25 1.000000e+02 # MH\n"
+        "    9000006 2.000000e+02 # Mh2\n"
+        "DECAY  25  4.070000e-03 # WH\n"
+        "DECAY  9000006  1.000000e-13 # Wh2\n"
+    )
+    rendered = generate_param_card_text(
+        template, mh_GeV=125.20, mH2_GeV=150.0, total_width_GeV=1.0e-13
+    )
+    assert "25 1.252000e+02" in rendered  # MASS block: updated to the point's mh
+    assert "DECAY  25  4.070000e-03" in rendered  # decay block: untouched
