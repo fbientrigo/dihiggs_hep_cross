@@ -1,0 +1,289 @@
+
+\documentclass[10pt]{article}
+\usepackage[a4paper,margin=1.45cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-noquoting]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=black,urlcolor=blue,citecolor=black}
+\captionsetup{font=small,labelfont=bf}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+\renewcommand{\arraystretch}{1.12}
+\definecolor{softgray}{RGB}{245,245,245}
+\definecolor{darkred}{RGB}{120,20,20}
+
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries Conteo esperado de eventos para $pp\to h^*\to\phi\phi$}\\[0.25em]
+{\large Benchmarks mixto y fotónico, $\sqrt{s}=13~\mathrm{TeV}$, $L=300~\mathrm{fb}^{-1}$}\\[0.35em]
+\rule{0.92\textwidth}{0.4pt}
+\end{center}
+
+\textbf{Objetivo.} Reemplazar las secciones eficaces previas por valores LO obtenidos con MadGraph y construir tablas truth-level de eventos esperados para $m_\phi=200,250,300~\mathrm{GeV}$. La normalización de producción viene de MadGraph; los branching ratios, $\Gamma_\phi$ y $c\tau$ vienen de CalcLH/2HDMC.
+
+\section{Flujo y normalización}
+
+Usamos la cadena de producción
+\begin{equation}
+    gg\to h^*\to\phi\phi,
+\end{equation}
+seguida por el decaimiento independiente de cada $\phi$. Para dos modos directos $a$ y $b$, el número esperado de eventos se calcula como
+\begin{equation}
+N_{ab}=L\,\sigma(pp\to h^*\to\phi\phi)
+\begin{cases}
+BR_a^2, & a=b,\\
+2BR_aBR_b, & a\neq b.
+\end{cases}
+\label{eq:eventos}
+\end{equation}
+Las tablas son truth-level: no incluyen showering, clustering, aceptación, reconstrucción, trigger, geometría de decaimiento en el detector ni $b$ tagging.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Cortes locales usados para las figuras de branching ratios. En cada caso se fija $\lambda_1=1$, $\lambda_7=0$ y $m_A=m_{H^\pm}=300~\mathrm{GeV}$.}
+\label{tab:bench}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrr}
+\toprule
+Caso & $\tan\beta$ & $\lambda_6$ & $X=\lambda_6\tan\beta$ \\
+\midrule
+Mixto & 1.20e+7 & 1.10e-4 & 1.31e+3 \\
+Fotónico & 4.00e+7 & 1.18e-4 & 4.71e+3 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\section{Verificación de coupling y sección eficaz}
+
+Para comparar con el gráfico de referencia del paper se reconstruye el acoplo en la convención
+\begin{equation}
+    \frac{g_{h\phi\phi}}{v}=\frac{4(m_\phi^2-m_{22}^2)}{v^2}.
+\end{equation}
+En el caso usado para la producción se toma $m_{22}=0$, por lo que $g_{h\phi\phi}/v=4m_\phi^2/v^2$. Al leer directamente el UFO aparece la regla de Feynman $GC_{90}=8iM_{h2}^2/v$, que difiere por un factor dos respecto de esta convención debido a la normalización del vértice con dos campos idénticos. Por eso, para reproducir el panel de coupling del paper, se debe graficar la convención $4m_\phi^2/v^2$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.96\textwidth]{coupling_xsec_verification.pdf}
+    \caption{Verificación gráfica. Izquierda: acoplo $g_{h\phi\phi}/v$ en la convención del paper, con los puntos $m_\phi=200,250,300~\mathrm{GeV}$ sobre la curva $m_{22}=0$. Derecha: secciones eficaces LO obtenidas con MadGraph para $gg\to h_2h_2$ a $\sqrt{s}=13~\mathrm{TeV}$.}
+    \label{fig:coupling_xsec}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\small
+\caption{Secciones eficaces LO obtenidas con MadGraph para $gg\to h_2h_2$ a $\sqrt{s}=13~\mathrm{TeV}$. Se usa $L=300~\mathrm{fb}^{-1}$.}
+\label{tab:xsec}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrr}
+\toprule
+$m_\phi$ [GeV] & $\sigma_{\rm LO}$ [fb] & $N_{\phi\phi}$ \\
+\midrule
+200 & 23.51 & 7.05e+3 \\
+250 & 13.35 & 4.01e+3 \\
+300 & 7.530 & 2.26e+3 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+\begin{table}[H]
+\centering
+\small
+\caption{Acoplo $g_{h\phi\phi}/v$ en la convención del gráfico del paper para $m_{22}=0$. La última columna muestra el valor normalizado que aparece si se lee directamente la regla de Feynman del UFO, que incluye el factor de campos idénticos.}
+\label{tab:coupling}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrr}
+\toprule
+$m_\phi$ [GeV] & $g_{h\phi\phi}/v$ ($m_{22}=0$) & $|GC_{90}|/v$ en UFO \\
+\midrule
+200 & 2.639 & 5.278 \\
+250 & 4.124 & 8.248 \\
+300 & 5.938 & 11.88 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\section{Branching ratios y $c\tau$}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{mixed_BR_CalcLH_paper_format.png}
+        \caption{Escenario mixto.}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{photonic_BR_CalcLH_paper_format.png}
+        \caption{Escenario fotónico.}
+    \end{subfigure}
+    \caption{Branching ratios y $c\tau$ para los dos cortes locales usados. En cada curva se mantienen fijos $\lambda_6$ y $\tan\beta$, de modo que $X=\lambda_6\tan\beta$ permanece constante al variar $m_\phi$. El caso mixto tiene $X\simeq1.31\times10^3$, mientras que el caso fotónico tiene $X\simeq4.71\times10^3$.}
+    \label{fig:brctau}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Inputs usados para construir las tablas de eventos. El punto mixto a $300~\mathrm{GeV}$ queda marcado como extrapolado porque el CSV de branching ratios llega hasta $290~\mathrm{GeV}$.}
+\label{tab:inputs}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrrrrrrrrr}
+\toprule
+Caso & $m_\phi$ [GeV] & $c\tau$ [mm] & $BR_{\gamma\gamma}$ & $BR_{Z\gamma}$ & $BR_{b\bar b}$ & $BR_{gg}$ & $BR_{\rm loop}$ & $\sigma_{\rm LO}$ [fb] & $N_{\phi\phi}$ & Fuente BR \\
+\midrule
+Mixto & 200 & 756 & 0.5732 & 0.2705 & 0.1053 & 0.0350 & 0.8437 & 23.51 & 7.05e+3 & exact \\
+Mixto & 250 & 351 & 0.5562 & 0.3423 & 0.0585 & 0.0339 & 0.8985 & 13.35 & 4.01e+3 & exact \\
+Mixto & 300 & 176 & 0.5411 & 0.3828 & 0.0344 & 0.0345 & 0.9239 & 7.530 & 2.26e+3 & extrapolado \\
+Fotónico & 200 & 727 & 0.6645 & 0.3216 & 9.23e-3 & 3.23e-3 & 0.9861 & 23.51 & 7.05e+3 & exact \\
+Fotónico & 250 & 327 & 0.6111 & 0.3801 & 4.96e-3 & 3.03e-3 & 0.9912 & 13.35 & 4.01e+3 & exact \\
+Fotónico & 300 & 168 & 0.5820 & 0.4111 & 2.94e-3 & 3.08e-3 & 0.9931 & 7.530 & 2.26e+3 & exact \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\section{Tablas de eventos}
+
+La Tabla A usa los modos directos $b\bar b$, $gg$, $Z\gamma$ y $\gamma\gamma$, dejando $Z\gamma$ inclusivo. La Tabla B expande el decaimiento del $Z$ como $Z\to jj,e^+e^-,\mu^+\mu^-$; los demás modos del $Z$ se excluyen por diseño.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Tabla A directa, caso mixto: eventos esperados truth-level para $L=300~\mathrm{fb}^{-1}$.}
+\label{tab:A_mixto}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrr}
+\toprule
+Canal & 200 GeV & 250 GeV & 300 GeV \\
+\midrule
+($b\bar b$)($b\bar b$) & 78.21 & 13.71 & 2.670 \\
+($b\bar b$)($gg$) & 52.07 & 15.87 & 5.363 \\
+($b\bar b$)($Z\gamma$) & 402 & 160 & 59.46 \\
+($b\bar b$)($\gamma\gamma$) & 851 & 261 & 84.04 \\
+($gg$)($gg$) & 8.665 & 4.592 & 2.693 \\
+($gg$)($Z\gamma$) & 134 & 92.84 & 59.72 \\
+($gg$)($\gamma\gamma$) & 283 & 151 & 84.41 \\
+($Z\gamma$)($Z\gamma$) & 516 & 469 & 331 \\
+($Z\gamma$)($\gamma\gamma$) & 2.19e+3 & 1.53e+3 & 936 \\
+($\gamma\gamma$)($\gamma\gamma$) & 2.32e+3 & 1.24e+3 & 661 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Tabla B expandida, caso mixto: eventos esperados truth-level con $Z\to jj,e^+e^-,\mu^+\mu^-$.}
+\label{tab:B_mixto}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrr}
+\toprule
+Canal & 200 GeV & 250 GeV & 300 GeV \\
+\midrule
+($b\bar b$)($b\bar b$) & 78.21 & 13.71 & 2.670 \\
+($b\bar b$)($gg$) & 52.07 & 15.87 & 5.363 \\
+($b\bar b$)($jj\gamma$) & 281 & 112 & 41.57 \\
+($b\bar b$)($e^+e^-\gamma$) & 13.51 & 5.395 & 2.000 \\
+($b\bar b$)($\mu^+\mu^-\gamma$) & 13.53 & 5.400 & 2.001 \\
+($b\bar b$)($\gamma\gamma$) & 851 & 261 & 84.04 \\
+($gg$)($gg$) & 8.665 & 4.592 & 2.693 \\
+($gg$)($jj\gamma$) & 93.51 & 64.90 & 41.75 \\
+($gg$)($e^+e^-\gamma$) & 4.498 & 3.122 & 2.008 \\
+($gg$)($\mu^+\mu^-\gamma$) & 4.502 & 3.125 & 2.010 \\
+($gg$)($\gamma\gamma$) & 283 & 151 & 84.41 \\
+($jj\gamma$)($jj\gamma$) & 252 & 229 & 162 \\
+($jj\gamma$)($e^+e^-\gamma$) & 24.27 & 22.07 & 15.56 \\
+($jj\gamma$)($\mu^+\mu^-\gamma$) & 24.29 & 22.09 & 15.58 \\
+($jj\gamma$)($\gamma\gamma$) & 1.53e+3 & 1.07e+3 & 654 \\
+($e^+e^-\gamma$)($e^+e^-\gamma$) & 0.5837 & 0.5307 & 0.3744 \\
+($e^+e^-\gamma$)($\mu^+\mu^-\gamma$) & 1.168 & 1.062 & 0.7494 \\
+($e^+e^-\gamma$)($\gamma\gamma$) & 73.56 & 51.29 & 31.47 \\
+($\mu^+\mu^-\gamma$)($\mu^+\mu^-\gamma$) & 0.5848 & 0.5317 & 0.3750 \\
+($\mu^+\mu^-\gamma$)($\gamma\gamma$) & 73.63 & 51.33 & 31.50 \\
+($\gamma\gamma$)($\gamma\gamma$) & 2.32e+3 & 1.24e+3 & 661 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\begin{table}[H]
+\centering
+\small
+\caption{Tabla A directa, caso fotónico: eventos esperados truth-level para $L=300~\mathrm{fb}^{-1}$.}
+\label{tab:A_fotonico}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrr}
+\toprule
+Canal & 200 GeV & 250 GeV & 300 GeV \\
+\midrule
+($b\bar b$)($b\bar b$) & 0.6010 & 0.0986 & 0.0195 \\
+($b\bar b$)($gg$) & 0.4210 & 0.1206 & 0.0408 \\
+($b\bar b$)($Z\gamma$) & 41.88 & 15.10 & 5.458 \\
+($b\bar b$)($\gamma\gamma$) & 86.53 & 24.28 & 7.728 \\
+($gg$)($gg$) & 0.0737 & 0.0369 & 0.0214 \\
+($gg$)($Z\gamma$) & 14.67 & 9.240 & 5.713 \\
+($gg$)($\gamma\gamma$) & 30.31 & 14.86 & 8.088 \\
+($Z\gamma$)($Z\gamma$) & 730 & 579 & 382 \\
+($Z\gamma$)($\gamma\gamma$) & 3.01e+3 & 1.86e+3 & 1.08e+3 \\
+($\gamma\gamma$)($\gamma\gamma$) & 3.11e+3 & 1.50e+3 & 765 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Tabla B expandida, caso fotónico: eventos esperados truth-level con $Z\to jj,e^+e^-,\mu^+\mu^-$.}
+\label{tab:B_fotonico}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrr}
+\toprule
+Canal & 200 GeV & 250 GeV & 300 GeV \\
+\midrule
+($b\bar b$)($b\bar b$) & 0.6010 & 0.0986 & 0.0195 \\
+($b\bar b$)($gg$) & 0.4210 & 0.1206 & 0.0408 \\
+($b\bar b$)($jj\gamma$) & 29.28 & 10.56 & 3.816 \\
+($b\bar b$)($e^+e^-\gamma$) & 1.408 & 0.5080 & 0.1836 \\
+($b\bar b$)($\mu^+\mu^-\gamma$) & 1.410 & 0.5084 & 0.1837 \\
+($b\bar b$)($\gamma\gamma$) & 86.53 & 24.28 & 7.728 \\
+($gg$)($gg$) & 0.0737 & 0.0369 & 0.0214 \\
+($gg$)($jj\gamma$) & 10.25 & 6.460 & 3.994 \\
+($gg$)($e^+e^-\gamma$) & 0.4933 & 0.3108 & 0.1921 \\
+($gg$)($\mu^+\mu^-\gamma$) & 0.4937 & 0.3110 & 0.1923 \\
+($gg$)($\gamma\gamma$) & 30.31 & 14.86 & 8.088 \\
+($jj\gamma$)($jj\gamma$) & 357 & 283 & 187 \\
+($jj\gamma$)($e^+e^-\gamma$) & 34.30 & 27.21 & 17.95 \\
+($jj\gamma$)($\mu^+\mu^-\gamma$) & 34.33 & 27.23 & 17.97 \\
+($jj\gamma$)($\gamma\gamma$) & 2.11e+3 & 1.30e+3 & 756 \\
+($e^+e^-\gamma$)($e^+e^-\gamma$) & 0.8251 & 0.6544 & 0.4318 \\
+($e^+e^-\gamma$)($\mu^+\mu^-\gamma$) & 1.652 & 1.310 & 0.8643 \\
+($e^+e^-\gamma$)($\gamma\gamma$) & 101 & 62.57 & 36.35 \\
+($\mu^+\mu^-\gamma$)($\mu^+\mu^-\gamma$) & 0.8266 & 0.6556 & 0.4325 \\
+($\mu^+\mu^-\gamma$)($\gamma\gamma$) & 101 & 62.63 & 36.38 \\
+($\gamma\gamma$)($\gamma\gamma$) & 3.11e+3 & 1.50e+3 & 765 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+
+
+\end{document}

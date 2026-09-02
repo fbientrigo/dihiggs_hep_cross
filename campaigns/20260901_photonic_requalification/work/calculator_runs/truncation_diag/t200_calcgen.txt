@@ -1,0 +1,39 @@
+
+2HDM parameters in physical mass basis:
+      m_h:    125.00000
+      m_H:    198.21749
+      m_A:    298.81461
+     m_H+:    298.81461
+ sin(b-a):      1.00000
+ lambda_6:      0.00012
+ lambda_7:      0.00000
+    m12^2:      0.00098
+tan(beta): 40000000.14513
+
+2HDM parameters in generic basis:
+ lambda_1:      1.00000
+ lambda_2:      0.25773
+ lambda_3:      1.90723
+ lambda_4:     -0.82475
+ lambda_5:     -0.82475
+ lambda_6:      0.00012
+ lambda_7:      0.00000
+    m12^2:      0.00098
+tan(beta): 40000000.14513
+
+Constraints:
+ Tree-level unitarity: 1
+ Perturbativity:       1
+ Stability:            1
+
+Oblique parameters:
+ S            -9.23261e-03
+ T            -9.70944e-17
+ U            -3.57431e-05
+ V            -6.06198e-04
+ W            -5.10432e-04
+ X            -6.65774e-05
+ Delta_rho    -1.50435e-04
+ Delta_amu    -1.55229e-11
+
+LesHouches output written to file work/calculator_runs/truncation_diag/t200.lha

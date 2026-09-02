@@ -1,0 +1,12 @@
+/home/fabian/atlas_dihiggs/dihiggs/dihiggs/app/DihiggsPointV2Evaluator \
+  --campaign-id 20260901_photonic_requalification \
+  --run-id task2_mh1250_mH250 \
+  --mh 125.0 \
+  --mH-min 250.0 --mH-max 250.0 --n-mH 1 \
+  --mA 300.0 --mHp 300.0 \
+  --yukawa-type 1 \
+  --sin-ba 1.0 \
+  --tan-beta 40000000.00000001 \
+  --M2-min 62500.0 --M2-max 62500.0 --n-M2 1 \
+  --lambda6 0.0001177689207010651 --lambda7 0.0 \
+  --output /home/fabian/atlas_dihiggs/dihiggs_hep_cross/campaigns/20260901_photonic_requalification/work/calculator_runs/pointv2/task2_mh1250_mH250.csv

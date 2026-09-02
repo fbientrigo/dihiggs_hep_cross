@@ -1,0 +1,80 @@
+% Regenerated photonic event-yield tables (requalified benchmark points).
+% Produced by campaigns/20260901_photonic_requalification/scripts/build_deliverables.py
+% Point route: THDM::set_param_phys_lam1 via dihiggs/app/Lambda1EvaluatorV2.
+% sigma_LO from chris_event_yields.tex Table tab:xsec (unchanged); L = 300 fb^-1.
+% Mixed-benchmark tables are NOT regenerated and are unchanged.
+%
+% ==================== READ BEFORE USING THESE NUMBERS ====================
+% The ABSOLUTE scale of every entry is CONDITIONAL and unresolved.
+% sigma_LO was produced with the simplified-UFO vertex GC_90 = 8*m_phi^2/v
+%   = 1299.6 / 2030.7 / 2924.2 GeV for m_phi = 200 / 250 / 300 GeV,
+% whereas the requalified decay point (soft scale M^2 = m_phi^2) has
+%   2HDMC g_hphiphi = m_h^2/v = 63.46 GeV, the SAME at all three masses.
+% If sigma ~ g^2 for the single s-channel h* diagram, these tables
+% overstate absolute yields by roughly 4.2e2 / 1.0e3 / 2.1e3, and the
+% relative ordering BETWEEN mass columns is wrong as well.
+% RELATIVE yields WITHIN one mass column are unaffected and are usable.
+% Resolving this is the next campaign (physical_2HDM vs EF_simple vs EF_m2);
+% it was explicitly out of scope here, so sigma_LO was reused unchanged.
+% =========================================================================
+
+\begin{table}[H]
+\centering
+\small
+\caption{Tabla A directa, caso fot\'onico \textbf{requalificado}: eventos esperados truth-level para $L=300~\mathrm{fb}^{-1}$.}
+\label{tab:A_fotonico_requal}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrr}
+\toprule
+Canal & 200 GeV & 250 GeV & 300 GeV \\
+\midrule
+($b\bar b$)($b\bar b$) & 0.7039 & 0.0975 & 0.0176 \\
+($b\bar b$)($gg$) & 0.4140 & 0.1052 & 0.0331 \\
+($b\bar b$)($Z\gamma$) & 41.72 & 14.64 & 5.136 \\
+($b\bar b$)($\gamma\gamma$) & 97.16 & 24.55 & 7.411 \\
+($gg$)($gg$) & 0.0609 & 0.0284 & 0.0155 \\
+($gg$)($Z\gamma$) & 12.27 & 7.902 & 4.820 \\
+($gg$)($\gamma\gamma$) & 28.57 & 13.25 & 6.954 \\
+($Z\gamma$)($Z\gamma$) & 618 & 550 & 374 \\
+($Z\gamma$)($\gamma\gamma$) & 2.88e+3 & 1.84e+3 & 1.08e+3 \\
+($\gamma\gamma$)($\gamma\gamma$) & 3.35e+3 & 1.55e+3 & 779 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Tabla B expandida, caso fot\'onico \textbf{requalificado}: eventos esperados truth-level con $Z\to jj,e^+e^-,\mu^+\mu^-$.}
+\label{tab:B_fotonico_requal}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{lrrr}
+\toprule
+Canal & 200 GeV & 250 GeV & 300 GeV \\
+\midrule
+($b\bar b$)($b\bar b$) & 0.7039 & 0.0975 & 0.0176 \\
+($b\bar b$)($gg$) & 0.4140 & 0.1052 & 0.0331 \\
+($b\bar b$)($jj\gamma$) & 29.17 & 10.23 & 3.591 \\
+($b\bar b$)($e^+e^-\gamma$) & 1.403 & 0.4923 & 0.1727 \\
+($b\bar b$)($\mu^+\mu^-\gamma$) & 1.404 & 0.4927 & 0.1729 \\
+($b\bar b$)($\gamma\gamma$) & 97.16 & 24.55 & 7.411 \\
+($gg$)($gg$) & 0.0609 & 0.0284 & 0.0155 \\
+($gg$)($jj\gamma$) & 8.579 & 5.524 & 3.369 \\
+($gg$)($e^+e^-\gamma$) & 0.4127 & 0.2657 & 0.1621 \\
+($gg$)($\mu^+\mu^-\gamma$) & 0.4130 & 0.2660 & 0.1622 \\
+($gg$)($\gamma\gamma$) & 28.57 & 13.25 & 6.954 \\
+($jj\gamma$)($jj\gamma$) & 302 & 269 & 183 \\
+($jj\gamma$)($e^+e^-\gamma$) & 29.08 & 25.84 & 17.59 \\
+($jj\gamma$)($\mu^+\mu^-\gamma$) & 29.10 & 25.86 & 17.60 \\
+($jj\gamma$)($\gamma\gamma$) & 2.01e+3 & 1.29e+3 & 755 \\
+($e^+e^-\gamma$)($e^+e^-\gamma$) & 0.6993 & 0.6215 & 0.4230 \\
+($e^+e^-\gamma$)($\mu^+\mu^-\gamma$) & 1.400 & 1.244 & 0.8468 \\
+($e^+e^-\gamma$)($\gamma\gamma$) & 96.85 & 61.99 & 36.30 \\
+($\mu^+\mu^-\gamma$)($\mu^+\mu^-\gamma$) & 0.7006 & 0.6226 & 0.4238 \\
+($\mu^+\mu^-\gamma$)($\gamma\gamma$) & 96.93 & 62.04 & 36.33 \\
+($\gamma\gamma$)($\gamma\gamma$) & 3.35e+3 & 1.55e+3 & 779 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
