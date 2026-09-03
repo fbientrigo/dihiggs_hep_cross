@@ -1,0 +1,52 @@
+diff -ru '--exclude=*.pyc' '--exclude=__pycache__' '--exclude=model.pkl' '--exclude=py3_model.pkl' '--exclude=*.log' '--exclude=*~' LLscalar_v3_UFO_original/couplings.py /home/fabian/atlas_dihiggs/dihiggs_hep_cross/campaigns/physical_vs_effective_coupling_v1/ufo/LLscalar_v3_UFO_GHphiphi_external/couplings.py
+--- LLscalar_v3_UFO_original/couplings.py	2021-08-12 16:05:02.000000000 -0400
++++ /home/fabian/atlas_dihiggs/dihiggs_hep_cross/campaigns/physical_vs_effective_coupling_v1/ufo/LLscalar_v3_UFO_GHphiphi_external/couplings.py	2026-09-02 04:16:27.009397564 -0400
+@@ -369,8 +369,19 @@
+ #                 value = '2*complex(0,1)*vev',
+ #                 order = {'QED':-1})
+ 
++#GC_90 = Coupling(name = 'GC_90',
++#                 value = '8*complex(0,1)*Mh2**2/vev',
++#                 order = {'QED':-1})
++
++# EXTERNALIZED (campaigns/physical_vs_effective_coupling_v1/ufo, this
++# campaign only -- NOT the frozen dihiggs_ufo/LLscalar_v3_UFO_original).
++# GHphiphi is now a free external FRBlock parameter (parameters.py) instead
++# of the hardcoded 8*Mh2^2/vev prescription. Sign convention documented in
++# dihiggs_ufo/docs/PHYSICAL_POINT_UFO_HANDOFF.md and independently verified
++# in this campaign (validation/numerical_crosschecks.csv, physical_2HDM_GeV
++# column): GHphiphi = Im(c) where c = 2HDMC's get_coupling_hhh(1,2,2).
+ GC_90 = Coupling(name = 'GC_90',
+-                 value = '8*complex(0,1)*Mh2**2/vev',
++                 value = 'complex(0,1)*GHphiphi',
+                  order = {'QED':-1})
+ 
+ GC_91 = Coupling(name = 'GC_91',
+diff -ru '--exclude=*.pyc' '--exclude=__pycache__' '--exclude=model.pkl' '--exclude=py3_model.pkl' '--exclude=*.log' '--exclude=*~' LLscalar_v3_UFO_original/parameters.py /home/fabian/atlas_dihiggs/dihiggs_hep_cross/campaigns/physical_vs_effective_coupling_v1/ufo/LLscalar_v3_UFO_GHphiphi_external/parameters.py
+--- LLscalar_v3_UFO_original/parameters.py	2021-08-05 19:04:39.000000000 -0400
++++ /home/fabian/atlas_dihiggs/dihiggs_hep_cross/campaigns/physical_vs_effective_coupling_v1/ufo/LLscalar_v3_UFO_GHphiphi_external/parameters.py	2026-09-02 04:48:54.769373606 -0400
+@@ -235,6 +235,24 @@
+                 lhablock = 'MASS',
+                 lhacode = [ 9000006 ])
+ 
++# EXTERNALIZED (campaigns/physical_vs_effective_coupling_v1/ufo, this
++# campaign only). New external parameter carrying the h-phi-phi trilinear
++# directly, decoupled from Mh2. Default value is the verified, THEORY-VALID
++# physical_2HDM coupling at the m_phi=250 GeV anchor (lambda1=1 literal
++# input route, M2=m_phi^2 to ~1e-14 relative -- see
++# coupling_comparison/coupling_table.csv, construction_route column;
++# corrected after SOL_REVIEW.md "Additional issue #1" flagged that the
++# original default was copied from a theory-INVALID grid point) -- a
++# placeholder only; a real run must set this per mass via the param card,
++# exactly like Mh2 itself.
++GHphiphi = Parameter(name = 'GHphiphi',
++                nature = 'external',
++                type = 'real',
++                value = -63.459361555950252,
++                texname = '\\text{GHphiphi}',
++                lhablock = 'FRBlock',
++                lhacode = [ 3 ])
++
+ WZ = Parameter(name = 'WZ',
+                nature = 'external',
+                type = 'real',

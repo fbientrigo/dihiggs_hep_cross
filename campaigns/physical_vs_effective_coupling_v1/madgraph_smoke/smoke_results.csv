@@ -1,0 +1,5 @@
+g_GeV,sigma_pb,sigma_error_pb,sigma_over_g_squared,note
+# NOT POPULATED — no local MadGraph (mg5_aMC) installation exists in this
+# environment. See README.md for what was checked and commands.txt for the
+# exact commands a future session with MG5_aMC should run to fill this in.
+# No values below are invented placeholders.
