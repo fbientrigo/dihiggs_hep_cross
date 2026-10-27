@@ -1,53 +1,51 @@
-"""Physics and analysis constants for the minimal LLP recast scaffold.
+"""Physics and analysis constants loaded from the controlled v3 cache."""
 
-The shared physics conventions (hbar*c, c) are loaded from the ecosystem-wide
-``conventions/physics_conventions.yaml`` so this repo cannot drift from
-dihiggs / dihiggs_boundary. The pinned literals below are the fallback used
-when PyYAML or the file is unavailable; ``tests/test_constants.py`` asserts the
-loaded values equal these literals so the two can never silently disagree.
-"""
+from __future__ import annotations
 
-import os
+import hashlib
+from pathlib import Path
 
-# Pinned fallback values (must equal conventions/physics_conventions.yaml).
-_HBAR_C_GEV_MM_PINNED = 1.973269804e-13  # c*tau[mm] = hbar*c / Gamma[GeV]
-_C_MM_PER_NS_PINNED = 299.792458  # c*tau[mm] = C_MM_PER_NS * tau[ns]
-# Decimal string, not float: the float64 repr of 125.20 is 1.25200000000000003e+02,
-# which is not byte-equal to the 1.25200000000000000e+02 form SLHA/UFO cards need.
-_M_H_GEV_TEXT_PINNED = "125.20"
+import yaml
 
-# repo root: src/llp_recast/constants.py -> up three levels.
-_REPO_ROOT = os.path.dirname(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-)
-CONVENTIONS_PATH = os.path.join(
-    _REPO_ROOT, "conventions", "physics_conventions.yaml"
-)
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+CONVENTIONS_PATH = _REPO_ROOT / "conventions/physics_conventions.yaml"
+CONVENTIONS_LOCK_PATH = _REPO_ROOT / "conventions/physics_conventions.lock.yaml"
+_AUTHORITY_COMMIT = "087ba246e9a9fa34b16249b52629a62703893b5c"
+_AUTHORITY_SHA256 = "4f3a938ed54dbc779d25f691ce1dd06fe17af69751105dc3b69ccb6b7d92fff6"
 
 
 def _load_conventions():
     try:
-        import yaml
-    except ImportError:
-        return {}
-    try:
-        with open(CONVENTIONS_PATH) as fh:
-            return yaml.safe_load(fh) or {}
-    except OSError:
-        return {}
+        content = CONVENTIONS_PATH.read_bytes()
+        sidecar = yaml.safe_load(CONVENTIONS_LOCK_PATH.read_text(encoding="utf-8"))
+        conventions = yaml.safe_load(content)
+    except (OSError, yaml.YAMLError) as exc:
+        raise RuntimeError("cannot load the v3 physics convention cache and provenance") from exc
+
+    digest = hashlib.sha256(content).hexdigest()
+    expected = {
+        "source_repository": "fbientrigo/dihiggs",
+        "source_commit": _AUTHORITY_COMMIT,
+        "source_path": "conventions/physics_conventions.yaml",
+        "source_sha256": _AUTHORITY_SHA256,
+        "schema_version": "physics_conventions_v3",
+    }
+    if digest != _AUTHORITY_SHA256 or not isinstance(sidecar, dict):
+        raise RuntimeError("physics convention cache checksum or sidecar is invalid")
+    for field, value in expected.items():
+        if sidecar.get(field) != value:
+            raise RuntimeError(f"physics convention provenance {field} does not match authority")
+    if not isinstance(conventions, dict) or conventions.get("schema_version") != "physics_conventions_v3":
+        raise RuntimeError("physics convention cache is not physics_conventions_v3")
+    return conventions
 
 
 _CONV = _load_conventions()
-
-HBAR_C_GEV_MM = float(_CONV.get("hbar_c_gev_mm", _HBAR_C_GEV_MM_PINNED))
-C_MM_PER_NS = float(_CONV.get("c_mm_per_ns", _C_MM_PER_NS_PINNED))
-
-# Canonical SM-like Higgs mass for ACTIVE physical-point production.
-# Prefer reading m_h_GeV off the point itself; use this only where no point is
-# in hand (campaign defaults, card-writer fallbacks).
-M_H_GEV_TEXT = str(
-    (_CONV.get("sm_like_higgs") or {}).get("m_h_GeV", _M_H_GEV_TEXT_PINNED)
-)
+HBAR_C_GEV_MM = float(_CONV["constants"]["hbar_c_gev_mm"])
+C_MM_PER_NS = float(_CONV["constants"]["c_mm_per_ns"])
+M_H_GEV_TEXT = _CONV["mass_conventions"]["active"]["value_GeV"]
+if not isinstance(M_H_GEV_TEXT, str):
+    raise RuntimeError("active m_h convention must remain a decimal string")
 M_H_GEV = float(M_H_GEV_TEXT)
 
 ATLAS_DVJETS_LUMI_FB = 139.0

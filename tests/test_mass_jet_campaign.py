@@ -28,6 +28,7 @@ from run_mass_jet_control_campaign import (
 def test_canonical_points_completeness():
     """Verify all 8 masses are present and carry valid physics coordinates."""
     expected_masses = [150.0, 200.0, 250.0, 300.0, 350.0, 400.0, 500.0, 800.0]
+    assert ACTIVE_MH_CONVENTION_GEV == 125.20
     assert sorted(CANONICAL_POINTS.keys()) == expected_masses
     for m in expected_masses:
         pt = CANONICAL_POINTS[m]

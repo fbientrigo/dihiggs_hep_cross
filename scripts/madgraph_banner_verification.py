@@ -28,6 +28,8 @@ import re
 from pathlib import Path
 from typing import Any, Dict
 
+from run_physical_point_madgraph import resolve_ghphiphi_GeV, resolve_point_masses_GeV
+
 
 def banner_checks(banner_path: Path, point: Dict[str, Any]) -> Dict[str, bool]:
     """Verify a MadGraph banner is internally consistent with the point it
@@ -43,9 +45,8 @@ def banner_checks(banner_path: Path, point: Dict[str, Any]) -> Dict[str, bool]:
     SM-like Higgs and H2 masses, the mediator width, and -- the check with no
     prior tracked-source equivalent -- that the banner's GHphiphi coupling
     matches the point's coupling-prescription value with the sign convention
-    ``GHphiphi = -abs(g_hH2H2_GeV)`` (see run_physical_point_madgraph.py's
-    ``generate_param_card_text``, which writes the card with this same
-    convention).
+    ``GHphiphi = -g_physical_hphiphi_GeV`` for v3 physical points. Explicit
+    historical replay points retain the former magnitude mapping.
     """
     text = banner_path.read_text(encoding="utf-8", errors="replace")
 
@@ -53,11 +54,18 @@ def banner_checks(banner_path: Path, point: Dict[str, Any]) -> Dict[str, bool]:
         match = re.search(pattern, text, re.I | re.M)
         return float(match.group(1)) if match else float("nan")
 
-    mh_GeV = float(point.get("mh_input_GeV", point.get("mh_GeV")))
-    mH2_GeV = float(point.get("mH_input_GeV", point.get("mH2_GeV")))
-    expected_g = -abs(float(point["g_hH2H2_GeV"]))
+    try:
+        mh_GeV, mH2_GeV = resolve_point_masses_GeV(point)
+        expected_g = resolve_ghphiphi_GeV(point)
+        convention_ok = True
+    except (KeyError, TypeError, ValueError):
+        mh_GeV = float("nan")
+        mH2_GeV = float("nan")
+        expected_g = float("nan")
+        convention_ok = False
 
     return {
+        "convention_provenance": convention_ok,
         "process": bool(re.search(r"^generate g g > H > h2 h2\s*$", text, re.M)),
         "sqrt_s_13_TeV": number(r"^\s*([\d.eE+\-]+)\s*=\s*ebeam1") == 6500.0
         and number(r"^\s*([\d.eE+\-]+)\s*=\s*ebeam2") == 6500.0,

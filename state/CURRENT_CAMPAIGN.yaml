@@ -1,67 +1,42 @@
-schema: dihiggs.current_campaign.v1
-
-# Machine-readable form of docs/CURRENT_DATA_AUTHORITY.md -- read that file
-# for the full explanation. This file is the single source future tooling
-# should check programmatically before treating any number as current.
-
+schema: dihiggs.current_campaign.v2
 status: PREPARING
 
-active_workspace:
-  path: /home/fabian/atlas_dihiggs_clean
-  repository: dihiggs_hep_cross
-  commit: a45d8b04941ec2f1f028eae0a328eb711c7a3404
-  branch: main
-  dirty: false
-  reset_date: "2026-08-31"
-
-physics:
-  process: "g g > H > h2 h2"
-  sqrt_s_TeV: 13
-  m_h_GeV: 125.20
-  mass_convention_source: "dihiggs_hep_cross@53fb57e, dihiggs_ufo@7dd02c1, dihiggs/conventions/physics_conventions.yaml"
+physics_convention:
+  authority_repository: fbientrigo/dihiggs
+  authority_path: conventions/physics_conventions.yaml
+  authority_commit: 087ba246e9a9fa34b16249b52629a62703893b5c
+  authority_sha256: 4f3a938ed54dbc779d25f691ce1dd06fe17af69751105dc3b69ccb6b7d92fff6
+  schema_version: physics_conventions_v3
+  active_mass_convention_id: mh_125p20_active_2026
+  m_h_GeV: "125.20"
+  authority_kind: project_convention
+  campaign_choices_required: true
 
 madgraph:
   campaign_id: null
   authoritative_results: null
-  # Do not set authoritative_results until a campaign has completed AND
-  # passed the 4-step promotion process in docs/CURRENT_DATA_AUTHORITY.md
-  # section 6 (banner check, GHphiphi consistency, seed agreement, manifest
-  # + human review). A number existing somewhere in the archive is not
-  # sufficient grounds to set this field.
+  promotion_requires: [banner_verification, coupling_consistency, independent_seed_agreement, manifest_review, human_acceptance]
 
 coupling_prescriptions:
   physical_2HDM:
-    allowed: true
     implemented: true
-    description: >-
-      GHphiphi derived from the validated 2HDM benchmark point via the real
-      evaluator chain (DihiggsPointV2Evaluator / Lambda1EvaluatorV2 ->
-      dihiggs_boundary handoff -> run_physical_point_madgraph.py's
-      generate_param_card_text, which writes GHphiphi = -abs(g_hH2H2_GeV)).
-      This is the prescription every archived and current-tooling MadGraph
-      run in this workspace has used so far.
-
-  PI_simplified:
-    allowed: true
+    signed_point_field: g_physical_hphiphi_GeV
+    ufo_mapping: "GHphiphi = -g_physical_hphiphi_GeV"
+    magnitude_compatibility_field: g_hH2H2_GeV
+    magnitude_field_is_not_sign_authority: true
+  effective_mass_only:
     implemented: false
-    formula: "GHphiphi = -8 * mH2^2 / v"
-    description: >-
-      Simplified production prescription. NOT IMPLEMENTED ANYWHERE in this
-      workspace as of the 2026-08-31 reset (verified: no occurrence of this
-      formula in any of the 6 repos' source). A deliverable of the upcoming
-      campaign, not an existing asset.
+    ufo_vertex_mapping_status: unresolved
+  effective_m22_shifted:
+    implemented: false
+    ufo_vertex_mapping_status: unresolved
+  PI_simplified:
+    implemented: false
+    note: No authorized v3 mapping is defined; do not substitute another prescription.
 
 historical_data:
-  usable_for_current_claims: false
-  archive_root: /home/fabian/atlas_dihiggs_archive/20260831_pre_madgraph_reset
-  archive_manifest: /home/fabian/atlas_dihiggs_archive/20260831_pre_madgraph_reset/ARCHIVE_MANIFEST.tsv
-  do_not_use_notice: /home/fabian/atlas_dihiggs_archive/20260831_pre_madgraph_reset/DO_NOT_USE_FOR_CURRENT_PHYSICS.md
-  most_complete_prior_campaign: "h2_llp_production_300_330_345 (mH2=300/330/345 GeV, 6/6 seeds VALID, dihiggs_hep_cross-h2-llp-production branch) -- complete and checksummed, but pre-reset and NOT promoted to current"
+  mutate_artifacts: false
+  relabel_as_active: false
+  preserved_conventions: [mh_125p13_pdg_2026_historical_replay, mh_125p13_high_mass_v1, mh_125p09_lambda1_boundary_legacy, mh_125p0_ufo_autoresearch_legacy]
 
-authority_rule:
-  - "Do not infer current cross sections from archived campaigns."
-  - "Every cross section must identify GHphiphi and its prescription (physical_2HDM or PI_simplified)."
-  - "MadGraph banners are authoritative over copied summary values -- verify with scripts/madgraph_banner_verification.py before trusting any sigma."
-  - "A cross section is incomplete metadata unless it records mH2, GHphiphi, coupling prescription, process, sqrt(s), UFO identity, seed, and the banner/source artifact path."
-  - "Do not treat 'most recent timestamp' as 'most current' -- currency is set explicitly in this file, never inferred from a file's mtime."
-  - "Update authoritative_results only after the 4-step promotion process in docs/CURRENT_DATA_AUTHORITY.md section 6."
+rule: Current data authority is independent of the theory-convention authority; no result is authoritative until explicitly promoted here after validation and human acceptance.

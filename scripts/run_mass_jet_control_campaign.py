@@ -55,13 +55,23 @@ HEP_CROSS_ROOT = WORKSPACE_ROOT / "dihiggs_hep_cross"
 RECAST_ROOT = WORKSPACE_ROOT / "dihiggs_llp_recast"
 UFO_ROOT = WORKSPACE_ROOT / "dihiggs_ufo"
 
+sys.path.insert(0, str(HEP_CROSS_ROOT / "src"))
 sys.path.insert(0, str(RECAST_ROOT / "src"))
 sys.path.insert(0, str(RECAST_ROOT / "scripts"))
+from llp_recast import constants as physics_constants  # noqa: E402
 from dvrecast.r8_cutflow import parse_recast_log, combine_runs, RecastRunResult  # noqa: E402
 from dvrecast.r8_geometry import load_geometry_csv, GeometrySample, summarize  # noqa: E402
 from relabel_lhe_pdg import relabel  # noqa: E402
 
-ACTIVE_MH_CONVENTION_GEV = 125.20
+ACTIVE_MH_CONVENTION_TEXT = physics_constants.M_H_GEV_TEXT
+ACTIVE_MH_CONVENTION_GEV = physics_constants.M_H_GEV
+PHYSICS_CONVENTION_PROVENANCE = {
+    "schema": "physics_conventions_v3",
+    "source_commit": "087ba246e9a9fa34b16249b52629a62703893b5c",
+    "source_sha256": "4f3a938ed54dbc779d25f691ce1dd06fe17af69751105dc3b69ccb6b7d92fff6",
+    "mass_convention_id": "mh_125p20_active_2026",
+    "m_h_GeV_text": ACTIVE_MH_CONVENTION_TEXT,
+}
 CONTROL_CTAU_MM = 30.0
 CORE_MASSES = [150.0, 250.0, 350.0, 500.0, 800.0]
 EXTENDED_MASSES = [200.0, 300.0, 400.0]
@@ -797,6 +807,7 @@ def build_final_reports(
         "campaign_id": campaign_id,
         "status": status,
         "active_mh_convention_GeV": ACTIVE_MH_CONVENTION_GEV,
+        "physics_convention_provenance": PHYSICS_CONVENTION_PROVENANCE,
         "control_definition": {
             "decay": "H2 -> bb (forced)",
             "ctau_mm": CONTROL_CTAU_MM,
@@ -918,6 +929,7 @@ def run_campaign(
         "campaign_id": campaign_id,
         "created_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "active_mh_convention_GeV": ACTIVE_MH_CONVENTION_GEV,
+        "physics_convention_provenance": PHYSICS_CONVENTION_PROVENANCE,
         "control_ctau_mm": CONTROL_CTAU_MM,
         "core_masses": CORE_MASSES,
         "extended_masses": EXTENDED_MASSES,

@@ -41,6 +41,84 @@ DEFAULT_SEEDS = [101, 107]
 DEFAULT_NEVENTS = 10000
 FB_PER_PB = 1000.0
 
+PHYSICS_CONVENTIONS_SCHEMA = "physics_conventions_v3"
+PHYSICS_CONVENTIONS_COMMIT = "087ba246e9a9fa34b16249b52629a62703893b5c"
+PHYSICS_CONVENTIONS_SHA256 = "4f3a938ed54dbc779d25f691ce1dd06fe17af69751105dc3b69ccb6b7d92fff6"
+_HISTORICAL_MASS_CONVENTIONS = {
+    "mh_125p13_pdg_2026_historical_replay",
+    "mh_125p13_high_mass_v1",
+    "mh_125p09_lambda1_boundary_legacy",
+    "mh_125p0_ufo_autoresearch_legacy",
+}
+
+def _mass_convention(point: Dict[str, Any]) -> Dict[str, Any]:
+    nested = point.get("mass_convention")
+    return nested if isinstance(nested, dict) else point
+
+
+def _v3_provenance_state(point: Dict[str, Any]) -> tuple[bool, bool]:
+    nested = _mass_convention(point)
+    values = (
+        point.get("physics_conventions_schema", nested.get("schema_version")),
+        point.get("physics_conventions_commit", nested.get("source_commit")),
+        point.get("physics_conventions_sha256", nested.get("source_sha256")),
+    )
+    present = any(value is not None for value in values)
+    valid = values == (
+        PHYSICS_CONVENTIONS_SCHEMA,
+        PHYSICS_CONVENTIONS_COMMIT,
+        PHYSICS_CONVENTIONS_SHA256,
+    )
+    return present, valid
+
+
+def resolve_ghphiphi_GeV(point: Dict[str, Any]) -> float:
+    """Resolve the UFO parameter using v3's signed physical mapping.
+
+    Magnitude-only input is accepted only for explicitly identified historical
+    replay points; it cannot silently enter the new-production path.
+    """
+    has_provenance, valid_provenance = _v3_provenance_state(point)
+    nested = _mass_convention(point)
+    if has_provenance:
+        if not valid_provenance:
+            raise ValueError("v3 physics convention provenance is incomplete or mismatched")
+        if point.get("coupling_prescription") != "physical_2HDM":
+            raise ValueError("v3 production currently supports only physical_2HDM coupling")
+        mass_id = point.get("mass_convention_id", nested.get("convention_id"))
+        mass_text = point.get("m_h_GeV_text", nested.get("m_h_GeV_text"))
+        if mass_id != "mh_125p20_active_2026" or str(mass_text) != "125.20":
+            raise ValueError("v3 new production requires active convention id and decimal m_h text 125.20")
+        try:
+            signed = float(point["g_physical_hphiphi_GeV"])
+            magnitude = float(point["g_physical_hphiphi_abs_GeV"])
+            compatibility_magnitude = float(point["g_hH2H2_GeV"])
+            raw_real = float(point["two_hdmc_hphiphi_real_GeV"])
+            raw_imag = float(point["two_hdmc_hphiphi_imag_GeV"])
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError("v3 physical coupling fields are incomplete") from exc
+        scale = max(1.0, abs(signed), abs(magnitude), abs(raw_imag))
+        if (
+            not all(math.isfinite(value) for value in (signed, magnitude, compatibility_magnitude, raw_real, raw_imag))
+            or magnitude <= 0
+            or not math.isclose(magnitude, abs(signed), rel_tol=1e-9, abs_tol=1e-12)
+            or not math.isclose(compatibility_magnitude, magnitude, rel_tol=1e-9, abs_tol=1e-12)
+            or not math.isclose(raw_imag, -signed, rel_tol=1e-9, abs_tol=1e-12)
+            or abs(raw_real) > 1e-12 * scale
+        ):
+            raise ValueError("v3 physical coupling fields are inconsistent with the declared convention")
+        return -signed
+
+    convention_id = point.get("mass_convention_id") or point.get("convention_id")
+    if point.get("historical_replay") is True and convention_id in _HISTORICAL_MASS_CONVENTIONS:
+        value = point.get("g_hH2H2_GeV", point.get("g"))
+        if value is None or not math.isfinite(float(value)) or float(value) <= 0:
+            raise ValueError("historical replay requires a positive finite magnitude coupling")
+        return -abs(float(value))
+    raise ValueError(
+        "new production requires complete physics_conventions_v3 provenance and signed coupling fields; "
+        "magnitude-only input requires an explicit historical convention and historical_replay=true"
+    )
 
 def sha256_file(path: Path) -> str:
     """Compute sha256 of a file."""
@@ -64,6 +142,37 @@ def format_slha_float(value: float) -> str:
 M_H_FIELD_ALIASES = ("m_h_GeV", "mh_input_GeV", "mh")
 
 
+def _resolve_numeric_aliases(
+    point: Dict[str, Any], canonical: str, aliases: Tuple[str, ...], *, require_canonical: bool = False
+) -> float:
+    present: List[Tuple[str, float]] = []
+    for key in (canonical, *aliases):
+        raw = point.get(key)
+        if raw is None or (isinstance(raw, str) and not raw.strip()):
+            continue
+        if isinstance(raw, bool):
+            raise ValueError(f"point field {key} must be a finite number")
+        try:
+            value = float(raw)
+        except (TypeError, ValueError) as exc:
+            raise ValueError(f"point field {key} must be a finite number") from exc
+        if not math.isfinite(value):
+            raise ValueError(f"point field {key} must be a finite number")
+        present.append((key, value))
+    if not present:
+        raise KeyError(
+            f"point {point.get('point_id', '<unknown>')!r} carries no {canonical}; "
+            f"expected {', '.join((canonical, *aliases))}"
+        )
+    if require_canonical and present[0][0] != canonical:
+        raise KeyError(f"new v3 production requires canonical point field {canonical}")
+    selected = present[0][1]
+    for key, value in present[1:]:
+        if not math.isclose(value, selected, rel_tol=1e-12, abs_tol=1e-15):
+            raise ValueError(f"point aliases for {canonical} disagree ({present[0][0]} vs {key})")
+    return selected
+
+
 def resolve_m_h_GeV(point: Dict[str, Any]) -> float:
     """Read the SM-like Higgs mass off the canonical point.
 
@@ -74,15 +183,38 @@ def resolve_m_h_GeV(point: Dict[str, Any]) -> float:
     (conventions/physics_conventions.yaml) and travels on the point; a point
     that does not carry it is a contract violation, not a defaulting case.
     """
-    for key in M_H_FIELD_ALIASES:
-        if key in point and point[key] is not None and str(point[key]).strip() != "":
-            return float(point[key])
-    raise KeyError(
-        "point %r carries no SM-like Higgs mass; expected one of %s. "
-        "The mass convention is not defaulted here -- it must come from the "
-        "point (see conventions/physics_conventions.yaml)."
-        % (point.get("point_id", "<unknown>"), ", ".join(M_H_FIELD_ALIASES))
+    return _resolve_numeric_aliases(
+        point, M_H_FIELD_ALIASES[0], M_H_FIELD_ALIASES[1:]
     )
+
+
+def resolve_m_phi_GeV(point: Dict[str, Any], *, require_canonical: bool = False) -> float:
+    """Resolve the additional scalar mass, checking every supplied alias."""
+    return _resolve_numeric_aliases(
+        point,
+        "m_phi_GeV",
+        ("mH_input_GeV", "mH2_GeV", "mH"),
+        require_canonical=require_canonical,
+    )
+
+
+def resolve_point_masses_GeV(point: Dict[str, Any]) -> Tuple[float, float]:
+    """Resolve and validate both masses against the point's convention state."""
+    has_provenance, valid_v3 = _v3_provenance_state(point)
+    if has_provenance and not valid_v3:
+        raise ValueError("v3 physics convention provenance is incomplete or mismatched")
+    is_v3 = has_provenance
+    if is_v3:
+        mh = _resolve_numeric_aliases(point, "m_h_GeV", ("mh_input_GeV", "mh"), require_canonical=True)
+        mass_text = point.get("m_h_GeV_text", _mass_convention(point).get("m_h_GeV_text"))
+        if mh != 125.20 or mass_text != "125.20":
+            raise ValueError("v3 new production requires the active decimal m_h value 125.20 GeV")
+    else:
+        mh = resolve_m_h_GeV(point)
+    m_phi = resolve_m_phi_GeV(point, require_canonical=is_v3)
+    if mh <= 0 or m_phi <= 0:
+        raise ValueError("point masses must be positive")
+    return mh, m_phi
 
 
 def generate_param_card_text(
@@ -93,10 +225,15 @@ def generate_param_card_text(
     g_hH2H2_GeV: float = 63.59142520075966,
     ctau_mm: float = 4.326221529733112,
     total_width_GeV: Optional[float] = None,
+    ghphiphi_GeV: Optional[float] = None,
 ) -> str:
     """Generate exact point-specific param_card.dat content from default template."""
     ctau_m = ctau_mm / 1000.0
-    gh_phiphi = -abs(g_hH2H2_GeV)  # UFO convention: GHphiphi = -g_hH2H2
+    # Direct legacy callers may still supply only a magnitude. The production
+    # driver passes the convention-resolved signed value explicitly.
+    gh_phiphi = -abs(g_hH2H2_GeV) if ghphiphi_GeV is None else float(ghphiphi_GeV)
+    if not math.isfinite(gh_phiphi):
+        raise ValueError("GHphiphi must be finite")
 
     if total_width_GeV is None or not math.isfinite(total_width_GeV) or total_width_GeV <= 0:
         total_width_GeV = 1.973269804e-16 / ctau_m if ctau_m > 0 else 4.561185e-14
@@ -184,34 +321,29 @@ def run_single_physical_point_madgraph(
 ) -> Dict[str, Any]:
     """Execute MadGraph for one physical 2HDM point and return exact result dict."""
     point_id = str(point.get("point_id", "unknown_point")).strip()
-    mh = resolve_m_h_GeV(point)
-    mH2 = float(point.get("mH_input_GeV", point.get("mH", point.get("mH2_GeV", 150.0))))
-    g_hH2H2 = float(point.get("g_hH2H2_GeV", point.get("g", 63.59142520075966)))
-    ctau = float(point.get("ctau_mm", point.get("ctau", 4.326221529733112)))
-    br_bb = float(point.get("br_bb", point.get("BR_bb", 0.7567374858085787)))
-    
-    tan_beta = float(point.get("tan_beta_input", point.get("tan_beta", 300000.0)))
-    lambda6 = float(point.get("lambda6_input", point.get("lambda6", 1e-10)))
-    M2 = float(point.get("M2_input_GeV2", point.get("M2_GeV2", 22499.9999995)))
-    total_width = float(point.get("total_width_GeV", point.get("width_GeV", 4.56118529862185e-14)))
+    ghphiphi = resolve_ghphiphi_GeV(point)
+    has_provenance, valid_v3 = _v3_provenance_state(point)
+    is_v3 = has_provenance and valid_v3
+    mh, mH2 = resolve_point_masses_GeV(point)
+    g_hH2H2 = _resolve_numeric_aliases(
+        point, "g_physical_hphiphi_abs_GeV", ("g_hH2H2_GeV", "g"), require_canonical=is_v3
+    )
+    ctau = _resolve_numeric_aliases(point, "ctau_mm", ("ctau",), require_canonical=is_v3)
+    br_bb = _resolve_numeric_aliases(point, "br_bb", ("BR_bb",), require_canonical=is_v3)
+    tan_beta = _resolve_numeric_aliases(point, "tan_beta", ("tan_beta_input",))
+    lambda6 = _resolve_numeric_aliases(point, "lambda6_input", ("lambda6",))
+    M2 = _resolve_numeric_aliases(point, "M2_input_GeV2", ("M2_GeV2",))
+    total_width = _resolve_numeric_aliases(
+        point, "total_width_GeV", ("width_GeV",), require_canonical=is_v3
+    )
 
-    if not math.isfinite(g_hH2H2) or g_hH2H2 <= 0:
-        return {
-            "point_id": point_id,
-            "mH2_GeV": mH2,
-            "tan_beta": tan_beta,
-            "lambda6": lambda6,
-            "M2_GeV2": M2,
-            "g_hH2H2_GeV": g_hH2H2,
-            "ctau_mm": ctau,
-            "BR_bb": br_bb,
-            "sigma_production_fb": float("nan"),
-            "sigma_production_unc_fb": float("nan"),
-            "madgraph_status": "FAILED_INVALID_COUPLING",
-            "madgraph_run_id_or_path": "",
-            "banner_sha256": "",
-            "provenance": {"error": "Coupling g_hH2H2_GeV must be positive finite"},
-        }
+    if min(mh, mH2, g_hH2H2, ctau, total_width, tan_beta, M2) <= 0:
+        raise ValueError("masses, coupling magnitude, lifetime, width, tan_beta, and M2 must be positive")
+    if not 0.0 <= br_bb <= 1.0:
+        raise ValueError("br_bb must be between zero and one")
+    expected_ctau = 1.973269804e-13 / total_width
+    if not math.isclose(ctau, expected_ctau, rel_tol=1e-4):
+        raise ValueError("ctau_mm and total_width_GeV are inconsistent")
 
     template_param_path = proc_dir / "Cards" / "param_card_default.dat"
     if not template_param_path.exists():
@@ -223,6 +355,7 @@ def run_single_physical_point_madgraph(
         mh_GeV=mh,
         mH2_GeV=mH2,
         g_hH2H2_GeV=g_hH2H2,
+        ghphiphi_GeV=ghphiphi,
         ctau_mm=ctau,
         total_width_GeV=total_width,
     )
@@ -306,6 +439,12 @@ def run_single_physical_point_madgraph(
                         "lambda6": lambda6,
                         "M2_GeV2": M2,
                         "g_hH2H2_GeV": g_hH2H2,
+                        "g_physical_hphiphi_GeV": point.get("g_physical_hphiphi_GeV"),
+                        "g_physical_hphiphi_abs_GeV": point.get("g_physical_hphiphi_abs_GeV"),
+                        "two_hdmc_hphiphi_real_GeV": point.get("two_hdmc_hphiphi_real_GeV"),
+                        "two_hdmc_hphiphi_imag_GeV": point.get("two_hdmc_hphiphi_imag_GeV"),
+                        "GHphiphi_GeV": ghphiphi,
+                        "coupling_prescription": point.get("coupling_prescription", "historical_replay"),
                         "ctau_mm": ctau,
                         "BR_bb": br_bb,
                         "sigma_production_fb": float("nan"),
@@ -341,6 +480,17 @@ def run_single_physical_point_madgraph(
         "lambda6": lambda6,
         "M2_GeV2": M2,
         "g_hH2H2_GeV": g_hH2H2,
+        "g_physical_hphiphi_GeV": point.get("g_physical_hphiphi_GeV"),
+        "g_physical_hphiphi_abs_GeV": point.get("g_physical_hphiphi_abs_GeV"),
+        "two_hdmc_hphiphi_real_GeV": point.get("two_hdmc_hphiphi_real_GeV"),
+        "two_hdmc_hphiphi_imag_GeV": point.get("two_hdmc_hphiphi_imag_GeV"),
+        "mass_convention_id": point.get("mass_convention_id", _mass_convention(point).get("convention_id")),
+        "m_h_GeV_text": point.get("m_h_GeV_text", _mass_convention(point).get("m_h_GeV_text")),
+        "GHphiphi_GeV": ghphiphi,
+        "coupling_prescription": point.get("coupling_prescription", "historical_replay"),
+        "physics_conventions_schema": point.get("physics_conventions_schema", _mass_convention(point).get("schema_version")),
+        "physics_conventions_commit": point.get("physics_conventions_commit", _mass_convention(point).get("source_commit")),
+        "physics_conventions_sha256": point.get("physics_conventions_sha256", _mass_convention(point).get("source_sha256")),
         "ctau_mm": ctau,
         "BR_bb": br_bb,
         "sigma_production_fb": sigma_production_fb,

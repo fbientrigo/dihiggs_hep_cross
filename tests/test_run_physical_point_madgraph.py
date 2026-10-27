@@ -5,6 +5,7 @@ import math
 import subprocess
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -17,6 +18,7 @@ from run_physical_point_madgraph import (
     generate_run_card_text,
     run_single_physical_point_madgraph,
 )
+import run_physical_point_madgraph as mg_runner
 
 
 def test_param_card_generation_substitutes_all_blocks():
@@ -63,8 +65,13 @@ def test_benchmark_closure_execution(tmp_path):
         "point_id": "H2scan_mH150_tb300000",
         # HISTORICAL benchmark convention; see scripts/r9_run_model_scan.py.
         "mh_input_GeV": 125.13,
+        "historical_replay": True,
+        "mass_convention_id": "mh_125p13_high_mass_v1",
         "mH_input_GeV": 150.0,
         "g_hH2H2_GeV": 63.59142520075966,
+        "tan_beta": 300000.0,
+        "lambda6_input": 1e-10,
+        "M2_input_GeV2": 22499.9999995,
         "ctau_mm": 4.326221529733112,
         "br_bb": 0.7567374858085787,
         "total_width_GeV": 4.56118529862185e-14,
@@ -92,8 +99,9 @@ def test_resolver_reads_m_h_from_the_point():
     assert resolve_m_h_GeV({"m_h_GeV": "125.20"}) == 125.20
     assert resolve_m_h_GeV({"mh_input_GeV": 125.13}) == 125.13
     assert resolve_m_h_GeV({"mh": 125.09}) == 125.09
-    # Newest alias wins when several are present.
-    assert resolve_m_h_GeV({"m_h_GeV": "125.20", "mh": 125.09}) == 125.20
+    assert resolve_m_h_GeV({"m_h_GeV": "125.20", "mh": 125.20}) == 125.20
+    with pytest.raises(ValueError, match="aliases.*disagree"):
+        resolve_m_h_GeV({"m_h_GeV": "125.20", "mh": 125.09})
 
 
 def test_resolver_refuses_to_default_a_missing_mass():
@@ -142,3 +150,110 @@ def test_param_card_does_not_clobber_decay_25_width():
     )
     assert "25 1.252000e+02" in rendered  # MASS block: updated to the point's mh
     assert "DECAY  25  4.070000e-03" in rendered  # decay block: untouched
+
+
+def test_v3_signed_coupling_controls_ghphiphi():
+    from run_physical_point_madgraph import resolve_ghphiphi_GeV
+
+    point = {
+        "physics_conventions_schema": "physics_conventions_v3",
+        "physics_conventions_commit": "087ba246e9a9fa34b16249b52629a62703893b5c",
+        "physics_conventions_sha256": "4f3a938ed54dbc779d25f691ce1dd06fe17af69751105dc3b69ccb6b7d92fff6",
+        "coupling_prescription": "physical_2HDM",
+        "mass_convention_id": "mh_125p20_active_2026", "m_h_GeV_text": "125.20",
+        "g_physical_hphiphi_GeV": 5.0, "g_physical_hphiphi_abs_GeV": 5.0, "g_hH2H2_GeV": 5.0,
+        "two_hdmc_hphiphi_real_GeV": 0.0, "two_hdmc_hphiphi_imag_GeV": -5.0,
+    }
+    assert resolve_ghphiphi_GeV(point) == -5.0
+    point.update(g_physical_hphiphi_GeV=-5.0, two_hdmc_hphiphi_imag_GeV=5.0)
+    assert resolve_ghphiphi_GeV(point) == 5.0
+
+
+def test_new_production_rejects_unlabelled_magnitude_only_points():
+    from run_physical_point_madgraph import resolve_ghphiphi_GeV
+
+    with pytest.raises(ValueError, match="requires complete"):
+        resolve_ghphiphi_GeV({"g_hH2H2_GeV": 5.0, "mh_input_GeV": 125.20})
+
+
+def v3_point():
+    return {
+        "point_id": "v3-entrypoint",
+        "physics_conventions_schema": "physics_conventions_v3",
+        "physics_conventions_commit": "087ba246e9a9fa34b16249b52629a62703893b5c",
+        "physics_conventions_sha256": "4f3a938ed54dbc779d25f691ce1dd06fe17af69751105dc3b69ccb6b7d92fff6",
+        "coupling_prescription": "physical_2HDM",
+        "mass_convention_id": "mh_125p20_active_2026",
+        "m_h_GeV_text": "125.20",
+        "m_h_GeV": "125.20",
+        "m_phi_GeV": 175.0,
+        "tan_beta": 1000.0,
+        "lambda6_input": 0.01,
+        "M2_input_GeV2": 22500.0,
+        "g_physical_hphiphi_GeV": 5.0,
+        "g_physical_hphiphi_abs_GeV": 5.0,
+        "g_hH2H2_GeV": 5.0,
+        "two_hdmc_hphiphi_real_GeV": 0.0,
+        "two_hdmc_hphiphi_imag_GeV": -5.0,
+        "ctau_mm": 4.93317451,
+        "br_bb": 0.7,
+        "total_width_GeV": 4.0e-14,
+    }
+
+
+def test_v3_entrypoint_generates_card_and_runs_with_mock_madgraph(tmp_path, monkeypatch):
+    proc_dir = tmp_path / "proc"
+    cards = proc_dir / "Cards"
+    cards.mkdir(parents=True)
+    (cards / "param_card_default.dat").write_text(
+        "Block MASS\n 25 125.0 # MH\n 9000006 150.0 # Mh2\n"
+        "Block frblock\n 2 0.1 # ctauh2\n 3 -5.0 # GHphiphi\n"
+        "DECAY 9000006 1e-13\n"
+    )
+
+    def fake_madgraph(command, *, cwd, **kwargs):
+        run_tag = command[-1]
+        run_dir = Path(cwd) / "Events" / run_tag
+        run_dir.mkdir(parents=True)
+        (run_dir / f"{run_tag}_tag_1_banner.txt").write_text(
+            "# Integrated weight (pb) : 2.0e-3\n"
+        )
+        return SimpleNamespace(stdout="", stderr="", returncode=0)
+
+    monkeypatch.setattr(mg_runner.subprocess, "run", fake_madgraph)
+    result = mg_runner.run_single_physical_point_madgraph(
+        v3_point(), proc_dir=proc_dir, cards_out_dir=tmp_path / "out", seeds=[101]
+    )
+
+    assert result["madgraph_status"] == "VALID"
+    assert result["mH2_GeV"] == 175.0
+    assert result["GHphiphi_GeV"] == -5.0
+    card = (tmp_path / "out" / "v3-entrypoint_param_card.dat").read_text()
+    assert "25 1.252000e+02" in card
+    assert "9000006 1.750000e+02" in card
+    assert "9000006 4.000000e-14" in card
+
+
+@pytest.mark.parametrize(
+    "missing", ["m_phi_GeV", "ctau_mm", "total_width_GeV", "tan_beta", "lambda6_input", "M2_input_GeV2"]
+)
+def test_v3_entrypoint_rejects_missing_inputs_before_madgraph(missing, tmp_path):
+    point = v3_point()
+    del point[missing]
+    with pytest.raises(KeyError):
+        run_single_physical_point_madgraph(point, proc_dir=tmp_path)
+
+
+@pytest.mark.parametrize("field", ["m_h_GeV", "m_phi_GeV", "ctau_mm", "total_width_GeV", "tan_beta"])
+def test_v3_entrypoint_rejects_nonfinite_inputs_before_madgraph(field, tmp_path):
+    point = v3_point()
+    point[field] = float("nan")
+    with pytest.raises(ValueError, match="finite"):
+        run_single_physical_point_madgraph(point, proc_dir=tmp_path)
+
+
+def test_v3_entrypoint_rejects_conflicting_mass_aliases(tmp_path):
+    point = v3_point()
+    point["mH_input_GeV"] = 150.0
+    with pytest.raises(ValueError, match="aliases.*disagree"):
+        run_single_physical_point_madgraph(point, proc_dir=tmp_path)

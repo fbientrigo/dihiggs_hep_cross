@@ -1,58 +1,130 @@
-"""Unit tests for the banner-authoritative verification helpers.
-
-Migrated from mission_runs/20260826_h2_table_v2_requalification/work/
-run_madgraph_v2.py during the 2026-08-31 workspace reset; see
-scripts/madgraph_banner_verification.py for the migration note.
-"""
+"""Unit tests for convention-aware banner verification."""
 
 import sys
 from pathlib import Path
+
+import pytest
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "scripts"))
 
 from madgraph_banner_verification import banner_checks, checks_pass, compatible
 
-REAL_BANNER = REPO_ROOT / "artifacts/h2_first_physical/madgraph/run_01/run_01_tag_1_banner.txt"
 
-# Matches REAL_BANNER exactly (mh=125.13 -- this benchmark predates the
-# 125.20 GeV convention; see docs/MH_CONVENTION.md).
-REAL_BANNER_POINT = {
+def make_banner(tmp_path, coupling=-63.5914252007596588, mh=125.13, mH2=150.0):
+    path = tmp_path / "banner.txt"
+    path.write_text(f"""generate g g > H > h2 h2
+6500 = ebeam1
+6500 = ebeam2
+nn23lo1 = pdlabel
+230000 = lhaid
+False = fixed_ren_scale
+False = fixed_fac_scale
+-1 = dynamical_scale_choice
+ 25 {mh} # MH
+ 9000006 {mH2} # Mh2
+ 3 {coupling} # GHphiphi
+DECAY 9000006 4.561185e-14
+""")
+    return path
+
+
+LEGACY_POINT = {
     "mh_input_GeV": 125.13,
     "mH_input_GeV": 150.0,
     "g_hH2H2_GeV": 63.5914252007596588,
     "total_width_GeV": 4.561185e-14,
+    "historical_replay": True,
+    "mass_convention_id": "mh_125p13_high_mass_v1",
 }
 
 
-def test_banner_checks_all_pass_on_a_real_tracked_banner():
-    checks = banner_checks(REAL_BANNER, REAL_BANNER_POINT)
+def test_banner_checks_all_required_fields(tmp_path):
+    banner = make_banner(tmp_path)
+    checks = banner_checks(banner, LEGACY_POINT)
     assert checks == {name: True for name in checks}
-    assert checks_pass(REAL_BANNER, REAL_BANNER_POINT)
+    assert checks_pass(banner, LEGACY_POINT)
 
 
-def test_banner_checks_coupling_uses_the_ghphiphi_sign_convention():
-    """GHphiphi must equal -abs(g_hH2H2_GeV). Passing in the point's coupling
-    with the opposite sign must still pass (-abs() normalizes it away), but a
-    genuinely different magnitude must fail the coupling check even though
-    every other field still matches."""
-    opposite_sign_point = dict(REAL_BANNER_POINT, g_hH2H2_GeV=-63.5914252007596588)
-    assert banner_checks(REAL_BANNER, opposite_sign_point)["coupling"] is True
-
-    mismatched_point = dict(REAL_BANNER_POINT, g_hH2H2_GeV=1.0)
-    checks = banner_checks(REAL_BANNER, mismatched_point)
+def test_legacy_replay_keeps_magnitude_compatibility(tmp_path):
+    banner = make_banner(tmp_path)
+    malformed_magnitude = dict(LEGACY_POINT, g_hH2H2_GeV=-63.5914252007596588)
+    assert banner_checks(banner, malformed_magnitude)["convention_provenance"] is False
+    mismatched = dict(LEGACY_POINT, g_hH2H2_GeV=1.0)
+    checks = banner_checks(banner, mismatched)
     assert checks["coupling"] is False
-    assert not checks_pass(REAL_BANNER, mismatched_point)
-    # Sanity: everything else about the same banner still checks out.
-    assert checks["mh"] is True
-    assert checks["mH2"] is True
+    assert not checks_pass(banner, mismatched)
 
 
-def test_banner_checks_catches_a_wrong_mass():
-    wrong_mass_point = dict(REAL_BANNER_POINT, mH_input_GeV=999.0)
-    checks = banner_checks(REAL_BANNER, wrong_mass_point)
+def test_banner_checks_catches_a_wrong_mass(tmp_path):
+    checks = banner_checks(make_banner(tmp_path), dict(LEGACY_POINT, mH_input_GeV=999.0))
     assert checks["mH2"] is False
-    assert not checks_pass(REAL_BANNER, wrong_mass_point)
+    assert not checks_pass(make_banner(tmp_path), dict(LEGACY_POINT, mH_input_GeV=999.0))
+
+
+def _v3_point(signed):
+    return {
+        "m_h_GeV": "125.20", "m_phi_GeV": 150.0,
+        "g_physical_hphiphi_GeV": signed,
+        "g_physical_hphiphi_abs_GeV": abs(signed), "g_hH2H2_GeV": abs(signed),
+        "two_hdmc_hphiphi_real_GeV": 0.0,
+        "two_hdmc_hphiphi_imag_GeV": -signed,
+        "coupling_prescription": "physical_2HDM",
+        "mass_convention_id": "mh_125p20_active_2026", "m_h_GeV_text": "125.20",
+        "physics_conventions_schema": "physics_conventions_v3",
+        "physics_conventions_commit": "087ba246e9a9fa34b16249b52629a62703893b5c",
+        "physics_conventions_sha256": "4f3a938ed54dbc779d25f691ce1dd06fe17af69751105dc3b69ccb6b7d92fff6",
+        "total_width_GeV": 4.561185e-14,
+    }
+
+
+def test_v3_signed_physical_coupling_is_used_with_its_sign(tmp_path):
+    point = _v3_point(63.5914252007596588)
+    checks = banner_checks(make_banner(tmp_path, mh=125.20), point)
+    assert checks["convention_provenance"] is True
+    assert checks["coupling"] is True
+
+    point = _v3_point(-63.5914252007596588)
+    checks = banner_checks(make_banner(tmp_path, coupling=63.5914252007596588, mh=125.20), point)
+    assert checks["convention_provenance"] is True
+    assert checks["coupling"] is True
+
+
+def test_v3_banner_rejects_stale_numeric_mh_despite_active_text(tmp_path):
+    point = _v3_point(5.0)
+    point["m_h_GeV"] = "125.13"
+    checks = banner_checks(make_banner(tmp_path, coupling=-5.0, mh=125.13), point)
+    assert checks["convention_provenance"] is False
+    assert checks["mh"] is False
+    assert not checks_pass(make_banner(tmp_path, coupling=-5.0, mh=125.13), point)
+
+
+@pytest.mark.parametrize("missing", ["m_h_GeV", "m_phi_GeV"])
+def test_v3_banner_requires_canonical_mass_fields(tmp_path, missing):
+    point = _v3_point(5.0)
+    del point[missing]
+    checks = banner_checks(make_banner(tmp_path, coupling=-5.0, mh=125.20), point)
+    assert checks["convention_provenance"] is False
+    assert not checks_pass(make_banner(tmp_path, coupling=-5.0, mh=125.20), point)
+
+
+def test_v3_banner_rejects_conflicting_h2_mass_alias(tmp_path):
+    point = _v3_point(5.0)
+    point["mH_input_GeV"] = 151.0
+    checks = banner_checks(make_banner(tmp_path, coupling=-5.0, mh=125.20), point)
+    assert checks["convention_provenance"] is False
+    assert checks["mH2"] is False
+    assert not checks_pass(make_banner(tmp_path, coupling=-5.0, mh=125.20), point)
+
+
+def test_v3_signed_coupling_rejects_magnitude_mismatch():
+    from run_physical_point_madgraph import resolve_ghphiphi_GeV
+
+    point = _v3_point(63.0)
+    point["g_physical_hphiphi_abs_GeV"] = 64.0
+    point["g_hH2H2_GeV"] = 64.0
+    with pytest.raises(ValueError, match="inconsistent"):
+        resolve_ghphiphi_GeV(point)
 
 
 def test_compatible_agrees_within_3_sigma():

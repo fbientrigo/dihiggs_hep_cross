@@ -12,19 +12,18 @@ def test_conventions_file_present():
     assert os.path.exists(CONVENTIONS)
 
 
-def test_constants_match_pinned_fallback():
-    """The loaded constants must equal the pinned fallback literals, so the
-    shared conventions file can never silently disagree with the code."""
-    assert constants.HBAR_C_GEV_MM == constants._HBAR_C_GEV_MM_PINNED
-    assert constants.C_MM_PER_NS == constants._C_MM_PER_NS_PINNED
+def test_constants_are_loaded_from_the_v3_cache():
+    assert constants.HBAR_C_GEV_MM == 1.973269804e-13
+    assert constants.C_MM_PER_NS == 299.792458
+    assert constants.M_H_GEV_TEXT == "125.20"
 
 
 def test_constants_match_conventions_yaml():
     yaml = pytest.importorskip("yaml")
     with open(CONVENTIONS) as fh:
         conv = yaml.safe_load(fh)
-    assert constants.HBAR_C_GEV_MM == float(conv["hbar_c_gev_mm"])
-    assert constants.C_MM_PER_NS == float(conv["c_mm_per_ns"])
+    assert constants.HBAR_C_GEV_MM == float(conv["constants"]["hbar_c_gev_mm"])
+    assert constants.C_MM_PER_NS == float(conv["constants"]["c_mm_per_ns"])
 
 
 def test_pinned_values():
@@ -46,8 +45,22 @@ def test_canonical_mh_matches_conventions_file():
     yaml = pytest.importorskip("yaml")
     with open(CONVENTIONS) as fh:
         conv = yaml.safe_load(fh)
-    assert conv["sm_like_higgs"]["m_h_GeV"] == constants.M_H_GEV_TEXT
-    assert constants.M_H_GEV_TEXT == constants._M_H_GEV_TEXT_PINNED
+    assert conv["mass_conventions"]["active"]["value_GeV"] == constants.M_H_GEV_TEXT
     # Decimal string, not float: f"{125.20:.17e}" is 1.25200000000000003e+02,
     # which is not the byte form SLHA/UFO cards need.
-    assert isinstance(conv["sm_like_higgs"]["m_h_GeV"], str)
+    assert isinstance(conv["mass_conventions"]["active"]["value_GeV"], str)
+
+
+def test_convention_loader_fails_closed_on_tampered_sidecar(tmp_path, monkeypatch):
+    import yaml
+
+    cache = tmp_path / "physics_conventions.yaml"
+    sidecar = tmp_path / "physics_conventions.lock.yaml"
+    cache.write_bytes(open(CONVENTIONS, "rb").read())
+    lock = yaml.safe_load(open(constants.CONVENTIONS_LOCK_PATH))
+    lock["source_commit"] = "0" * 40
+    sidecar.write_text(yaml.safe_dump(lock))
+    monkeypatch.setattr(constants, "CONVENTIONS_PATH", cache)
+    monkeypatch.setattr(constants, "CONVENTIONS_LOCK_PATH", sidecar)
+    with pytest.raises(RuntimeError, match="source_commit"):
+        constants._load_conventions()
