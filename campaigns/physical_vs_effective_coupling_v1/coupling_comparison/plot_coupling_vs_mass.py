@@ -29,11 +29,11 @@ fig, ax = plt.subplots(figsize=(7.2, 5.0), dpi=150)
 ax.set_yscale("log")
 
 ax.plot(masses, physical, "-o", color=C_PHYS, linewidth=2, markersize=7, zorder=3,
-        label="physical 2HDM (2HDMC, M2=m$_\\phi^2$ anchor)")
+        label=r"physical 2HDM (2HDMC, M$^2$=m$_\phi^2$ anchor)")
 ax.plot(masses, ef_simple, "-s", color=C_EFSIMPLE, linewidth=2, markersize=7, zorder=3,
         label=r"EF$_{\rm simple}$ = 8m$_\phi^2$/v")
 ax.plot(masses, ef_m2, "-^", color=C_EFM2, linewidth=2, markersize=7, zorder=3,
-        label=r"EF$_{m2}$ = 8(m$_\phi^2$-M22$^2$)/v")
+        label=r"EF$_{m2}$ = 8(m$_\phi^2$-M$_{22}^2$)/v  (Higgs-basis M$_{22}^2$, not the M$^2$ anchor above)")
 
 for x, y in zip(masses, physical):
     ax.annotate(f"{y:.1f}", (x, y), textcoords="offset points", xytext=(0, 9),

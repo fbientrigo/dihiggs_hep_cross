@@ -366,44 +366,111 @@ pass additionally anchored the two-identical-scalar case via `GC_93`) — this
 had never been demonstrated anywhere in the campaign before the first
 review.
 
-## 12. New finding: mass-dependent quantities are wrong at this benchmark's tanβ (trilinear coupling unaffected)
+## 12. Mass-dependent quantities were wrong at this benchmark's tanβ — now fixed at the 2HDMC source level (trilinear coupling was never affected)
 
 **The single most important correction from `SOL_FINAL_REVIEW.md`, and not
-about the trilinear coupling at all.** `get_hmass()` routes through
-`get_param_phys()` → `get_m12_2()` — the same function whose ~4.5%
-round-trip error at tanβ=4×10⁷ this report already flagged (§9-adjacent,
-`derivation/physical_trilinear_source_trace.md` §4) as making the
-`m12_2_out` CSV column unusable. That description under-stated the blast
-radius: **2HDMC's own reconstructed masses are wrong by 1.5-4.6% at this
-tanβ**, not just its reconstructed m12². Measured directly:
+about the trilinear coupling at all — now fixed, not just documented.**
+`get_hmass()` routes through `get_param_phys()` → `get_m12_2()` — the same
+function whose ~4.5% round-trip error at tanβ=4×10⁷ this report already
+flagged as making the `m12_2_out` CSV column unusable. That earlier
+description under-stated the blast radius: **2HDMC's own reconstructed
+masses were wrong by 1.5-4.6% at this tanβ**, not just its reconstructed
+m12². Measured directly, before the fix:
 
-| requested m_φ | 2HDMC's own `get_hmass(2)` | error |
+| requested m_φ | 2HDMC's own `get_hmass(2)` (before fix) | error |
 |---|---|---|
 | 200 | 190.73486397 | −4.6% |
 | 250 | 244.25980609 | −2.3% |
 | 300 | 295.48518068 | −1.5% |
 
-and requested mA=mHp=300 both reconstruct to 295.23. **Every
-`total_width_h2_GeV` and `ctau_h2_mm` value in `m2_study/m2_variation.csv`
-and `m2_study/sensitivity_probes.csv`** (the two files run at this
-benchmark's tanβ=4×10⁷) **is therefore computed at the wrong φ mass** — for
-a programme whose headline downstream observable is cτ, this is the
-largest-blast-radius unflagged issue either review round found.
+and requested mA=mHp=300 both reconstructed to 295.23. Every
+`total_width_h2_GeV`/`ctau_h2_mm` value in `m2_study/m2_variation.csv` and
+`m2_study/sensitivity_probes.csv` was therefore computed at the wrong φ
+mass — for a programme whose headline downstream observable is cτ, this
+was the largest-blast-radius unflagged issue either review round found.
 
-**The trilinear coupling itself is immune**: `get_coupling_hhh` depends
-only on λ1..7 and β, and never calls `get_m12_2()` — which is exactly why
-(★) and every number in `coupling_comparison/coupling_table.csv` survive
-this issue untouched. This is a width/ctau-specific contamination, not a
-coupling-specific one.
+**Root cause and fix — see `validation/MASS_RECONSTRUCTION_FIX.md` for the
+full derivation.** `THDM` stores only the "generic basis" (λ[1..7], m22_2,
+tanβ); `set_param_phys()` received the physical masses and m12² as exact
+inputs but discarded them into that basis, where at extreme tanβ the
+correction term `m12_2*ctb` is smaller than the floating-point noise floor
+of the O(v²) leading term — the information is destroyed at construction,
+not merely computed imprecisely. `get_m12_2()`'s attempt to invert that
+step is therefore an information-theoretically lossy operation that no
+reformulation can fix. **The actual fix**: `THDM` now caches the exact
+physical-basis values at the one point they are known exactly
+(`set_param_phys`/`set_param_phys_lam1`, directly or via
+`read_LesHouches()`'s physical-basis branch) and returns the cache from
+`get_param_phys()` — bypassing `get_m12_2()` and its lossy round-trip
+entirely for these construction routes, which are the only ones this
+campaign or any other campaign in `~/atlas_dihiggs` exercises at extreme
+tanβ. A second, independent conditioning bug was found and fixed the same
+way: `set_param_phys`'s own `lambda[1]` formula divides by `cos²β`
+(≈1/tanβ²), producing up to 20-40% relative error in `lambda[1]` at this
+benchmark's tanβ even with the masses fix in place;
+`set_param_phys_lam1()` (the actual construction route `GeneralProbe.cpp`
+uses) now overwrites `lambda[1]` with its own exact input the same way. A
+third, independent bug (catastrophic cancellation in the `m_h`/`m_H`
+eigenvalue formula, generic to any construction route with `m_h << m_H`,
+not specific to large tanβ) was fixed with the standard stable-quadratic
+rewrite. Patched in `THDM.cpp`/`THDM.h` and verified with an exact
+round-trip test (`set_param_phys` → `get_hmass`/`get_param_phys`, tanβ ∈
+{10, 1e4, 4e7, 1e8}, all exact to machine precision after the fix, vs. up
+to 20% mass error and 90% `lambda[1]` error before it) and a regression
+check (the trilinear coupling changed only in its last significant digit
+across the fix — `get_coupling_hhh` never called `get_m12_2()` and still
+doesn't).
 
-**Fix applied this round:** `GeneralProbe.cpp` now echoes 2HDMC's own
-reconstructed `hmass_h2_reconstructed_GeV`, `hmass_hA_reconstructed_GeV`,
-`hmass_hHp_reconstructed_GeV` alongside the width/ctau columns in both
-affected CSVs, and `m2_study/m2_variation_summary.md` now states the
-caveat explicitly. **Not fixed** (pre-existing 2HDMC behavior, out of this
-mission's scope): the underlying `get_m12_2()` catastrophic-cancellation
-bug itself. Any future use of the width/ctau columns in those two files at
-this tanβ should read the new reconstructed-mass columns first.
+**The trilinear coupling itself was never affected**: `get_coupling_hhh`
+depends only on λ1..7 and β directly, and never calls `get_m12_2()` —
+which is exactly why (★) and every number in
+`coupling_comparison/coupling_table.csv` survived this issue untouched
+(regenerated values differ from the pre-fix ones only in the last digit,
+consistent with ordinary floating-point noise, not a physics change). This
+was always a width/ctau-specific contamination, never a coupling-specific
+one.
+
+**Regenerated with the fix**: `m2_study/m2_variation.csv`,
+`m2_study/sensitivity_probes.csv`, and `m2_study/*_illustrative.csv` (the
+latter unaffected in value, tanβ=10, but regenerated for consistency).
+`hmass_h2_reconstructed_GeV`/`hmass_hA_reconstructed_GeV`/
+`hmass_hHp_reconstructed_GeV` now equal the requested masses exactly (e.g.
+mphi=200 row: 192.587→200.000). In `m2_variation.csv`, `total_width_h2_GeV`/
+`ctau_h2_mm` shifted by roughly 5-10% relative to their pre-fix values,
+consistent with the previously measured mass error (e.g. mphi=200, row 1:
+total width 1.198e7→1.287e7 GeV, cτ 1.648e-20→1.533e-20 mm). In
+`sensitivity_probes.csv` (the r=M²/mφ²=1 anchor point specifically) the
+genuine shift is smaller, ≈1.7% — see the note below on why that number
+took two attempts to get right.
+`m2_study/m2_variation_summary.md`'s caveat now states the fix, not just
+the defect.
+
+**Post-review correction, 2026-09-03 (added when re-opening this section —
+see below for why it needed reopening):** the fix above was correct, but
+the FIRST regeneration of these CSVs was run against a `2hdmc_build/`
+library that had been rebuilt with incremental `make` instead of `make
+clean && make`. 2HDMC's `DecayTable`/`Constraints` hold a `THDM model;`
+member by value, so an incremental build after `THDM.h` grew in size
+silently linked the new `THDM.o` against stale `DecayTable.o`/
+`Constraints.o` — a real memory-layout (ODR) violation with no compiler
+warning. This produced a spuriously large (~176×, not ~1.7%) swing in
+`sensitivity_probes.csv`'s anchor-point row, and — more seriously —
+fabricated three even larger "corrections" that were briefly written into
+other repos' research records (a mission report, a UFO production
+candidate's provenance note, and a sibling campaign's summary), overriding
+at least one of those documents' own, correct, prior conclusions in the
+process. An independent adversarial review I dispatched
+(`validation/SOL_FINAL_REVIEW_2.md`) caught this; I rebuilt every 2HDMC
+checkout in this workspace with `make clean && make`, fixed the Makefiles
+themselves (`-MMD -MP` transitive header-dependency tracking, so a plain
+`make` can no longer silently leave stale objects after a header-size
+change), and corrected every document that had the wrong numbers,
+including this one. A further bias/behavior audit
+(`validation/SOL_BIAS_AUDIT.md`) independently re-verified the corrected
+numbers a third time from scratch and found one further place
+(`m2_study/m2_variation_summary.md`) where the stale-build number had been
+re-asserted during the correction pass itself; that has also been fixed.
+Full account: `validation/MASS_RECONSTRUCTION_FIX.md` §7-8.
 
 ---
 
@@ -416,24 +483,35 @@ campaigns/physical_vs_effective_coupling_v1/
   2hdmc_build/                          (private compiled 2HDMC copy + src/GeneralProbe.cpp)
   inputs/{benchmark_points,christopher_xsec_reference}.csv
   validation/{numerical_crosschecks.csv, SOL_REVIEW.md, SOL_REVIEW_RESPONSE.md,
-              SOL_FINAL_REVIEW.md, SOL_FINAL_RESPONSE.md}
+              SOL_FINAL_REVIEW.md, SOL_FINAL_RESPONSE.md,
+              MASS_RECONSTRUCTION_FIX.md, SOL_FINAL_REVIEW_2.md, SOL_FINAL_RESPONSE_2.md}
   madgraph_smoke/{README.md, commands.txt, smoke_results.csv}
   TEAM_COUPLING_BRIEF.md
   m2_study/{m2_variation, m2_variation_moderate_tanbeta_illustrative,
             m2_variation_finegrid_tanbeta10_illustrative, sensitivity_probes}.csv,
            m2_variation_summary.md
   coupling_comparison/{coupling_table.csv, coupling_vs_mass.{png,pdf},
-                       physical_vs_M2.{png,pdf}, make_plot.py}
+                       physical_vs_M2.{png,pdf}, plot_coupling_vs_mass.py,
+                       plot_physical_vs_M2.py}
   ufo/{LLscalar_v3_UFO_GHphiphi_external/, externalization_diff.patch, validation.md}
   logs/run_all_probes.py
 ```
 
-**Modified:** none outside this campaign directory. `git commit 30afea6`
-froze the reviewed photonic-requalification campaign (Phase 0) before this
-work began; `~/atlas_dihiggs/dihiggs`, `~/atlas_dihiggs/dihiggs_ufo`
-untouched (verified: `git status --short` clean in `dihiggs`; pre-existing
-untracked `dihiggs_ufo` deletions noted in `ufo/validation.md` §1 predate
-and are unrelated to this session).
+**Modified outside this campaign directory (§12 mass-reconstruction fix
+only):** `~/atlas_dihiggs/dihiggs/2hdmc/src/THDM.{cpp,h}` (canonical 2HDMC,
+the actual bug fix — this is the one exception to the freeze principle
+below, made deliberately and documented in full in
+`validation/MASS_RECONSTRUCTION_FIX.md`, not an accidental touch), plus the
+same patch propagated to every other 2HDMC checkout found under
+`~/atlas_dihiggs` (`mission_runs/20260831_trilinear_lambda1_audit/2hdmc_build`,
+`dihiggs_boundary/lib/2HDMC-1.8.0`) and their downstream artifacts —
+see `validation/MASS_RECONSTRUCTION_FIX.md` for the full list.
+`~/atlas_dihiggs/dihiggs_ufo` untouched (verified: pre-existing untracked
+deletions noted in `ufo/validation.md` §1 predate and are unrelated to this
+session). `git commit 30afea6` froze the reviewed photonic-requalification
+campaign (Phase 0) before the original coupling-study work began; that
+campaign's own artifacts were separately re-checked (not blindly
+regenerated) against the fixed 2HDMC, see `validation/MASS_RECONSTRUCTION_FIX.md`.
 
 ## Exact validation commands
 
@@ -456,8 +534,9 @@ g++ src/GeneralProbe.cpp -Isrc -std=c++11 -Wall -O3 -fopenmp -L lib -l2HDMC -lgs
 cd ../..
 /home/fabian/atlas_dihiggs/.venv/bin/python logs/run_all_probes.py
 
-# Regenerate the plot:
-/home/fabian/atlas_dihiggs/.venv/bin/python coupling_comparison/make_plot.py
+# Regenerate the plots (one script per figure):
+/home/fabian/atlas_dihiggs/.venv/bin/python coupling_comparison/plot_coupling_vs_mass.py
+/home/fabian/atlas_dihiggs/.venv/bin/python coupling_comparison/plot_physical_vs_M2.py
 
 # UFO externalization smoke test:
 cd ufo/LLscalar_v3_UFO_GHphiphi_external && python3 -c "import parameters, couplings; print(couplings.GC_90.value, parameters.GHphiphi.value)"
@@ -466,14 +545,17 @@ cd ufo/LLscalar_v3_UFO_GHphiphi_external && python3 -c "import parameters, coupl
 
 ## Unresolved scientific questions
 
-1. **Mass-dependent quantities (decay width, cτ) at tanβ=4×10⁷ are computed
-   at the wrong φ mass** (§12, `SOL_FINAL_REVIEW.md` Additional issue #3) —
-   flagged and the reconstructed masses are now echoed directly in the CSVs,
-   but the underlying `get_m12_2()` cancellation bug is pre-existing 2HDMC
-   behavior, not something this mission's scope permits fixing. Any future
-   width/cτ analysis at this tanβ needs either a numerically safer 2HDMC
-   mass-input route or an independent width calculation. The trilinear
-   coupling itself is unaffected — see §12 for why.
+1. ~~**Mass-dependent quantities (decay width, cτ) at tanβ=4×10⁷ are computed
+   at the wrong φ mass**~~ — **RESOLVED.** Root-caused and fixed at the
+   2HDMC source level (§12, `validation/MASS_RECONSTRUCTION_FIX.md`); all
+   affected CSVs in this campaign regenerated. Two residual, narrower items
+   remain open, both documented rather than silently fixed: whether
+   `set_param_phys_lam1`'s own `m12_2` formula reintroduces a cancellation
+   for large λ7 (not exercised by any λ7=0 benchmark here), and
+   `read_LesHouches`'s generic/Higgs-basis branches, `recalc_tan_beta`'s own
+   internal conditioning, and `get_param_higgs()`'s `m_Hp` formula for
+   non-cached construction routes, none of which are exercised at extreme
+   tanβ by anything in `~/atlas_dihiggs` today.
 2. **Whether EF_simple corresponds to *any* physical 2HDM limit** away from
    exact alignment was not tested — §8 now proves impossibility at exact
    alignment for all tanβ and all mφ in this benchmark's regime (λ6=λ7=0

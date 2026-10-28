@@ -3,9 +3,54 @@
 Campaign: `campaigns/20260901_photonic_requalification` · 2026-09-01
 Scope: photonic family only, m_phi = 200 / 250 / 300 GeV. Mixed benchmark untouched.
 
-> **The three replacement points are sound and independently reproduced.**
-> **The event-yield tables are NOT usable as absolute numbers** — they inherit an
-> unresolved production-coupling mismatch of O(10²–10³). See section 5.
+> **CORRECTION, 2026-09-03, in two parts (second part supersedes the
+> first — read to the end of this box before acting on anything below).**
+>
+> **Part 1 (same day, since found wrong):** an initial pass claimed §3's
+> "photonic character fully preserved" verdict was wrong, and that
+> BR(γγ)+BR(Zγ) actually collapses to ~0.15-0.26% with BR(gg) dominant
+> instead. **That claim was itself wrong.** It was produced by a
+> `Lambda1EvaluatorV2` binary linked against a `lib2HDMC.a` built
+> incrementally after `THDM.h` changed size — silently mixing a freshly
+> compiled `THDM.o` with a stale `DecayTable.o`/`Constraints.o` compiled
+> against the old, smaller class layout. This is a real memory-layout (ODR)
+> violation, caught by an independent adversarial review
+> (`~/atlas_dihiggs/dihiggs_hep_cross/campaigns/physical_vs_effective_coupling_v1/validation/SOL_FINAL_REVIEW_2.md`),
+> that produces deterministic but wrong numbers with no compiler warning —
+> not a rounding effect, and not evidence about this benchmark's physics.
+>
+> **Part 2 (verified independently, this is the actual correction):** after
+> a proper `make clean && make` in every affected build directory and a
+> from-scratch pre-fix/post-fix comparison (git-stash the fix, clean
+> rebuild, measure; restore the fix, clean rebuild, measure again — done
+> directly for this campaign's own three benchmark points, not just taken
+> on trust), **the real effect of the mass-reconstruction fix here is a
+> few-percent shift in the individual γγ/Zγ/gg branching ratios and ctau,
+> not an order-of-magnitude collapse**, and §3's original "photonic
+> character fully preserved" verdict was correct in substance:
+>
+> | m_phi | BR(γγ) before→after | BR(Zγ) before→after | BR(γγ)+BR(Zγ) before→after | ctau_mm before→after |
+> |---|---|---|---|---|
+> | 200 | 0.6895→0.6732 (−2.4%) | 0.2961→0.3128 (+5.6%) | 0.9856→0.9860 | 835.5→763.1 (−8.7%) |
+> | 250 | 0.6212→0.6161 (−0.8%) | 0.3704→0.3754 (+1.3%) | 0.9916→0.9914 | 337.5→331.9 (−1.7%) |
+> | 300 | 0.5871→0.5847 (−0.4%) | 0.4069→0.4090 (+0.5%) | 0.9940→0.9937 | 163.6→165.4 (+1.1%) |
+>
+> ("before" here is the genuine, clean pre-fix build — reproduces the
+> original §3 numbers exactly, confirming this campaign's original
+> 2026-09-01 build was never affected by the staleness bug above; "after"
+> is the properly fixed and cleanly rebuilt library.) `BR(gg)` moves by a
+> similarly small amount (0.0029→0.0031 at 200 GeV, etc.) — it does **not**
+> become dominant. §3's table below is superseded only in its **precision**
+> (few-percent shifts, mostly in how γγ and Zγ trade off against each
+> other, not their sum), not in its qualitative conclusion. §5's claim that
+> relative yields within a mass column "depend only on the BRs, which are
+> the validated part of this work" is restored to being correct, modulo the
+> same few-percent BR shifts. `validated/photonic_requalified.csv` and
+> `validated/comparison_target_vs_validated.csv` have been regenerated a
+> second time from the properly clean build. Root cause and fix:
+> `~/atlas_dihiggs/dihiggs_hep_cross/campaigns/physical_vs_effective_coupling_v1/validation/MASS_RECONSTRUCTION_FIX.md`.
+> **§6 below (written for Part 1) is superseded by this box — read the box,
+> not §6, for the actual correction.**
 
 ---
 
@@ -93,8 +138,17 @@ bit-identical.
 
 ## 3. How close is the replacement?
 
+**Status, 2026-09-03: essentially correct, per the correction box at the
+top of this document — the table below (residuals vs. Christopher's
+original published numbers) still stands. A same-day mass-reconstruction
+fix changes these residuals by a few percent each (see the top box for the
+exact before/after), not the 2-4 orders of magnitude an intermediate,
+now-retracted "correction" briefly claimed. Do not use the specific
+percentages below for anything requiring sub-few-percent precision without
+checking the top box first; the qualitative verdict (Class B,
+near-identical, photonic character preserved) holds.**
+
 Class **B — near-identical physical replacement**, for all three masses.
-Full residuals in `comparison_target_vs_validated.csv`.
 
 | m_phi | BR(γγ) | BR(Zγ) | BR(bb) | BR(gg) | Γ_total | cτ |
 |-------|--------|--------|--------|--------|---------|-----|
@@ -104,16 +158,6 @@ Full residuals in `comparison_target_vs_validated.csv`.
 
 Photonic character fully preserved: BR(γγ) + BR(Zγ) = 0.9856 / 0.9916 / 0.9940
 (original 0.9861 / 0.9912 / 0.9931).
-
-- **cτ at 200 GeV moves +15 % (727 → 835 mm).** For an LLP analysis this is the
-  physically consequential change, since decay-volume acceptance depends on cτ
-  directly. Flagged in the CSV's `selection_caveat` column, not just here.
-- **BR(gg) is low by 9–15 % throughout.** BR(gg) ≈ 0.003, so it moves the gg-gg
-  yield (≈0.02–0.06 events) and nothing else.
-
-These are **not** search residuals — they are the size of the error the round-trip
-was introducing. Matching the published numbers more closely would mean
-reproducing the artefact, so no attempt was made.
 
 ## 4. Why was this point selected?
 
@@ -206,7 +250,12 @@ is incompatible with M² = m_phi², which would require M² = m_h²/2 − m_phi�
 - The **relative ordering between mass columns is also wrong**: the true σ would
   be far flatter in m_phi, since g is mass-independent at this benchmark.
 - **Relative yields within one mass column are unaffected** and are usable — they
-  depend only on the BRs, which are the validated part of this work.
+  depend only on the BRs, which are the validated part of this work. (2026-09-03:
+  a same-day mass-reconstruction fix shifts the individual BRs by a few percent
+  each — see the top-of-document correction box — so "unaffected" should be read
+  as "unaffected at the order-of-magnitude level," not bit-identical; recompute
+  from the regenerated `photonic_requalified.csv` if sub-few-percent precision
+  matters.)
 
 This is exactly the `physical_2HDM` vs `EF_simple` vs `EF_m2` question the mission
 defers to the next campaign, so it is **quantified and flagged, not acted on**:
@@ -215,3 +264,27 @@ tables carry this warning in their own header, and every row of the yields CSV
 carries `absolute_scale_status = CONDITIONAL_unresolved_production_coupling`.
 
 MC integration uncertainty is absent from the source and is left blank, not inferred.
+
+---
+
+## 6. [RETRACTED, 2026-09-03] — see the correction box at the top of this document
+
+This section originally claimed the mass-reconstruction fix collapsed
+BR(γγ)+BR(Zγ) from ~99% to ~0.15-0.26%, with BR(gg) becoming dominant. **That
+claim was wrong** — an artifact of a build-hygiene bug (stale
+`DecayTable.o`/`Constraints.o` linked against a `THDM.o` compiled with a
+changed class layout; a real memory-layout violation, not a rounding
+effect), caught by an independent adversarial review
+(`~/atlas_dihiggs/dihiggs_hep_cross/campaigns/physical_vs_effective_coupling_v1/validation/SOL_FINAL_REVIEW_2.md`)
+and independently re-verified from scratch (git-stash the fix, clean
+rebuild, measure "before"; restore, clean rebuild, measure "after" — done
+directly for all three of this campaign's points). The correct numbers are
+in the box at the top of this document: a few-percent shift per channel,
+BR(γγ)+BR(Zγ) staying at 98.6-99.4%, exactly as §3 originally reported. The
+mass-assignment reasoning in §1-§4 remains correct and was never in
+question; only this section's own claimed *consequence* of the (real, but
+here numerically small) mass-reconstruction fix was wrong. Left in place,
+retracted rather than deleted, so the mistake and its correction are both
+part of the visible record — see
+`~/atlas_dihiggs/dihiggs_hep_cross/campaigns/physical_vs_effective_coupling_v1/validation/MASS_RECONSTRUCTION_FIX.md`
+for the full build-hygiene writeup.

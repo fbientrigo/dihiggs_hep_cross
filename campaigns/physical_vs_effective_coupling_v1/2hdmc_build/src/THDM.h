@@ -900,6 +900,20 @@ class THDM {
   double      sinba;
   bool        params_set;
   double      v2;
+
+  // Physical-basis cache: set_param_phys()/set_param_phys_lam1() receive
+  // m_h, m_H, m_A, m_Hp and m12_2 as EXACT inputs, but THDM's only
+  // persistent state is the generic basis (lambda[], m22_2, beta) above.
+  // At extreme tan(beta), folding m12_2 into m22_2 (set_param_phys, the
+  // "m12_2*ctb" term) loses it below the double-precision noise floor of
+  // the O(v^2) leading term -- get_m12_2()'s read-back is then an
+  // information-theoretically lossy inversion, not merely an imprecise
+  // one. Caching the exact input here, and invalidating it on any call
+  // that changes the generic-basis state, is the only way to avoid ever
+  // discarding that information for the entry points where it is known
+  // exactly. See validation/MASS_RECONSTRUCTION_FIX.md.
+  bool        phys_cache_valid;
+  double      phys_mh, phys_mH, phys_mA, phys_mHp, phys_m12_2;
   bool        lam1_validation_available;
   double      lam1_validation_input;
   double      lam1_validation_recomputed;

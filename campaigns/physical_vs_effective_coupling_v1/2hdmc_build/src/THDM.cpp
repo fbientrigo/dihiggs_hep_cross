@@ -204,6 +204,9 @@ void THDM::init() {
   beta	=	0;
   m22_2	=	0;
 
+  phys_cache_valid = false;
+  phys_mh = phys_mH = phys_mA = phys_mHp = phys_m12_2 = 0.;
+
   kappa_D = gsl_matrix_alloc(3,3);
   kappa_U = gsl_matrix_alloc(3,3);
   kappa_L = gsl_matrix_alloc(3,3);
@@ -235,6 +238,7 @@ bool THDM::set_param_gen(double lambda1, double lambda2, double lambda3,
 			 double lambda7, double m12_2, double tan_beta) {
 
   clear_param_phys_lam1_validation();
+  phys_cache_valid = false;
 
   // tan(beta) must be greater than 0 for valid basis
   if (tan_beta<=0) {
@@ -319,6 +323,7 @@ bool THDM::set_param_phys(double m_h,double m_H, double m_A, double m_Hp,
 			  double m12_2,double tan_beta) {
 
   clear_param_phys_lam1_validation();
+  phys_cache_valid = false;
 
   if (m_h>m_H) {
     cerr << "WARNING: Cannot set physical masses such that m_H < m_h\n";
@@ -351,6 +356,18 @@ bool THDM::set_param_phys(double m_h,double m_H, double m_A, double m_Hp,
 
   double cba = sqrt(1.-sba*sba);
 
+  // NOTE: this formula divides by cb2=cos(beta)^2, which underflows toward
+  // 0 as tan(beta) grows -- at tan(beta)~4e7, lambda[1] here can be wrong
+  // by O(10%-100%) relative (measured; see validation/MASS_RECONSTRUCTION_FIX.md),
+  // independent of, and in addition to, the get_m12_2() mass-reconstruction
+  // issue. lambda[2..5] and m22_2 below do not suffer this (their formulas
+  // divide by sb2 or sb*cb, not cb2, and are stable across the same range).
+  // Physically this is expected, not just a numerical artifact: as
+  // tan(beta)->infinity the first doublet's vev vanishes, so its
+  // self-coupling lambda1 becomes only weakly constrained by the physical
+  // mass spectrum. Callers who need lambda1 to be accurate at extreme
+  // tan(beta) should supply it directly via set_param_phys_lam1(), which
+  // overwrites this ill-conditioned reconstruction with the exact input.
   lambda[1]=(m_H*m_H*ca2+m_h*m_h*sa2-m12_2*tb)/v2/cb2-1.5*lambda6*tb+0.5*lambda7*tb*tb*tb;
   lambda[2]=(m_H*m_H*sa2+m_h*m_h*ca2-m12_2*ctb)/v2/sb2+0.5*lambda6*ctb*ctb*ctb-1.5*lambda7*ctb;
   lambda[3]=((m_H*m_H-m_h*m_h)*ca*sa+2.*m_Hp*m_Hp*sb*cb-m12_2)/v2/sb/cb-0.5*lambda6*ctb-0.5*lambda7*tb;
@@ -360,6 +377,16 @@ bool THDM::set_param_phys(double m_h,double m_H, double m_A, double m_Hp,
   sinba = sba;
 
   params_set=true;
+
+  // m_h, m_H, m_A, m_Hp and m12_2 were given exactly -- cache them so
+  // get_param_phys()/get_hmass() never have to recover them from the
+  // lossy m22_2/lambda[] round-trip (see get_m12_2()'s header comment).
+  phys_mh = m_h;
+  phys_mH = m_H;
+  phys_mA = m_A;
+  phys_mHp = m_Hp;
+  phys_m12_2 = m12_2;
+  phys_cache_valid = true;
 
   return params_set;
 }
@@ -371,6 +398,7 @@ bool THDM::set_param_phys_lam1(double m_h,double m_H, double m_A, double m_Hp,
 			       double tan_beta) {
 
   clear_param_phys_lam1_validation();
+  phys_cache_valid = false;
 
   if (m_h>m_H) {
     cerr << "WARNING: Cannot set physical masses such that m_H < m_h\n";
@@ -410,7 +438,20 @@ bool THDM::set_param_phys_lam1(double m_h,double m_H, double m_A, double m_Hp,
   double ca  = cos(alpha_loc);
   double ca2 = ca*ca;
 
-  // Reconstruct m12_2 from lambda1 by inverting the set_param_phys formula
+  // Reconstruct m12_2 from lambda1 by inverting the set_param_phys formula.
+  // At extreme tan(beta), cb2~1/tb^2 keeps the subtracted term small
+  // relative to the leading m_H^2*ca2+m_h^2*sa2 -- UNLESS lambda7's tb^3
+  // factor overcomes cb2's 1/tb^2 decay (net ~tb), reintroducing the same
+  // cancellation get_m12_2() has. MEASURED (independent review,
+  // validation/SOL_FINAL_REVIEW_2.md B.4): at tan(beta)=4e7 this is NOT a
+  // "large lambda7" concern -- the diagnostic lambda1 round-trip error
+  // already reaches O(10^2) by lambda7=1e-4, well inside typical 2HDM scan
+  // ranges. get_hmass()'s mass-exactness guarantee is NOT affected (the
+  // mass cache is independent of this m12_2), but lambda[2..5]/m22_2 (and
+  // therefore get_param_higgs(), get_coupling_hhh(), DecayTable widths,
+  // Constraints checks) ARE exposed at non-negligible lambda7. Not
+  // exercised by any lambda7=0 benchmark in this repository -- see
+  // validation/MASS_RECONSTRUCTION_FIX.md.
   double m12_2 = (m_H*m_H*ca2+m_h*m_h*sa2
                  - v2*cb2*(lambda1+1.5*lambda6*tb-0.5*lambda7*tb*tb*tb))/tb;
 
@@ -419,6 +460,12 @@ bool THDM::set_param_phys_lam1(double m_h,double m_H, double m_A, double m_Hp,
     return false;
   }
 
+  // Diagnostic only: measures how far set_param_phys()'s own lambda[1]
+  // formula (THDM.cpp:~397, divides by cb2 -- catastrophically small at
+  // extreme tan(beta), independent of the m12_2/get_m12_2() issue) would
+  // have drifted from the exact input if left uncorrected. Kept for
+  // backward-compatible introspection via get_param_phys_lam1_validation();
+  // does not reflect the corrected state below.
   double lambda1_rt,lambda2_rt,lambda3_rt,lambda4_rt,lambda5_rt,lambda6_rt,lambda7_rt,m12_rt,tanb_rt;
   get_param_gen(lambda1_rt,lambda2_rt,lambda3_rt,lambda4_rt,lambda5_rt,lambda6_rt,lambda7_rt,m12_rt,tanb_rt);
 
@@ -427,6 +474,16 @@ bool THDM::set_param_phys_lam1(double m_h,double m_H, double m_A, double m_Hp,
   lam1_validation_recomputed = lambda1_rt;
   lam1_validation_abs_error = abs(lambda1_rt-lambda1);
   lam1_validation_warning = (lam1_validation_abs_error > THDM::EPS);
+
+  // lambda1 was given exactly by the caller; lambda[2..5] and m22_2 (see
+  // set_param_phys() above) do not depend on lambda[1], so overwriting it
+  // here with the exact input -- instead of trusting the ill-conditioned
+  // formula that just computed lambda1_rt -- corrects the object's actual
+  // state without affecting anything else it already derived. This is the
+  // same "cache the value at the one point it's known exactly" fix as
+  // phys_cache_valid above, applied to lambda[1] instead of the masses.
+  // See validation/MASS_RECONSTRUCTION_FIX.md.
+  lambda[1] = lambda1;
 
   if (lam1_validation_warning) {
     cerr << "WARNING: set_param_phys_lam1 lambda_1 round-trip abs error = "
@@ -441,6 +498,7 @@ bool THDM::set_param_higgs(double Lambda1, double Lambda2, double Lambda3,
 			   double Lambda4, double Lambda5, double Lambda6,
 			   double Lambda7, double m_Hp) {
   clear_param_phys_lam1_validation();
+  phys_cache_valid = false;
   if (m_Hp<0) {
     params_set = false;
     return params_set;
@@ -565,6 +623,8 @@ bool THDM::set_param_hybrid_sba(double mh, double mH, double sba, double Z4,
 
 
 bool THDM::set_inert(double m_h,double m_H, double m_A, double m_Hp, double lambda2, double lambda3) {
+
+  phys_cache_valid = false;
 
   if ((m_h<=0)||(m_H<=0)||(m_A<=0)||(m_Hp<=0)) {
     params_set = false;
@@ -1072,6 +1132,24 @@ void THDM::get_param_phys(double &m_h,double &m_H, double &m_A, double &m_Hp,
   lambda6=lambda[6];
   lambda7=lambda[7];
   tan_beta=tan(beta);
+  sba = sinba;
+
+  // set_param_phys()/set_param_phys_lam1() (directly, or via
+  // read_LesHouches()'s physical-basis branch) received these masses and
+  // m12_2 as exact inputs. Returning the cache instead of re-deriving them
+  // through get_m12_2()'s lossy round-trip avoids the catastrophic-
+  // cancellation error documented on get_m12_2() -- at extreme tan(beta)
+  // the re-derivation is off by several percent, not a rounding-level
+  // difference. See validation/MASS_RECONSTRUCTION_FIX.md.
+  if (phys_cache_valid) {
+    m_h = phys_mh;
+    m_H = phys_mH;
+    m_A = phys_mA;
+    m_Hp = phys_mHp;
+    m12_2 = phys_m12_2;
+    return;
+  }
+
   double sb  = sin(beta);
   double sb2 = sb*sb;
   double cb	 = cos(beta);
@@ -1089,10 +1167,18 @@ void THDM::get_param_phys(double &m_h,double &m_H, double &m_A, double &m_Hp,
   double M112   =  m_A2*sb2+v2*(lambda[1]*cb2+2.*lambda[6]*sb*cb+lambda[5]*sb2);
   double M122   = -m_A2*sb*cb+v2*((lambda[3]+lambda[4])*sb*cb+lambda[6]*cb2+lambda[7]*sb2);
   double M222   =  m_A2*cb2+v2*(lambda[2]*sb2+2.*lambda[7]*sb*cb+lambda[5]*cb2);
-  double m_h2   =  0.5*(M112+M222-sqrt((M112-M222)*(M112-M222)+4.*M122*M122));
-  double m_H2   =  0.5*(M112+M222+sqrt((M112-M222)*(M112-M222)+4.*M122*M122));
-
-  sba = sinba;
+  double disc   =  sqrt((M112-M222)*(M112-M222)+4.*M122*M122);
+  // Stable quadratic-root pair: the sum-root (M112+M222+disc) is a sum of
+  // same-signed terms, safe in floating point; the other root is then
+  // recovered from the determinant identity m_h2*m_H2 = M112*M222-M122^2
+  // instead of the direct difference (M112+M222-disc), which cancels
+  // catastrophically whenever m_h << m_H. Independent of, and in addition
+  // to, the phys_cache_valid short-circuit above -- this path is still
+  // taken by set_param_gen/set_param_higgs/hybrid/MSSM/LesHouches-generic
+  // constructions.
+  double m_H2   =  0.5*(M112+M222+disc);
+  double m_h2   =  (m_H2 != 0.0) ? (M112*M222-M122*M122)/m_H2
+                                 : 0.5*(M112+M222-disc);
 
   // Sanity checks. Masses set negative in case of troubles
   if (m_h2>0)   m_h=sqrt(m_h2);   else m_h=-sqrt(-m_h2);
@@ -1164,6 +1250,8 @@ void THDM::get_param_hybrid(double &m_h, double &m_H, double &cba,
 
 
 void THDM::recalc_tan_beta(double tan_beta) {
+
+  phys_cache_valid = false;
 
 	// Only positive tan(beta) allowed
   if (tan_beta < 0) return;
@@ -2773,6 +2861,18 @@ void THDM::print_param_higgs() {
 
 double THDM::get_m12_2() {
   //hep-ph/0207010
+  // NOTE: this inverts the m22_2=m12_2*ctb-0.5*v2*(...) folding done in
+  // set_param_gen()/set_param_phys(). At extreme tan(beta), ctb=1/tan(beta)
+  // is tiny, so m12_2 was already folded into m22_2 below double
+  // precision's rounding noise at construction time -- the information is
+  // destroyed there, not merely computed imprecisely here. No
+  // reformulation of the formula below can recover it: this is an
+  // information-theoretic limit of the (lambda[], m22_2, tan(beta))
+  // representation, not a fixable numerical-conditioning bug. Callers that
+  // know m12_2 exactly (set_param_phys()/set_param_phys_lam1(), directly or
+  // via read_LesHouches()'s physical-basis branch) should go through
+  // get_param_phys()'s phys_cache_valid short-circuit instead of this
+  // function. See validation/MASS_RECONSTRUCTION_FIX.md.
   double sb=sin(beta);
   double sb2=sb*sb;
   double cb=cos(beta);
