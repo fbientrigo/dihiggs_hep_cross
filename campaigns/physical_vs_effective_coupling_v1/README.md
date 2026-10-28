@@ -20,9 +20,12 @@ numerically. The next coupling-comparison/production campaign is explicitly
   M² mechanism). Read in this order:
   `physical_trilinear_source_trace.md` → `physical_trilinear_derivation.md`
   → `assumptions_and_limits.md`.
-- `2hdmc_build/` — private compiled copy of canonical 2HDMC (never modifies
-  `~/atlas_dihiggs/dihiggs/2hdmc/`), plus `GeneralProbe.cpp/.o/binary`, the
-  instrument behind every numeric claim below.
+- `2hdmc_build/` — retired (DATA_FLOW N2): it was a private copy of canonical
+  2HDMC plus `GeneralProbe.cpp`, the instrument behind every numeric claim
+  below. The copy is in lake `20261013T001001Z-a347d8`; `GeneralProbe.cpp`
+  now lives in `dihiggs/2hdmc/src/` (`make -C dihiggs/2hdmc GeneralProbe`),
+  and `logs/run_all_probes.py` reproduces the four tracked CSVs byte for byte
+  with it.
 - `inputs/` — benchmark coordinates and Christopher's production reference
   (both reused from the reviewed photonic-requalification campaign, not
   re-derived).

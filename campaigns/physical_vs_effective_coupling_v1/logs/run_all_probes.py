@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Driver for physical_vs_effective_coupling_v1 numeric deliverables.
-Calls the compiled GeneralProbe binary (2hdmc_build/GeneralProbe) only.
+Calls the compiled GeneralProbe binary (dihiggs/2hdmc/GeneralProbe; build: make -C dihiggs/2hdmc GeneralProbe) only.
 Writes: validation/numerical_crosschecks.csv, m2_study/m2_variation.csv,
 m2_study/sensitivity_probes.csv, coupling_comparison/coupling_table.csv.
 """
@@ -10,7 +10,7 @@ import subprocess
 from pathlib import Path
 
 CAMP = Path(__file__).resolve().parents[1]
-PROBE = CAMP / "2hdmc_build" / "GeneralProbe"
+PROBE = CAMP.parents[2] / "dihiggs" / "2hdmc" / "GeneralProbe"  # 2hdmc_build/ retired (DATA_FLOW N2; lake 20261013T001001Z-a347d8)
 
 HEADER = subprocess.run([str(PROBE), "--header"], capture_output=True, text=True, check=True).stdout.strip().split(",")
 
