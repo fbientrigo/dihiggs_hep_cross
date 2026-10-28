@@ -31,3 +31,8 @@ data/2hdmc_scans/*
 .DS_Store
 .vscode/
 .idea/
+
+# 2026-10 untracked campaigns: only pycache, dangling MG symlinks and a vendored MG5 clone (own .git); nothing to track
+campaigns/20261006_honly_production_pilot/
+# compiled build product (source is theory_adapter_positive_g.cpp; copy is in the lake)
+campaigns/20261007_positive_g_envelope/final_review_snapshot/theory_adapter_positive_g

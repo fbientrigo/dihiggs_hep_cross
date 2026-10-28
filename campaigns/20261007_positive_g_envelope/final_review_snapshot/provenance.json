@@ -1,0 +1,99 @@
+{
+  "campaign_id": "20261007_positive_g_envelope",
+  "classification": "exploratory_search; not current authority",
+  "physics": {
+    "model": "2HDM Type-I",
+    "alignment": "exact, sin(beta-alpha)=1",
+    "phi": "H",
+    "lambda7": 0,
+    "mh_GeV": 125.13,
+    "mh_pin": "physics_conventions_v3@158771e4",
+    "v_GeV_from_adapter": 246.22056907348588,
+    "mphi_GeV": [200, 250, 300],
+    "mA_GeV": 300,
+    "mHp_GeV": 300,
+    "tanbeta_domain": [0.5, 100000000]
+  },
+  "authority_discrepancy": "The downstream current-authority registry lists mh=125.20 GeV; the user-pinned physics_conventions_v3 at 158771e4 gives 125.13 GeV. No authority file was changed.",
+  "source_checkouts": {
+    "dihiggs": {"commit": "087ba246e9a9fa34b16249b52629a62703893b5c", "branch": "feat/autoharness", "dirty_shared_checkout": true},
+    "dihiggs_boundary": {"commit": "32dd9df533cd4b4d613daaf516b6b25254bdaf25", "branch": "main", "dirty_shared_checkout": true, "dirty_paths_at_final_audit": [".gitignore", "lib/2HDMC-1.8.0/Makefile", "lib/2HDMC-1.8.0/src/THDM.cpp", "lib/2HDMC-1.8.0/src/THDM.h", "campaigns/", "configs/", "docs/", "python/", "scripts/", "tests/"]},
+    "dihiggs_hep_cross": {"commit": "f8893bea1627b2091f4d3e782ed3a2d575066365", "branch": "main", "dirty_shared_checkout": true},
+    "dihiggs_ufo": {"commit": "7dd02c14e2314f9d172a0782d7860826a52600d6", "branch": "main", "dirty_shared_checkout": false},
+    "authority_docs_sha256_from_read_only_audit": {"CURRENT_DATA_AUTHORITY.md": "6be737d3b26b5e64c2bd640a9489cd972969a3b07c1cfc399dcbc1b3f15e9fa0", "CURRENT_CAMPAIGN.yaml": "7580cb5e7e3fc46fe92cb5836677fda05cf28bfb524ccb9cb77102ee0bbbdb38"},
+    "physics_conventions_v3_sha256": "a807c979270587442cfb798806745c311b8f75091ec94f05429ac04e411327e7",
+    "checkout_status_note": "The initial preflight record incorrectly marked dihiggs_boundary clean. The final read-only status audit found the dirty paths listed above; this discrepancy is recorded here. No source or authority files were modified by this campaign integrator."
+  },
+  "shared_source_sha256": {
+    "dihiggs/2hdmc/src/THDM.cpp": "f219f94946069e1a22318cc43c289292d9bfa70ad626696f2e3de5120bac4dbf",
+    "dihiggs/2hdmc/src/Constraints.cpp": "f4aa2231951fee84f25f85afa44d0f68db07ef4b84df3086113c6fd1bbd00533",
+    "dihiggs/2hdmc/src/SM.cpp": "dfdabe2f9876f7a4c91cec7c774a0103c06827ecc2ca4bac36eb64d655978a8c",
+    "dihiggs/2hdmc/lib/lib2HDMC.a": "0fd8aa9cd89987e94af4270af3bfc587ff9e3fe1169c064be945bb8991d57ec1",
+    "dihiggs/dihiggs/src/DihiggsPointV2Evaluator.cpp": "be231caccbfdcac1c468072d2733903409a9132e7c2bc8cf897a6474b1282dbf",
+    "dihiggs/dihiggs/src/Lambda1EvaluatorV2.cpp": "5e3a81ff53e1778d1700824acbe20d8808aaefdd46a349ef5339d64ddf795eb4"
+  },
+  "appendix_source": "canonical_source/appendix_supplied_excerpt.tex is an excerpt supplied in the user turn, not the complete checked-in source. The exact identity checks used are transcribed in the campaign note and this workspace's THDM.cpp routes.",
+  "resource_preflight": {
+    "logical_cpus": 8,
+    "memory_total_kB": 8003008,
+    "memory_available_at_preflight_kB": 4302148,
+    "swap_total_kB": 8253436,
+    "swap_free_at_preflight_kB": 3048444,
+    "internal_threads_per_evaluator": 1,
+    "measured_batch_eval_ms_per_row": 3.1404,
+    "overhead_zero_row_s": 0.00223,
+    "overhead_one_row_s": 0.00498,
+    "throughput_eval_s": {"1": 332.74, "2": 649.75, "4": 1187.35, "6": 1129.58},
+    "selected_concurrency": 6,
+    "selection_reason": "Three masses times two nonidentical strategies/regions; 6-worker refinement finished in 63.0 s with one thread per process and ample memory headroom. Four workers benchmarked marginally faster, so six was not justified by peak throughput alone.",
+    "monitoring": "A copy of the 12 valid JSONL samples available from /tmp/positive_g_resource_monitor.jsonl is included as resource_monitor_preflight.jsonl. No malformed lines were present in that copy; the host log may omit intervals due to an earlier overlapping writer and is not represented as a continuous trace. Worker evaluation counts and wall times are retained in refinement_summary.json and per-worker refinement.json files."
+  },
+  "search": {
+    "initial_reported_proposals": 25900,
+    "initial_retained_audit_records": 25434,
+    "initial_seed_per_worker": {"m200_DE": 201, "m200_continuation": 202, "m250_DE": 251, "m250_continuation": 252, "m300_DE": 301, "m300_continuation": 302},
+    "refinement_seed_per_worker": {"m200_peak": 91201, "m200_rollover_high": 91202, "m250_peak": 91251, "m250_rollover_high": 91252, "m300_peak": 91301, "m300_rollover_high": 91302},
+    "refinement_retained_records": 31763,
+    "targeted_refinement_wall_s": 63.0149,
+    "cross_mass_transfer": {"evaluated": 163, "proven_cap_screened": 33, "accepted": 163, "improved_target_rows": 66, "seed": "deterministic coordinate transfer; no stochastic seed"},
+    "regional_fixed_lambda1_boundary_probes": {"evaluated": 105, "accepted_outward": 69, "physical_rejections": 36, "numerical_unresolved": 0},
+    "final_rechecked_envelope_rows": 122,
+    "final_rechecked_y2zero_anchors": 3,
+    "final_rechecked_scalar_accepted": 122,
+    "precision_warning_rows": 26,
+    "independent_HB_points": 122,
+    "independent_HB_max_abs_mass_residual_GeV": 3.793468295043567e-08,
+    "independent_HB_max_abs_signed_g_residual_GeV": 4.547473508864641e-13,
+    "high_t_independent_perturbations": {"tested": 40, "accepted": 20, "precision_unresolved": 20},
+    "adapter_sha256": "e2b2150be304333a0c416fa3f05e78556c7dbc9131236cac6276247e569ef065"
+  },
+  "validation_execution": {
+    "cached_replay_command": "./replay_cached.sh",
+    "cached_replay_executed": true,
+    "cold_packet_replay_tested": true,
+    "cold_packet_replay_result": "The parent agent unpacked both archives into /tmp with the campaign binary absent and ran replay_cached.sh; compilation reproduced the adapter hash, five output CSV hashes matched, and the PDF remained one page. Verification record: /tmp/positive_g_packet_verification_path.txt.",
+    "cached_replay_result": "126 t/mass rows (96 warning-free found, 26 precision-warning candidates, 4 unresolved without a candidate); the canonical adapter rechecked 122 search-best rows plus 3 Y2=0 anchors, all accepted; stable-HB validation covered 122 search-best rows; 40 high-t perturbations yielded 20 accepted and 20 precision-unresolved; plots and one-page PDF regenerated.",
+    "full_resampling_command": "./reproduce.sh",
+    "full_resampling_rerun_after_corrected_guards": false,
+    "raw_cache_archive": "campaign_raw_cache.tar.gz",
+    "independent_representative_probe_command": "./independent_review/run_generic_probe.sh"
+  },
+  "independent_review": {
+    "latest_physical_route_file": "independent_review/all125_independent_recheck.csv",
+    "latest_physical_route_rows": 125,
+    "latest_physical_route_coverage": "122 current search-best coordinates plus 3 Y2=0 anchors",
+    "latest_physical_route_all_scalar_accepted": true,
+    "latest_physical_route_precision_warnings": 26,
+    "latest_physical_route_max_abs_signed_g_residual_GeV": 1.8488155e-7,
+    "latest_generic_low_t_file": "independent_review/reviewer_latest_low_t_generic_raw.csv",
+    "latest_generic_low_t_rows": 3,
+    "generic_low_t_all_scalar_accepted": true,
+    "generic_high_t_reviewer_rows": 5,
+    "generic_probe_runner": "independent_review/run_generic_probe.sh"
+  },
+  "controls": {
+    "evaluated": ["physical input construction", "positivity (stability is alias; counted once)", "tree unitarity at 16 pi", "scalar vertex perturbativity at 4 pi", "independent generic-basis masses/alignment", "independent Higgs-basis mass and signed coupling identities"],
+    "pending": ["Yukawa perturbativity", "global minimum", "experimental constraints"],
+    "not_run_by_scope": ["BR", "ctau", "detector", "MadGraph"]
+  }
+}
