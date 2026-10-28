@@ -1,4 +1,0 @@
-mphi_GeV,mh_GeV,mA_GeV,mHp_GeV,sin_beta_minus_alpha,lambda6,lambda7,tan_beta,yukawa_type,role,source
-200.0,125.0,300.0,300.0,1.0,0.0001177689207010651,0.0,40000000.00000001,1,primary_anchor_M2_equals_mphi2,"campaigns/20260901_photonic_requalification/validated/photonic_requalified.csv (class B, reviewed)"
-250.0,125.0,300.0,300.0,1.0,0.0001177689207010651,0.0,40000000.00000001,1,primary_anchor_M2_equals_mphi2,"campaigns/20260901_photonic_requalification/validated/photonic_requalified.csv (class B, reviewed)"
-300.0,125.0,300.0,300.0,1.0,0.0001177689207010651,0.0,40000000.00000001,1,primary_anchor_M2_equals_mphi2,"campaigns/20260901_photonic_requalification/validated/photonic_requalified.csv (class B, reviewed)"

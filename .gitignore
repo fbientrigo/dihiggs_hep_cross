@@ -36,3 +36,29 @@ data/2hdmc_scans/*
 campaigns/20261006_honly_production_pilot/
 # compiled build product (source is theory_adapter_positive_g.cpp; copy is in the lake)
 campaigns/20261007_positive_g_envelope/final_review_snapshot/theory_adapter_positive_g
+
+# N3: bulk campaign/result/artifact data lives in the lake, not in git (restore: see README "Restoring data").
+# Code, docs and small cards stay tracked; 2hdmc_build stays until N2.
+/campaigns/**
+/results/**
+/artifacts/**
+!/campaigns/**/
+!/results/**/
+!/artifacts/**/
+!/campaigns/**/*.py
+!/campaigns/**/*.sh
+!/campaigns/**/*.md
+!/campaigns/**/*.cpp
+!/campaigns/**/*.cc
+!/campaigns/**/*.tex
+!/campaigns/**/*.patch
+!/campaigns/**/*.cmnd
+!/results/**/*.py
+!/results/**/*.sh
+!/results/**/*.md
+!/results/**/*.cmnd
+!/artifacts/**/*.md
+# (re-asserted after the re-includes above)
+/campaigns/20261006_honly_production_pilot/
+/campaigns/20261007_positive_g_envelope/final_review_snapshot/theory_adapter_positive_g
+/results/r14_direct_g_production/
