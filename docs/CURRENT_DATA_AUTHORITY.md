@@ -1,6 +1,6 @@
 # Current data authority
 
-This file governs which numerical results may be described as current. It is separate from the project-wide theory convention, whose owner is `dihiggs`; this repository keeps a controlled v3 cache at `conventions/physics_conventions.yaml` with provenance in `conventions/physics_conventions.lock.yaml`.
+This file governs which numerical results may be described as current. It is separate from the project-wide theory convention, whose owner is `dihiggs`; the one YAML lives in `dihiggs/conventions/physics_conventions.yaml` (sibling checkout or `$DIHIGGS_ROOT`; this repository keeps no copy).
 
 ## Current results
 

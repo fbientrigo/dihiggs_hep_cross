@@ -5,11 +5,11 @@ import pytest
 from llp_recast import constants, recast_math
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CONVENTIONS = os.path.join(REPO_ROOT, "conventions", "physics_conventions.yaml")
+CONVENTIONS = str(constants.CONVENTIONS_PATH)
 
 
 def test_conventions_file_present():
-    assert os.path.exists(CONVENTIONS)
+    assert os.path.exists(CONVENTIONS), "dihiggs convention YAML missing: set DIHIGGS_ROOT"
 
 
 def test_constants_are_loaded_from_the_v3_cache():
@@ -51,16 +51,15 @@ def test_canonical_mh_matches_conventions_file():
     assert isinstance(conv["mass_conventions"]["active"]["value_GeV"], str)
 
 
-def test_convention_loader_fails_closed_on_tampered_sidecar(tmp_path, monkeypatch):
-    import yaml
-
+def test_convention_loader_fails_closed_on_tampered_bytes(tmp_path, monkeypatch):
     cache = tmp_path / "physics_conventions.yaml"
-    sidecar = tmp_path / "physics_conventions.lock.yaml"
-    cache.write_bytes(open(CONVENTIONS, "rb").read())
-    lock = yaml.safe_load(open(constants.CONVENTIONS_LOCK_PATH))
-    lock["source_commit"] = "0" * 40
-    sidecar.write_text(yaml.safe_dump(lock))
+    cache.write_bytes(open(CONVENTIONS, "rb").read() + b"# tampered\n")
     monkeypatch.setattr(constants, "CONVENTIONS_PATH", cache)
-    monkeypatch.setattr(constants, "CONVENTIONS_LOCK_PATH", sidecar)
-    with pytest.raises(RuntimeError, match="source_commit"):
+    with pytest.raises(RuntimeError, match="checksum"):
+        constants._load_conventions()
+
+
+def test_convention_loader_names_missing_file(tmp_path, monkeypatch):
+    monkeypatch.setattr(constants, "CONVENTIONS_PATH", tmp_path / "absent.yaml")
+    with pytest.raises(RuntimeError, match="DIHIGGS_ROOT"):
         constants._load_conventions()

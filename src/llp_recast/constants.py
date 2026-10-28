@@ -1,42 +1,34 @@
-"""Physics and analysis constants loaded from the controlled v3 cache."""
+"""Physics and analysis constants loaded from the dihiggs v3 convention."""
 
 from __future__ import annotations
 
 import hashlib
+import os
 from pathlib import Path
 
 import yaml
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
-CONVENTIONS_PATH = _REPO_ROOT / "conventions/physics_conventions.yaml"
-CONVENTIONS_LOCK_PATH = _REPO_ROOT / "conventions/physics_conventions.lock.yaml"
-_AUTHORITY_COMMIT = "087ba246e9a9fa34b16249b52629a62703893b5c"
+# One owner: dihiggs. Sibling checkout (the workspace layout) or $DIHIGGS_ROOT.
+CONVENTIONS_PATH = (
+    Path(os.environ.get("DIHIGGS_ROOT") or _REPO_ROOT.parent / "dihiggs") / "conventions/physics_conventions.yaml"
+)
 _AUTHORITY_SHA256 = "4f3a938ed54dbc779d25f691ce1dd06fe17af69751105dc3b69ccb6b7d92fff6"
 
 
 def _load_conventions():
     try:
         content = CONVENTIONS_PATH.read_bytes()
-        sidecar = yaml.safe_load(CONVENTIONS_LOCK_PATH.read_text(encoding="utf-8"))
-        conventions = yaml.safe_load(content)
-    except (OSError, yaml.YAMLError) as exc:
-        raise RuntimeError("cannot load the v3 physics convention cache and provenance") from exc
-
-    digest = hashlib.sha256(content).hexdigest()
-    expected = {
-        "source_repository": "fbientrigo/dihiggs",
-        "source_commit": _AUTHORITY_COMMIT,
-        "source_path": "conventions/physics_conventions.yaml",
-        "source_sha256": _AUTHORITY_SHA256,
-        "schema_version": "physics_conventions_v3",
-    }
-    if digest != _AUTHORITY_SHA256 or not isinstance(sidecar, dict):
-        raise RuntimeError("physics convention cache checksum or sidecar is invalid")
-    for field, value in expected.items():
-        if sidecar.get(field) != value:
-            raise RuntimeError(f"physics convention provenance {field} does not match authority")
+    except OSError as exc:
+        raise RuntimeError(
+            f"physics convention YAML not found at {CONVENTIONS_PATH}; "
+            "check out dihiggs next to this repo or set DIHIGGS_ROOT"
+        ) from exc
+    if hashlib.sha256(content).hexdigest() != _AUTHORITY_SHA256:
+        raise RuntimeError(f"physics convention checksum mismatch at {CONVENTIONS_PATH}")
+    conventions = yaml.safe_load(content)
     if not isinstance(conventions, dict) or conventions.get("schema_version") != "physics_conventions_v3":
-        raise RuntimeError("physics convention cache is not physics_conventions_v3")
+        raise RuntimeError("physics convention is not physics_conventions_v3")
     return conventions
 
 
