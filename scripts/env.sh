@@ -9,12 +9,12 @@
 DIHIGGS_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-${(%):-%x}}")/../.." && pwd -P)"  # scripts/ -> module -> workspace root
 export DIHIGGS_ROOT
 export MG5_HOME="/home/fabian/.local/mg5amcnlo/3.5.3"
-export DIHIGGS_PHYSICAL_POINT_UFO_DIR="$DIHIGGS_ROOT/dihiggs_hep_cross/results/r14_direct_g_production/ufo/model/LLscalar_v3_UFO_runtime"
+# Production UFO: the dihiggs_ufo release validated by the 0.230291 fb closure (DATA_FLOW N5).
+export DIHIGGS_PHYSICAL_POINT_UFO_DIR="$DIHIGGS_ROOT/dihiggs_ufo/releases/r14_runtime/LLscalar_v3_UFO_runtime"
 export PATH="$MG5_HOME/bin:$PATH"
 
-# DIHIGGS_PHYSICAL_POINT_UFO_DIR does not exist yet in a fresh checkout --
-# results/r14_direct_g_production/ is deliberately gitignored (generated
-# MadGraph process output, not tracked source). Generate it with
+# The MadGraph process dir (results/r14_direct_g_production/proc_output) is
+# generated, not tracked: build it with
 # dihiggs_hep_cross/scripts/generate_physical_point_proc_dir.sh before the
 # first run.
 

@@ -41,12 +41,11 @@ exists; pass `--force` to rebuild.
 ### UFO source -- read this before trusting a regenerated benchmark
 
 The script prefers, in order: `$DIHIGGS_PHYSICAL_POINT_UFO_DIR` (explicit
-override) > the validated UFO frozen at
-`hep_cross/results/r14_direct_g_production/ufo/pi_ufo_baseline_v1_release_candidate_hotfix1/model/LLscalar_v3_UFO_runtime`
-(a small, untracked `CANONICAL_SMALL_ARTIFACT` -- see
-`migration/ARTIFACT_MANIFEST.json` -- transferred via the migration
-bundle, not reproducible from the `ufos` repo alone) > `ufos/CURRENT_PACK_A`
-as a last resort.
+override; `scripts/env.sh` sets it to the release below) > the validated UFO
+released in `dihiggs_ufo/releases/r14_runtime/LLscalar_v3_UFO_runtime`
+(DATA_FLOW N5: byte-identical to the former untracked
+`hep_cross/results/r14_direct_g_production/ufo/model` copy, lake
+`20261014T025456Z-c67ca8`) > `ufos/CURRENT_PACK_A` as a last resort.
 
 **Verified during clean-room migration testing**: `ufos/CURRENT_PACK_A`
 (`pi_ufo_baseline_v1_frozen_hotfix1.zip`) does *not* expose `GHphiphi` as

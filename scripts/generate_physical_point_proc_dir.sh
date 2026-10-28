@@ -13,12 +13,12 @@
 #
 # UFO source, in priority order:
 #   1. $DIHIGGS_PHYSICAL_POINT_UFO_DIR, if set.
-#   2. hep_cross/results/r14_direct_g_production/ufo/.../LLscalar_v3_UFO_runtime
-#      -- the exact UFO revision validated for this milestone (frozen benchmark
-#      closure sigma_production_fb ~= 0.230291 fb). It is a small
-#      (~388K) CANONICAL_SMALL_ARTIFACT transferred via the migration
-#      bundle (migration/ARTIFACT_MANIFEST.json), not reproducible from
-#      the ufos repo alone -- see caveat below.
+#   2. dihiggs_ufo/releases/r14_runtime/LLscalar_v3_UFO_runtime -- the exact
+#      UFO revision validated for this milestone (frozen benchmark closure
+#      sigma_production_fb ~= 0.230291 fb), released in dihiggs_ufo
+#      (DATA_FLOW N5; byte-identical to the old
+#      hep_cross/results/r14_direct_g_production/ufo/model copy, lake
+#      20261014T025456Z-c67ca8).
 #   3. ufos/CURRENT_PACK_A (the ufos repo's frozen release zip), as a
 #      last-resort fallback ONLY.
 #
@@ -78,7 +78,7 @@ if [[ -d "$PROC_DIR" && $FORCE -eq 0 ]]; then
   exit 0
 fi
 
-VALIDATED_UFO_DIR="$WORKSPACE_ROOT/hep_cross/results/r14_direct_g_production/ufo/pi_ufo_baseline_v1_release_candidate_hotfix1/model/LLscalar_v3_UFO_runtime"
+VALIDATED_UFO_DIR="$WORKSPACE_ROOT/dihiggs_ufo/releases/r14_runtime/LLscalar_v3_UFO_runtime"
 UFO_MODEL_DIR=""
 CLEANUP_DIR=""
 
@@ -93,7 +93,7 @@ else
   if [[ ! -e "$CANONICAL_UFO_ZIP" ]]; then
     echo "ERROR: no UFO source found. Checked:" >&2
     echo "  - \$DIHIGGS_PHYSICAL_POINT_UFO_DIR (unset)" >&2
-    echo "  - $VALIDATED_UFO_DIR (missing -- see migration/ARTIFACT_MANIFEST.json)" >&2
+    echo "  - $VALIDATED_UFO_DIR (missing -- check out the dihiggs_ufo submodule)" >&2
     echo "  - $CANONICAL_UFO_ZIP (missing)" >&2
     exit 1
   fi
@@ -101,8 +101,8 @@ else
   echo "[GENERATE] WARNING: falling back to ufos/CURRENT_PACK_A, which is KNOWN to be" >&2
   echo "[GENERATE] WARNING: missing the external GHphiphi FRBlock parameter. The" >&2
   echo "[GENERATE] WARNING: resulting process will NOT reproduce the frozen benchmark" >&2
-  echo "[GENERATE] WARNING: closure (sigma_production_fb ~= 0.230291 fb). Extract the" >&2
-  echo "[GENERATE] WARNING: validated UFO from the migration bundle instead." >&2
+  echo "[GENERATE] WARNING: closure (sigma_production_fb ~= 0.230291 fb). Check out the" >&2
+  echo "[GENERATE] WARNING: dihiggs_ufo submodule instead." >&2
   CLEANUP_DIR="$(mktemp -d)"
   unzip -q "$CANONICAL_UFO_ZIP" -d "$CLEANUP_DIR"
   UFO_MODEL_DIR="$(find "$CLEANUP_DIR" -maxdepth 3 -type d -name "LLscalar_v3_UFO_runtime" | head -1)"
