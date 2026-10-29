@@ -48,7 +48,7 @@ else
   WORKSPACE_ROOT="$REPO_ROOT"
   for _ in 1 2 3 4 5 6; do
     hits=0
-    for marker in main_dihiggs ufos hep_cross llp_recast boundary; do
+    for marker in main_dihiggs ufos hep_cross boundary; do
       [[ -d "$WORKSPACE_ROOT/$marker" ]] && hits=$((hits + 1))
     done
     if [[ $hits -ge 2 ]]; then

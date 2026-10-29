@@ -7,7 +7,7 @@ Resolution order for the workspace root:
 1. ``DIHIGGS_ROOT`` environment variable, if set.
 2. Walk upward from this file looking for a directory containing at least two
    of the sibling repositories (``main_dihiggs``, ``ufos``, ``hep_cross``,
-   ``llp_recast``, ``boundary``) that make up the workspace. This works both
+   ``boundary``) that make up the workspace. This works both
    from a plain checkout (``<root>/hep_cross``) and from a git worktree
    (``<root>/_worktrees/<name>``).
 3. Fall back to the parent of this repository's own root.
@@ -18,7 +18,7 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
-_WORKSPACE_MARKERS = {"main_dihiggs", "ufos", "hep_cross", "llp_recast", "boundary"}
+_WORKSPACE_MARKERS = {"main_dihiggs", "ufos", "hep_cross", "boundary"}
 
 
 def find_workspace_root(start: Path) -> Path:
