@@ -30,5 +30,5 @@ sigma from a results.html or a summary CSV without this check passing.
 
 See `docs/contracts/` for the normalized interfaces this repo exposes to
 downstream repos (`madgraph_xsec_output_contract.md`,
-`model_point_to_llp_recast_contract.md`, etc.) before changing an output
+`madgraph_run_preparation_contract.md`, etc.) before changing an output
 format those contracts describe.

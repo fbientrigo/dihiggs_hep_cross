@@ -28,4 +28,4 @@ Bulk data under `campaigns/`, `results/` and `artifacts/` (csv, json, dat, txt, 
 | `results` | `20261013T001159Z-7e0782` |
 | `artifacts` | `20261013T001159Z-9752fb` |
 
-e.g. `python lake/lake.py restore 20261013T001159Z-7e0782 dihiggs_hep_cross/results`. Tests that read these files (`tests/test_r9_artifacts.py`, `tests/test_r10_effective_scan.py`, ...) need the restore first.
+e.g. `python lake/lake.py restore 20261013T001159Z-7e0782 dihiggs_hep_cross/results`.
