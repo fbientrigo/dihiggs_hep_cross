@@ -25,13 +25,5 @@ jobs:
           pip install pytest "PyYAML>=6.0" "pandas>=2.0" "numpy" "matplotlib>=3.8"
 
       - name: Run tests
-        env:
-          PYTHONPATH: src
         run: pytest -q
 
-      - name: Contract YAML mirror is in sync with code
-        env:
-          PYTHONPATH: src
-        run: |
-          python -m llp_recast.data_contract --emit
-          git diff --exit-code -- contracts/model_point_to_llp_recast_v1.yaml

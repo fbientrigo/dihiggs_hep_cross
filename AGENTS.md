@@ -28,7 +28,6 @@ sigma from a results.html or a summary CSV without this check passing.
 
 ## Contracts
 
-See `docs/contracts/` for the normalized interfaces this repo exposes to
-downstream repos (`madgraph_xsec_output_contract.md`,
-`madgraph_run_preparation_contract.md`, etc.) before changing an output
-format those contracts describe.
+The production cross-section output format is described in
+`docs/PHYSICAL_POINT_MADGRAPH_WORKFLOW.md`; check it before changing what
+`scripts/run_physical_point_madgraph.py` writes.
