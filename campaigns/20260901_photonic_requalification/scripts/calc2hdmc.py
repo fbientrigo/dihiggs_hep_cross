@@ -14,7 +14,7 @@ import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
 
-DIHIGGS = Path.home() / "atlas_dihiggs/dihiggs"
+DIHIGGS = Path(__file__).resolve().parents[4] / "dihiggs"
 CALCGEN = DIHIGGS / "2hdmc/CalcGen"
 CALCLH = DIHIGGS / "2hdmc/CalcLH"
 LAMBDA1_V2 = DIHIGGS / "dihiggs/app/Lambda1EvaluatorV2"

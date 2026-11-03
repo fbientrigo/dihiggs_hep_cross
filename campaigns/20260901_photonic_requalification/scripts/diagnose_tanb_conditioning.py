@@ -26,8 +26,8 @@ import tempfile
 from pathlib import Path
 
 CAMPAIGN = Path(__file__).resolve().parents[1]
-CALCGEN = Path.home() / "atlas_dihiggs/dihiggs/2hdmc/CalcGen"
-CALCLH = Path.home() / "atlas_dihiggs/dihiggs/2hdmc/CalcLH"
+CALCGEN = Path(__file__).resolve().parents[4] / "dihiggs/2hdmc/CalcGen"
+CALCLH = Path(__file__).resolve().parents[4] / "dihiggs/2hdmc/CalcLH"
 
 
 def _phys(text: str) -> dict:

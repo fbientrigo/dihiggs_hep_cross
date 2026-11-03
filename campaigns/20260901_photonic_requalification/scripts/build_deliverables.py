@@ -14,7 +14,7 @@ import subprocess
 from pathlib import Path
 
 CAMPAIGN = Path(__file__).resolve().parents[1]
-EVAL = Path.home() / "atlas_dihiggs/dihiggs/dihiggs/app/Lambda1EvaluatorV2"
+EVAL = Path(__file__).resolve().parents[4] / "dihiggs/dihiggs/app/Lambda1EvaluatorV2"
 
 # ---- selected benchmark coordinates (Christopher's photonic family) ----------
 MH_LIGHT = 125.0            # Christopher's convention; 125.20 reported as sensitivity
