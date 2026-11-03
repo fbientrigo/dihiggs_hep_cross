@@ -8,7 +8,7 @@
 
 DIHIGGS_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-${(%):-%x}}")/../.." && pwd -P)"  # scripts/ -> module -> workspace root
 export DIHIGGS_ROOT
-export MG5_HOME="/home/fabian/.local/mg5amcnlo/3.5.3"
+export MG5_HOME="${MG5_HOME:-$HOME/.local/mg5amcnlo/3.5.3}"
 # Production UFO: the dihiggs_ufo release validated by the 0.230291 fb closure (DATA_FLOW N5).
 export DIHIGGS_PHYSICAL_POINT_UFO_DIR="$DIHIGGS_ROOT/dihiggs_ufo/releases/r14_runtime/LLscalar_v3_UFO_runtime"
 export PATH="$MG5_HOME/bin:$PATH"
